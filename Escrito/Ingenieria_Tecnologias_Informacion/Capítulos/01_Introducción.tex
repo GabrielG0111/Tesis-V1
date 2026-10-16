@@ -2,62 +2,200 @@
 \label{chap:introduccion}
 
 \section{Contextualización}
-\textit{[Describir el entorno donde se identifica la necesidad del proyecto, indicando el sector, área de aplicación y situación actual. Incluir información relevante de la entidad receptora o del contexto donde se implementará la solución.]}
 
+La Universidad Tecnológica Indoamérica (UTI) es una institución de educación superior ecuatoriana con sedes en Ambato y Quito, cuya operación académica, administrativa y de investigación depende de manera crítica de su red de datos. Sobre una misma infraestructura de transporte convergen los sistemas académicos, las plataformas de gestión del aprendizaje, los laboratorios de cómputo, los servicios de biblioteca digital, la telefonía, la videoconferencia y las aulas con equipamiento multimedia, a los que acceden de forma simultánea estudiantes, docentes, investigadores y personal administrativo desde equipos institucionales y desde dispositivos personales.
+% TODO: completar con datos institucionales verificables (número de estudiantes,
+% edificaciones del campus Quito, número aproximado de puntos de red y de puntos
+% de acceso inalámbrico) una vez obtenida la autorización de la institución.
+
+Las redes de campus universitario presentan características que las diferencian de una red corporativa convencional. La densidad de clientes inalámbricos se concentra en franjas horarias coincidentes con el inicio de las jornadas de clase; la población de dispositivos es heterogénea y, en su mayoría, no está gestionada por la institución, bajo esquemas de tipo \textit{Bring Your Own Device} (BYOD); y sobre el mismo medio coexisten perfiles de tráfico con requisitos de servicio distintos, desde la navegación académica hasta la videoconferencia sincrónica y el acceso a sistemas transaccionales \cite{kotz2005campus,henderson2004changing}.
+
+La administración, operación y evolución de esta infraestructura corresponden a la propia universidad. La incorporación progresiva de servicios digitales y el crecimiento del parque de dispositivos conectados configuran un escenario en el que la gestión de la red requiere sustentarse en información medida y documentada. En este contexto, la carrera de Ingeniería en Tecnologías de la Información plantea la ejecución de un diagnóstico técnico de la red institucional, cableada e inalámbrica, que caracterice su estado actual y establezca una línea base de desempeño que sirva de sustento para las decisiones de dimensionamiento, renovación tecnológica y priorización de la inversión.
 
 \section{Estado del Arte}
-\textit{[Presentar la revisión de soluciones, tecnologías, metodologías o proyectos similares relacionados con el tema del proyecto. Analizar mínimo cinco (5) trabajos provenientes de fuentes académicas, técnicas o industriales, citados según normas IEEE. Incluir comparación, ventajas, limitaciones y relación con el proyecto propuesto.]}
 
-Ejemplo de redacción con citas IEEE: para fundamentar una propuesta tecnológica se puede citar el estado del arte en inteligencia artificial y aprendizaje profundo en \cite{vaswani2017attention,goodfellow2016deep}. Del mismo modo, para enfoques de ingeniería de software y proceso de desarrollo pueden emplearse fuentes como \cite{sommerville2016software,boehm1988spiral}.
+La caracterización empírica de redes de campus universitario cuenta con una tradición consolidada en la literatura. A continuación se analizan trabajos académicos y técnicos relacionados con el diagnóstico, la medición del desempeño y la evaluación normativa de infraestructuras de red en entornos educativos.
 
-\section{Planteamiento del Problema}
-\textit{[Definir de forma clara y precisa el problema o brecha tecnológica identificada. Describir las causas que lo originan y los efectos que genera en el contexto analizado. No incluir la solución en esta sección.]}
+Kotz y Essien \cite{kotz2005campus} presentaron uno de los primeros estudios a gran escala sobre una red inalámbrica de campus en producción, en Dartmouth College, con 476 puntos de acceso distribuidos en 161 edificaciones. A partir de registros del sistema, consultas SNMP y capturas de tráfico, caracterizaron los patrones de uso, la movilidad de los usuarios y la distribución del tráfico por aplicación. Su principal aporte es metodológico: demuestra que la combinación de fuentes de datos pasivas permite describir el comportamiento de una red de campus sin intervenir sobre ella. Como limitación, el estudio se centra en el uso y no evalúa la calidad de la cobertura ni el cumplimiento normativo.
 
-\section{Justificación}
-\textit{[Redactar un texto argumentativo que exponga la importancia del proyecto, su impacto técnico y operativo, la utilidad de la solución, los beneficiarios directos e indirectos y la factibilidad técnica y operativa de su implementación.]}
+Henderson, Kotz y Abyzov \cite{henderson2004changing} retomaron el mismo campus tres años después, cuando la red alcanzaba más de 550 puntos de acceso y 7000 usuarios, analizando diecisiete semanas de trazas. El trabajo evidencia cómo la aparición de nuevas aplicaciones, como la voz sobre IP y el intercambio de archivos, modifica el perfil de tráfico de una red madura. Para el presente proyecto, este estudio justifica la necesidad de una línea base reproducible: sin ella, no es posible cuantificar la evolución de la red ni anticipar sus necesidades de capacidad.
 
-\section{Objetivos}
-\subsection{Objetivo General}
-\textit{[Redactar el propósito principal del proyecto, alineado con la solución propuesta e incluyendo explícitamente su implementación.]}
-\subsection{Objetivos Específicos}
-\textit{[Enumerar acciones concretas, medibles y verificables que permitan alcanzar el objetivo general. Los objetivos deben cubrir análisis, diseño, implementación y validación.]}
+Mahanti, Williamson y Arlitt \cite{mahanti2007remote} aplicaron medición pasiva del lado inalámbrico en la red de la Universidad de Calgary, ubicando dispositivos de monitoreo en nueve zonas del campus durante seis semanas y registrando la actividad de 6775 usuarios y 97 puntos de acceso. Identificaron diferencias en el comportamiento de los usuarios según la zona y propusieron modelos de uso aplicables a la planificación de capacidad. Su enfoque por zonas de interés es directamente trasladable al estudio de sitio inalámbrico que propone este trabajo en las áreas de mayor densidad de usuarios.
 
-\section{Alcance del Proyecto}
-\textit{[Delimitar los límites del proyecto, especificando claramente los componentes, módulos o funcionalidades que se incluyen, así como aquellos que se excluyen.]}
+Easha, Abbas y Daley \cite{easha2020campus} abordaron la evaluación de la cobertura Wi-Fi en un campus universitario combinando estudios de sitio por radiofrecuencia, predicciones de cobertura y el análisis estadístico de los datos de los puntos de acceso existentes. Los autores optaron por mediciones activas en lugar de predictivas y formularon recomendaciones de reubicación de puntos de acceso considerando restricciones físicas y de longitud del cableado. Este trabajo es el antecedente más cercano al objetivo de evaluación inalámbrica del presente proyecto, aunque no incorpora la evaluación de la red cableada ni el contraste con umbrales de calidad de servicio.
 
-\section{Fundamentación Teórica}
-\textit{[Desarrollar los fundamentos teóricos, conceptos, modelos y tecnologías que sustentan el proyecto. Debe estar relacionado directamente con la solución propuesta y su implementación, aplicable a software, hardware o infraestructura.]}
+Cari Quispe \cite{cari2025altiplano} analizó la red Wi-Fi del campus de la Universidad Nacional del Altiplano, en Perú, aplicando analítica de datos sobre los registros de la controladora inalámbrica. El estudio identificó picos de uso entre las 10:00 y las 14:00, comportamientos anómalos asociados a dispositivos recurrentes y debilidades en el mecanismo de acceso, que carecía de autenticación individual y trazabilidad. El trabajo confirma, en un contexto latinoamericano, la concentración horaria de la demanda propia de las redes universitarias y la utilidad de la información de la infraestructura existente como fuente de diagnóstico.
 
-\subsection{Ejemplo de Figura 1}
-Como ejemplo de referencia dentro del texto: en la Figura~\ref{fig:ejemplo_1} se presenta un recurso visual demostrativo que guía el formato esperado para los gráficos del documento.
+Toledo González y Ríos Gómez \cite{toledo2026densidad} evaluaron experimentalmente el rendimiento de una red local bajo tres escenarios de densidad de dispositivos, empleando Wireshark e iperf3. Reportaron un incremento de la latencia de 1,30~ms a 4,80~ms, de la pérdida de paquetes de 0,5\,\% a 5,8\,\% y una reducción del ancho de banda disponible de 250~Mbps a 90~Mbps al pasar de baja a alta densidad. Aunque el estudio se realizó en un laboratorio controlado, sus resultados respaldan la necesidad de medir el desempeño en ventanas de alta y baja ocupación, tal como se propone en este trabajo.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.80\textwidth]{Capítulos/fig/fig_ejemplo_1.png}
-  \caption{Ejemplo de figura para guiar el formato de gráficos en el documento.}
-  \label{fig:ejemplo_1}
-\end{figure}
-\elaboradopor{Estudiante}
-\fuente{Elaboración propia}
+En el ámbito ecuatoriano, Ledesma Mera \cite{ledesma2018reestructuracion} diagnosticó la red LAN de una unidad educativa de Guayaquil y concluyó que el cableado no cumplía las normas de cableado estructurado: los cables carecían de protección, existían fallas físicas, faltaban puntos de red y los dispositivos no estaban asegurados, lo que generaba problemas de conectividad. El trabajo ilustra la relación directa entre el estado de la capa física y la calidad del servicio percibido, si bien su alcance se orienta a la reestructuración y no a la construcción de una línea base de desempeño.
 
-\subsection{Ejemplo de Tabla 1}
-Como ejemplo de referencia cruzada en párrafo: la Tabla~\ref{tab:ejemplo_1} resume indicadores base que luego pueden compararse con los resultados de implementación.
+La Tabla~\ref{tab:estado_arte} resume la comparación de los trabajos analizados frente a los componentes que aborda el presente proyecto.
 
 \begin{table}[htbp]
   \centering
-  \caption{Ejemplo de tabla para registrar métricas iniciales del diagnóstico.}
-  \label{tab:ejemplo_1}
-  \begin{tabular}{|l|c|c|}
+  \caption{Comparación de los trabajos analizados frente al alcance del proyecto.}
+  \label{tab:estado_arte}
+  \small
+  \begin{tabular}{|l|c|c|c|c|}
     \hline
-    Indicador & Valor actual & Meta \\
+    \textbf{Trabajo} & \textbf{\shortstack{Red\\cableada}} & \textbf{\shortstack{Red\\inalámbrica}} & \textbf{\shortstack{Métricas de\\desempeño}} & \textbf{Normativa} \\
     \hline
-    Tiempo de respuesta (ms) & 850 & 400 \\
+    Kotz y Essien \cite{kotz2005campus} & -- & \checkmark & Parcial & -- \\
     \hline
-    Disponibilidad (\%) & 96.2 & 99.0 \\
+    Henderson \textit{et al.} \cite{henderson2004changing} & -- & \checkmark & Parcial & -- \\
     \hline
-    Incidencias mensuales & 14 & 6 \\
+    Mahanti \textit{et al.} \cite{mahanti2007remote} & -- & \checkmark & Parcial & -- \\
+    \hline
+    Easha \textit{et al.} \cite{easha2020campus} & -- & \checkmark & \checkmark & -- \\
+    \hline
+    Cari Quispe \cite{cari2025altiplano} & -- & \checkmark & Parcial & -- \\
+    \hline
+    Toledo y Ríos \cite{toledo2026densidad} & \checkmark & -- & \checkmark & -- \\
+    \hline
+    Ledesma Mera \cite{ledesma2018reestructuracion} & \checkmark & -- & -- & \checkmark \\
+    \hline
+    \textbf{Presente proyecto} & \checkmark & \checkmark & \checkmark & \checkmark \\
     \hline
   \end{tabular}
 \end{table}
-\elaboradopor{Estudiante}
-\fuente{Datos de levantamiento inicial}
+\elaboradopor{Josué Gabriel Godoy Apolo}
+\fuente{Elaboración propia}
+
+Del análisis se desprende que los estudios de campus se han enfocado mayoritariamente en el comportamiento de la red inalámbrica, mientras que los trabajos sobre red cableada suelen orientarse a la reestructuración física sin establecer métricas de desempeño de referencia. El presente proyecto integra ambos enfoques: caracteriza la red cableada e inalámbrica, mide su desempeño con procedimientos normalizados y contrasta los resultados con la normativa técnica aplicable, con el fin de producir una línea base reproducible y un plan de mejora priorizado.
+
+\section{Planteamiento del Problema}
+
+La Universidad Tecnológica Indoamérica no dispone de una caracterización técnica documentada y medida del estado de su infraestructura de red de datos cableada e inalámbrica. En ausencia de una línea base de desempeño, las decisiones de operación, dimensionamiento y renovación de la red carecen de evidencia cuantitativa que las sustente.
+
+Entre las causas que originan esta situación se identifican:
+
+\begin{itemize}
+  \item La falta de documentación actualizada de la topología física y lógica de la red, del inventario de activos y del esquema de direccionamiento y segmentación.
+  \item La ausencia de mediciones sistemáticas del desempeño de los enlaces en términos de utilización, latencia, \textit{jitter} y pérdida de paquetes.
+  \item La inexistencia de un estudio de sitio que determine la cobertura, la capacidad y el nivel de interferencia de la red inalámbrica en las zonas de mayor densidad de usuarios.
+  \item La falta de una evaluación del cableado estructurado y de los espacios de telecomunicaciones frente a la normativa técnica vigente.
+\end{itemize}
+
+Como efectos de esta situación se presentan:
+
+\begin{itemize}
+  \item Mayor tiempo en la localización de fallas y en la restauración del servicio ante incidentes.
+  \item Dificultad para distinguir los problemas de capacidad de los problemas de configuración o de diseño.
+  \item Ausencia de sustento técnico para dimensionar la renovación del equipamiento activo y de los enlaces, y para priorizar la inversión en infraestructura.
+  \item Imposibilidad de evaluar objetivamente la evolución de la calidad del servicio de red en el tiempo.
+\end{itemize}
+
+\section{Justificación}
+
+La ejecución de un diagnóstico técnico de la red institucional responde a una necesidad de gestión de la infraestructura tecnológica de la universidad y se justifica desde tres perspectivas complementarias.
+
+Desde la perspectiva técnica, la optimización o el rediseño de cualquier infraestructura parte de la caracterización de su estado. El levantamiento de la topología, el inventario de activos y la medición del desempeño constituyen el insumo obligatorio de cualquier intervención posterior sobre la red, y permiten distinguir con evidencia los problemas de capacidad de los problemas de configuración o de diseño \cite{oppenheimer2011topdown}.
+
+Desde la perspectiva de gestión, la línea base de desempeño y la matriz de hallazgos priorizada por criticidad proporcionan a la institución un instrumento para sustentar técnicamente los requerimientos de inversión, dimensionar la renovación del equipamiento y establecer indicadores objetivos de calidad del servicio de red. El protocolo de medición documentado permitirá, además, que el personal técnico repita el diagnóstico de forma periódica.
+
+Desde la perspectiva académica, el proyecto integra las competencias centrales del área de redes de la carrera: análisis de topologías, protocolos de conmutación y enrutamiento, tecnologías de acceso cableado e inalámbrico, instrumentación y medición, aplicación de normativa técnica y elaboración de propuestas de diseño. La institución aporta un entorno de producción real, con restricciones operativas verificables, lo que eleva la validez del trabajo frente a un escenario simulado en laboratorio.
+
+Los beneficiarios directos son la institución y el personal técnico responsable de la operación y la planificación de la infraestructura de red. Los beneficiarios indirectos son los miembros de la comunidad universitaria ---estudiantes, docentes, investigadores y personal administrativo--- que utilizan la red para el desarrollo de sus actividades.
+
+El proyecto es factible desde el punto de vista técnico, ya que emplea herramientas de software de licencia libre o académica, como Wireshark, tcpdump, iperf3 y Nmap, y equipos portátiles con interfaces cableada e inalámbrica. Es factible desde el punto de vista operativo, puesto que su naturaleza es diagnóstica y no contempla intervenciones sobre la infraestructura en producción: las mediciones se ejecutan de forma no intrusiva o en ventanas expresamente autorizadas por la institución, con el acompañamiento de un responsable técnico de contraparte.
+
+Finalmente, el proyecto se vincula con el Objetivo de Desarrollo Sostenible 9 (Industria, innovación e infraestructura), al fortalecer la infraestructura tecnológica de una institución de educación superior, y con el Objetivo 4 (Educación de calidad), al contribuir a mejorar las condiciones de conectividad que sostienen los procesos de enseñanza y aprendizaje.
+
+\section{Objetivos}
+
+\subsection{Objetivo General}
+
+Ejecutar un diagnóstico técnico integral de la infraestructura de red de datos cableada e inalámbrica de la Universidad Tecnológica Indoamérica, estableciendo una línea base de desempeño y una matriz de hallazgos contrastada con la normativa técnica aplicable, que sustente la formulación de un plan de mejora priorizado para la institución.
+
+\subsection{Objetivos Específicos}
+
+\begin{enumerate}
+  \item Levantar y documentar la topología física y lógica de la red institucional, incluyendo el inventario de activos, el esquema de direccionamiento IP, la segmentación por VLAN, los protocolos de conmutación y enrutamiento en operación y la configuración de los enlaces de acceso a internet.
+  \item Establecer una línea base de desempeño de la red mediante la medición de ancho de banda efectivo, latencia, \textit{jitter}, pérdida de paquetes y utilización de enlaces, aplicando procedimientos derivados de las RFC 2544 y RFC 6349 y los umbrales de la Recomendación ITU-T Y.1541.
+  \item Evaluar la cobertura, la capacidad y la calidad del espectro de la red inalámbrica mediante estudios de sitio pasivos y activos, identificando zonas de señal deficiente, solapamiento de canales, relación señal-ruido insuficiente y fuentes de interferencia.
+  \item Contrastar el estado del cableado estructurado, la organización de los cuartos de telecomunicaciones y la configuración de los equipos activos frente a las normas ANSI/TIA-568, ANSI/TIA-569 e ISO/IEC 11801 y frente a las buenas prácticas de aseguramiento de dispositivos de red.
+  \item Formular un plan de mejora priorizado por criticidad e impacto, que incluya la propuesta de rediseño lógico de la red, la estimación de los recursos requeridos y un cronograma referencial de implementación.
+\end{enumerate}
+
+\section{Alcance del Proyecto}
+
+El trabajo comprende el ciclo completo del diagnóstico, desde la planificación del levantamiento hasta la entrega del plan de mejora validado por la institución. La delimitación precisa de las edificaciones, segmentos y enlaces a diagnosticar se establecerá en la fase de preparación, en función de la disponibilidad y de las prioridades de la institución.
+
+\subsection*{Inclusiones}
+
+\begin{itemize}
+  \item Levantamiento y documentación de la topología física y lógica de la red de campus ---núcleo, distribución y acceso--- y de los enlaces hacia el proveedor de servicios de internet.
+  \item Inventario técnico de los activos de red: conmutadores, enrutadores, controladoras y puntos de acceso inalámbrico, cortafuegos y equipamiento de respaldo, con registro de modelo, versión de \textit{firmware}, capacidad de puertos y estado operativo.
+  \item Documentación del esquema de direccionamiento IP, del plan de VLAN, de las políticas de enrutamiento y de las reglas de filtrado perimetral vigentes.
+  \item Medición instrumentada del desempeño de los enlaces troncales y de acceso, con registro de ancho de banda efectivo, latencia, \textit{jitter}, pérdida de paquetes, utilización y errores de interfaz.
+  \item Estudio de sitio inalámbrico pasivo y activo en las zonas de mayor densidad de usuarios, con mapas de calor de cobertura, análisis de canales, relación señal-ruido e identificación de interferencias.
+  \item Análisis del tráfico de red por protocolo y por aplicación en ventanas representativas de operación.
+  \item Evaluación del cableado estructurado y de los espacios de telecomunicaciones frente a la normativa ANSI/TIA aplicable, mediante inspección visual documentada.
+  \item Revisión de la configuración de seguridad de los equipos activos: gestión de accesos administrativos, protocolos de administración, segmentación y protección de puertos de acceso.
+  \item Elaboración de la matriz de hallazgos clasificada por criticidad, probabilidad e impacto sobre la operación institucional.
+  \item Formulación del plan de mejora priorizado y de la propuesta de rediseño lógico, con estimación de recursos y cronograma referencial.
+  \item Socialización de los resultados con el personal técnico de la institución.
+\end{itemize}
+
+\subsection*{Exclusiones}
+
+\begin{itemize}
+  \item Ejecución de acciones correctivas, reconfiguración de equipos en producción o cualquier intervención sobre la infraestructura activa de la institución.
+  \item Adquisición, provisión o instalación de equipamiento de red, cableado, gabinetes o sistemas de energía.
+  \item Certificación de enlaces de cableado estructurado con instrumentos calibrados, cuya emisión corresponde a un laboratorio o proveedor acreditado.
+  \item Pruebas de intrusión, explotación de vulnerabilidades o cualquier actividad de \textit{hacking} ético sobre los sistemas institucionales.
+  \item Diagnóstico de los sistemas de información, bases de datos, servidores de aplicaciones o plataformas académicas soportadas sobre la red.
+  \item Evaluación del centro de datos en cuanto a climatización, energía eléctrica, respaldo o control de acceso físico.
+  \item Negociación, evaluación contractual o auditoría de los servicios contratados al proveedor de acceso a internet.
+  \item Implementación de plataformas de monitoreo, control de acceso o segmentación.
+  \item Diagnóstico de la infraestructura de telefonía, videovigilancia o control de acceso físico, salvo en lo relativo a su impacto sobre la red de datos.
+\end{itemize}
+
+\section{Fundamentación Teórica}
+
+\subsection{Red de campus y modelo jerárquico}
+
+Una red de campus es la infraestructura que interconecta los edificios y espacios de una organización dentro de un área geográfica limitada. Su diseño se organiza habitualmente según un modelo jerárquico de tres capas: la capa de \textbf{núcleo}, que provee transporte de alta velocidad entre los bloques de la red; la capa de \textbf{distribución}, que agrega el tráfico de acceso y aplica políticas de enrutamiento y filtrado; y la capa de \textbf{acceso}, a la que se conectan los dispositivos finales mediante cableado o de forma inalámbrica \cite{oppenheimer2011topdown}. Este modelo facilita la escalabilidad, el aislamiento de fallas y la documentación de la red, y constituye el marco de referencia para el levantamiento de la topología.
+
+\subsection{Ciclo de vida de red PPDIOO}
+
+El ciclo PPDIOO divide la vida de una red en seis fases: preparación, planificación, diseño, implementación, operación y optimización \cite{oppenheimer2011topdown}. Las tres primeras se centran en comprender los requisitos de la organización, evaluar la red existente y formular un diseño que responda a dichos requisitos. El presente trabajo se desarrolla en esas tres fases: la preparación delimita el ámbito y las autorizaciones, la planificación caracteriza la red actual mediante el levantamiento y la medición, y el diseño concreta la propuesta de rediseño lógico y el plan de mejora.
+
+\subsection{Segmentación, direccionamiento y enrutamiento}
+
+Las redes de área local virtuales (VLAN) permiten dividir lógicamente una red conmutada en dominios de difusión independientes, con lo que se separan los distintos tipos de usuarios y servicios y se reduce el alcance de los fallos y de los incidentes de seguridad. Cada VLAN se asocia a una subred IP, y la comunicación entre ellas requiere enrutamiento en la capa 3. La coherencia entre el plan de VLAN, el esquema de direccionamiento y las políticas de enrutamiento y filtrado es uno de los aspectos que se evalúan en el levantamiento lógico.
+
+\subsection{Tecnologías de acceso: IEEE 802.3 e IEEE 802.11}
+
+La familia de estándares IEEE 802.3 define las especificaciones de Ethernet para la red cableada, incluyendo las velocidades, los medios físicos y el control de acceso al medio \cite{ieee8023}. La familia IEEE 802.11 define las redes de área local inalámbricas (WLAN), en las bandas de 2,4~GHz, 5~GHz y 6~GHz, con sucesivas enmiendas que incrementan la capacidad, como 802.11n (Wi-Fi 4), 802.11ac (Wi-Fi 5) y 802.11ax (Wi-Fi 6/6E) \cite{ieee80211}. En las redes inalámbricas, el medio es compartido, por lo que el desempeño depende de la intensidad de la señal recibida (RSSI), de la relación señal-ruido (SNR), de la asignación de canales y del número de clientes asociados a cada punto de acceso.
+
+\subsection{Estudio de sitio inalámbrico}
+
+El estudio de sitio (\textit{site survey}) es el procedimiento para evaluar la cobertura y el desempeño de una red inalámbrica en un espacio físico. En el estudio \textbf{pasivo}, el equipo de medición escucha las tramas emitidas por los puntos de acceso y registra la intensidad de la señal, la relación señal-ruido y la ocupación de canales sin asociarse a la red. En el estudio \textbf{activo}, el equipo se asocia a la red y mide el rendimiento efectivo, la latencia y la pérdida de paquetes desde el punto de vista del usuario \cite{easha2020campus}. Los resultados se representan mediante mapas de calor sobre los planos de las edificaciones y se complementan con el análisis de espectro para identificar fuentes de interferencia.
+
+\subsection{Métricas de desempeño de red}
+
+La línea base de desempeño se construye a partir de las siguientes métricas:
+
+\begin{itemize}
+  \item \textbf{Ancho de banda efectivo (\textit{throughput})}: cantidad de datos útiles transferidos por unidad de tiempo entre dos puntos de la red.
+  \item \textbf{Latencia}: tiempo que tarda un paquete en viajar desde el origen hasta el destino, usualmente medido como tiempo de ida y vuelta (RTT).
+  \item \textbf{\textit{Jitter}}: variación de la latencia entre paquetes consecutivos, crítica para las aplicaciones de voz y videoconferencia.
+  \item \textbf{Pérdida de paquetes}: proporción de paquetes enviados que no llegan a su destino.
+  \item \textbf{Utilización}: porcentaje de la capacidad de un enlace ocupado por el tráfico en un intervalo de tiempo.
+\end{itemize}
+
+\subsection{Metodologías y umbrales de referencia}
+
+La RFC 2544 define una metodología para la evaluación comparativa (\textit{benchmarking}) de dispositivos de interconexión, mediante pruebas de rendimiento, latencia, tasa de pérdida de tramas y ráfagas \cite{rfc2544}. Debido a que fue concebida para entornos de laboratorio, en este trabajo sus procedimientos se adaptan a una red en producción mediante cargas controladas y ventanas de medición autorizadas. La RFC 6349 complementa este marco con una metodología para medir el rendimiento de TCP extremo a extremo, más representativa de la experiencia del usuario en redes operativas \cite{rfc6349}.
+
+La Recomendación ITU-T Y.1541 establece objetivos de desempeño para servicios basados en IP, organizados en clases de calidad de servicio que fijan límites para la latencia, el \textit{jitter} y la pérdida de paquetes según el tipo de aplicación \cite{ituy1541}. Estos umbrales se emplean como referencia para contrastar los valores medidos en la línea base.
+
+\subsection{Gestión y monitoreo de red}
+
+El protocolo simple de administración de red (SNMP) permite consultar el estado y los contadores de los dispositivos de red a partir de bases de información de gestión (MIB). La MIB-II, definida en la RFC 1213, contiene los objetos estándar de interfaces, tráfico y errores necesarios para calcular la utilización de los enlaces \cite{rfc1213}. Por su parte, el protocolo IPFIX, definido en la RFC 7011 y derivado de NetFlow, permite exportar información de flujos de tráfico para caracterizar su composición por protocolo y por aplicación \cite{rfc7011}.
+
+\subsection{Normativa de cableado estructurado}
+
+El cableado estructurado es un sistema de cableado normalizado que soporta múltiples servicios de telecomunicaciones de forma independiente del fabricante. La norma ANSI/TIA-568 define los requisitos del cableado genérico para instalaciones de clientes, incluyendo la topología, las categorías de cable y las distancias máximas \cite{tia568}. La norma ANSI/TIA-569 especifica los requisitos de las canalizaciones y de los espacios de telecomunicaciones, como cuartos de equipos y cuartos de telecomunicaciones \cite{tia569}. La norma ISO/IEC 11801 constituye su equivalente internacional para el cableado genérico \cite{iso11801}. Estas normas sirven de referencia para la inspección visual del cableado y de los espacios de telecomunicaciones que se realiza en este trabajo.
