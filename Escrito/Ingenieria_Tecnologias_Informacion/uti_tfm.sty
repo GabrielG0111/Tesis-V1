@@ -25,6 +25,8 @@
   % Matemática (no existe “Century Gothic Math”): usa una fuente matemática estándar
   \RequirePackage{unicode-math}
   \setmathfont{TeX Gyre Termes Math}
+  % Century Gothic no incluye ✓ (U+2713): se toma de la fuente matemática
+  \AtBeginDocument{\renewcommand{\checkmark}{\ensuremath{✓}}}
 \fi
 
 % --- Idioma ---
