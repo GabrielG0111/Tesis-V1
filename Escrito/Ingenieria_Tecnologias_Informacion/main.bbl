@@ -31,6 +31,12 @@ T.~Henderson, D.~Kotz, and I.~Abyzov, ``The changing usage of a mature
   Computing and Networking (MobiCom)}.\hskip 1em plus 0.5em minus 0.4em\relax
   Philadelphia, PA, USA: ACM, 2004, pp. 187--201.
 
+\bibitem{caces2023modelo}
+{Consejo de Aseguramiento de la Calidad de la Educación Superior}, ``Modelo de
+  evaluación externa con fines de acreditación para el aseguramiento de la
+  calidad de las universidades y escuelas politécnicas,'' CACES, Quito,
+  Ecuador, Resolución 141-SO-29-CACES-2023, 2023.
+
 \bibitem{mahanti2007remote}
 A.~Mahanti, C.~Williamson, and M.~Arlitt, ``Remote analysis of a distributed
   {WLAN} using passive wireless-side measurement,'' \emph{Performance
@@ -43,12 +49,27 @@ F.~B.~K. Easha, R.~Abbas, and M.~Daley, ``Campus {Wi-Fi} coverage mapping and
   \url{https://arxiv.org/abs/2004.01561}
 \BIBentrySTDinterwordspacing
 
+\bibitem{liu2023wifi6}
+R.~Liu and N.~Choi, ``A first look at {Wi-Fi} 6 in action: Throughput, latency,
+  energy efficiency, and security,'' \emph{Proc. ACM Meas. Anal. Comput.
+  Syst.}, vol.~7, no.~1, pp. 25:1--25:25, 2023.
+
 \bibitem{cari2025altiplano}
 \BIBentryALTinterwordspacing
 A.~B. Cari~Quispe, ``Aplicación de analítica de datos para la detección de
   anomalías y fortalecimiento de la seguridad en la red {WiFi} del campus
   universitario de la {Universidad Nacional del Altiplano},'' arXiv:2601.00798,
   2025. [Online]. Available: \url{https://arxiv.org/abs/2601.00798}
+\BIBentrySTDinterwordspacing
+
+\bibitem{moreno2023sitesurvey}
+\BIBentryALTinterwordspacing
+M.~J. Moreno-Arteaga, M.~J. Rodríguez-Véliz, and G.~P. Demera-Ureta,
+  ``Propuesta de mejora con soluciones {QoS} y análisis de {Site Survey}
+  mediante simulación de diseños de redes inalámbricas que presentan
+  problemas radioeléctricos en universidades,'' \emph{Polo del Conocimiento},
+  vol.~8, no.~3, pp. 2982--3006, 2023. [Online]. Available:
+  \url{https://dialnet.unirioja.es/descarga/articulo/9252104.pdf}
 \BIBentrySTDinterwordspacing
 
 \bibitem{toledo2026densidad}
@@ -71,8 +92,12 @@ D.~C. Ledesma~Mera, ``Reestructuración de la infraestructura de red {LAN}
 P.~Oppenheimer, \emph{Top-Down Network Design}, 3rd~ed.\hskip 1em plus 0.5em
   minus 0.4em\relax Indianapolis, IN, USA: Cisco Press, 2011.
 
+\bibitem{ieee8021q}
+{IEEE}, ``{IEEE} standard for local and metropolitan area networks--bridges and
+  bridged networks,'' IEEE, Standard 802.1Q-2022, 2022.
+
 \bibitem{ieee8023}
-{IEEE}, ``{IEEE} standard for {Ethernet},'' IEEE, Standard 802.3-2022, 2022.
+------, ``{IEEE} standard for {Ethernet},'' IEEE, Standard 802.3-2022, 2022.
 
 \bibitem{ieee80211}
 ------, ``{IEEE} standard for information technology--telecommunications and
@@ -80,6 +105,22 @@ P.~Oppenheimer, \emph{Top-Down Network Design}, 3rd~ed.\hskip 1em plus 0.5em
   networks--specific requirements--part 11: Wireless {LAN} medium access
   control ({MAC}) and physical layer ({PHY}) specifications,'' IEEE, Standard
   802.11-2020, 2021.
+
+\bibitem{rfc7679}
+G.~Almes, S.~Kalidindi, M.~Zekauskas, and A.~Morton, ``A one-way delay metric
+  for {IP} performance metrics ({IPPM}),'' IETF, RFC 7679, 2016.
+
+\bibitem{rfc2681}
+G.~Almes, S.~Kalidindi, and M.~Zekauskas, ``A round-trip delay metric for
+  {IPPM},'' IETF, RFC 2681, 1999.
+
+\bibitem{rfc3393}
+C.~Demichelis and P.~Chimento, ``{IP} packet delay variation metric for {IP}
+  performance metrics ({IPPM}),'' IETF, RFC 3393, 2002.
+
+\bibitem{rfc7680}
+G.~Almes, S.~Kalidindi, M.~Zekauskas, and A.~Morton, ``A one-way loss metric
+  for {IP} performance metrics ({IPPM}),'' IETF, RFC 7680, 2016.
 
 \bibitem{rfc2544}
 S.~Bradner and J.~McQuaid, ``Benchmarking methodology for network interconnect
@@ -115,6 +156,16 @@ B.~Claise, B.~Trammell, and P.~Aitken, ``Specification of the {IP} flow
 {ISO/IEC}, ``Information technology -- generic cabling for customer premises --
   part 1: General requirements,'' International Organization for
   Standardization, Standard ISO/IEC 11801-1:2017, 2017.
+
+\bibitem{nsa2023netinfra}
+{National Security Agency}, ``Network infrastructure security guide,'' NSA
+  Cybersecurity Directorate, Fort Meade, MD, USA, Cybersecurity Technical
+  Report U/OO/118623-22, ver. 1.2, 2023.
+
+\bibitem{nist80030}
+{Joint Task Force Transformation Initiative}, ``Guide for conducting risk
+  assessments,'' National Institute of Standards and Technology, Gaithersburg,
+  MD, USA, NIST Special Publication 800-30 Rev. 1, 2012.
 
 \bibitem{hevner2004design}
 A.~R. Hevner, S.~T. March, J.~Park, and S.~Ram, ``Design science in information

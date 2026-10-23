@@ -241,9 +241,6 @@ INPUT ./Capítulos/01_Introducción.tex
 INPUT ./Capítulos/01_Introducción.tex
 INPUT ./Capítulos/01_Introducción.tex
 INPUT Capítulos/01_Introducción.tex
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm
 INPUT ./Capítulos/02_Metodología.tex
 INPUT ./Capítulos/02_Metodología.tex
 INPUT ./Capítulos/02_Metodología.tex
