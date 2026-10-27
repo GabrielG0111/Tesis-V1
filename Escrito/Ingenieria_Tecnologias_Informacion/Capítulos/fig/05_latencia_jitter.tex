@@ -1,0 +1,30 @@
+% Latencia en un sentido, variación del retardo (IPDV) y pérdida de paquetes
+\begin{tikzpicture}[x=1cm, y=1cm,
+  paquete/.style={-{Stealth[length=2mm]}, thick, FigAcento},
+  rot/.style={font=\scriptsize}]
+  % Líneas de tiempo
+  \draw[thick] (0,2.4) node[left, font=\footnotesize] {Emisor} -- (11.4,2.4);
+  \draw[thick, -{Stealth[length=2mm]}] (0,0) node[left, font=\footnotesize] {Receptor} -- (11.6,0)
+    node[below left, rot] {tiempo};
+  % Paquetes entregados: envío s y retardo D
+  \foreach \s/\d/\i in {0.6/1.0/1, 3.0/1.7/2, 5.4/1.2/3}{
+    \draw[paquete] (\s,2.4) -- (\s+\d,0);
+    \node[rot, above] at (\s,2.4) {P\i};
+    \node[rot, fill=white, inner sep=1pt] at (\s+\d/2+0.05,1.2) {$D_{\i}$};
+  }
+  % Paquete perdido
+  \draw[thick, FigAcento, dashed] (7.8,2.4) -- (8.5,1.1);
+  \node[rot, above] at (7.8,2.4) {P4};
+  \node[font=\footnotesize\bfseries, text=red!70!black] at (8.55,1.0) {$\times$};
+  \node[rot, anchor=west] at (8.8,1.0) {Paquete perdido};
+  % Separación entre paquetes en el emisor y en el receptor
+  \draw[decorate, decoration={brace, amplitude=4pt}] (0.6,2.95) -- (3.0,2.95)
+    node[midway, above=4pt, rot] {$\Delta$};
+  \draw[decorate, decoration={brace, amplitude=4pt, mirror}] (1.6,-0.15) -- (4.7,-0.15)
+    node[midway, below=4pt, rot] {$\Delta + (D_2 - D_1)$};
+  % Definiciones
+  \node[rot, align=left, anchor=north west, text width=12.6cm] at (-1.4,-1.0) {%
+    \textbf{Latencia en un sentido:} retardo $D_i$ de cada paquete entre emisor y receptor.\\
+    \textbf{Variación del retardo (\textit{jitter}):} diferencia entre retardos sucesivos, $D_2 - D_1$.\\
+    \textbf{Pérdida:} proporción de paquetes enviados que no llegan al receptor.};
+\end{tikzpicture}

@@ -1,0 +1,17 @@
+% Ciclo de vida PPDIOO; se resaltan las fases que aborda el trabajo
+\begin{tikzpicture}[
+  fase/.style={caja, fill=white, font=\footnotesize, minimum width=2.9cm, minimum height=0.9cm},
+  abordada/.style={fill=FigSuave, font=\footnotesize\bfseries}]
+  \foreach \ang/\nombre/\estilo [count=\i] in {
+      90/Preparación/abordada, 30/Planificación/abordada, -30/Diseño/abordada,
+      -90/Implementación/, -150/Operación/, 150/Optimización/}{
+    \node[fase, \estilo] (f\i) at ({3.9*cos(\ang)},{2.3*sin(\ang)}) {\nombre};
+  }
+  \foreach \i/\j in {1/2, 2/3, 3/4, 4/5, 5/6, 6/1}{
+    \draw[flecha] (f\i) to[bend left=18] (f\j);
+  }
+  \node[align=center, font=\footnotesize\itshape, text=FigAcento] at (0,0) {Ciclo de vida\\de la red};
+  % Leyenda
+  \node[caja, minimum width=0.6cm, minimum height=0.35cm] (ley) at (-2.6,-3.4) {};
+  \node[anchor=west, font=\scriptsize] at (ley.east) {Fases en las que se desarrolla el presente trabajo};
+\end{tikzpicture}

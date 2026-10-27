@@ -24,11 +24,11 @@ Esta primera fotografía adquiere todo su sentido cuando se la compara con una s
 
 Si los estudios de Dartmouth observaban la red en su conjunto, Mahanti, Williamson y Arlitt \cite{mahanti2007remote} propusieron observarla por zonas. En la Universidad de Calgary ubicaron dispositivos de monitoreo pasivo en nueve áreas del campus durante seis semanas y registraron la actividad de 6775 usuarios y 97 puntos de acceso. Identificaron así diferencias de comportamiento según la zona y propusieron modelos de uso aplicables a la planificación de capacidad. Este enfoque territorial es directamente trasladable al estudio de sitio inalámbrico que aquí se propone para las áreas de mayor densidad de usuarios.
 
-Con todo, los trabajos anteriores describen el uso de la red más que su calidad. Easha, Abbas y Daley \cite{easha2020campus} desplazan precisamente la atención hacia la cobertura: en el campus de la Universidad Macquarie combinan estudios de sitio por radiofrecuencia, predicciones de cobertura y el análisis estadístico de los datos de los puntos de acceso existentes, privilegian las mediciones activas sobre las predictivas y formulan recomendaciones de reubicación que contemplan las restricciones físicas y la longitud del cableado. Se trata de un antecedente cercano al objetivo de evaluación inalámbrica de este proyecto, aunque no aborda la red cableada ni contrasta sus resultados con umbrales de calidad de servicio.
+Con todo, los trabajos anteriores describen el uso de la red más que su calidad. Easha, Abbas y Daley \cite{easha2020campus} desplazan precisamente la atención hacia la cobertura: en el campus de la Universidad Macquarie combinan estudios de sitio por radiofrecuencia, predicciones de cobertura y el análisis estadístico de los datos de los puntos de acceso existentes, y privilegian las mediciones reales sobre las predictivas. A partir de la intensidad de la señal, contrastada con un mínimo deseable de $-70$~dBm, y del número de clientes asociados a cada punto de acceso, proponen instalar nuevos puntos de acceso en las zonas de señal deficiente y junto a los equipos más cargados, y justifican su viabilidad con la longitud de cable que los separa del cuarto de comunicaciones más próximo. Se trata de un antecedente cercano a la evaluación inalámbrica que este proyecto contempla, aunque no aborda la red cableada ni mide la latencia o la pérdida de paquetes, y su único umbral de referencia es la intensidad de la señal.
 
 La calidad de una red inalámbrica no depende, sin embargo, únicamente de dónde se ubican los puntos de acceso, sino también de la generación tecnológica de estos y de los clientes que se les asocian. Liu y Choi \cite{liu2023wifi6} realizaron una de las primeras mediciones experimentales de equipos comerciales IEEE 802.11ax (Wi-Fi 6) en escenarios con múltiples clientes. Encontraron que, en coexistencia con redes de generaciones anteriores, Wi-Fi 6 triplica el rendimiento agregado y reduce la latencia en un factor de cinco, pero que la implementación vigente del acceso múltiple por división de frecuencias ortogonales (OFDMA) multiplica por seis el consumo de energía y que el mecanismo de negociación \textit{Target Wake Time} es vulnerable a diversos ataques. Para un diagnóstico, la consecuencia es inmediata: el inventario de activos debe registrar el estándar y la versión de \textit{firmware} de cada equipo, pues de ellos dependen tanto el desempeño alcanzable como la superficie de exposición.
 
-¿Son estas conclusiones, obtenidas en universidades de Estados Unidos, Canadá y Australia, válidas en el contexto latinoamericano? El trabajo de Cari Quispe \cite{cari2025altiplano} sugiere que sí. Al aplicar analítica de datos sobre los registros de la controladora inalámbrica de la Universidad Nacional del Altiplano, en Perú, el autor identificó picos de uso entre las 10:00 y las 14:00, comportamientos anómalos asociados a dispositivos recurrentes y debilidades en un mecanismo de acceso carente de autenticación individual y de trazabilidad, a partir de lo cual formuló recomendaciones para la gestión del ancho de banda y la autenticación. Su estudio confirma tanto la concentración horaria de la demanda propia de las redes universitarias como el valor diagnóstico de la información que la propia infraestructura ya produce.
+¿Son estas conclusiones, obtenidas en universidades de Estados Unidos, Canadá y Australia, válidas en el contexto latinoamericano? El trabajo de Cari Quispe \cite{cari2025altiplano} sugiere que sí. Al aplicar analítica de datos sobre los registros de la controladora inalámbrica de la Universidad Nacional del Altiplano, en Perú, el autor identificó picos de uso entre las 10:00 y las 14:00, puntos de acceso sobrecargados ---aquellos cuya latencia media supera los 40~ms y cuya pérdida de paquetes excede el 1,5\,\%---, comportamientos anómalos asociados a dispositivos recurrentes y debilidades en un mecanismo de acceso carente de autenticación individual y de trazabilidad, a partir de lo cual recomendó reajustar los canales, redistribuir la carga entre puntos de acceso y reforzar la gestión del ancho de banda y la autenticación. Su estudio confirma tanto la concentración horaria de la demanda propia de las redes universitarias como el valor diagnóstico de la información que la propia infraestructura ya produce.
 
 El contexto ecuatoriano ofrece, por su parte, el antecedente más próximo al presente trabajo. Moreno-Arteaga \textit{et al.} \cite{moreno2023sitesurvey} estudiaron la red inalámbrica de acceso libre del campus Lodana de la Universidad Técnica de Manabí, motivados expresamente por el peso de la conectividad en la evaluación institucional del CACES. Mediante estudios de sitio pasivos con la herramienta Acrylic Wi-Fi HeatMaps, y con umbrales de referencia de $-75$~dBm de intensidad de señal, 20~dB de relación señal-ruido y 200~ms de tiempo de ida y vuelta, identificaron un solapamiento evidente de canales y fuentes de interferencia que degradaban el servicio; propusieron luego dos diseños alternativos, evaluados por simulación en OPNET, uno de ellos con mecanismos de calidad de servicio. El trabajo valida, en una universidad del país, la pertinencia del estudio de sitio y de los umbrales explícitos; su alcance se limita, no obstante, a la banda de 2,4~GHz y a la red inalámbrica.
 
@@ -43,7 +43,7 @@ La Tabla~\ref{tab:estado_arte} reúne lo que el recorrido anterior ha puesto de 
   \caption{Cobertura de los trabajos analizados frente a los criterios que definen el alcance del proyecto.}
   \label{tab:estado_arte}
   \footnotesize
-  \renewcommand{\arraystretch}{1.2}
+  \renewcommand{\arraystretch}{1.05}
   \setlength{\tabcolsep}{4pt}
   \newcommand{\girar}[1]{\rotatebox{90}{\textbf{#1}\hspace{6pt}}}
   \newcommand{\contexto}[1]{\newline{\scriptsize\itshape #1}}
@@ -69,7 +69,7 @@ La Tabla~\ref{tab:estado_arte} reúne lo que el recorrido anterior ha puesto de 
     \hline
     Easha \textit{et al.} \cite{easha2020campus}\contexto{Universidad Macquarie, Australia}
       & Estudio de sitio por radiofrecuencia, predicción de cobertura y análisis de datos de los puntos de acceso
-      & \NoCumple & \Cumple & \Cumple & \Cumple & \NoCumple & \Cumple \\
+      & \NoCumple & \Cumple & \Parcial & \Cumple & \Parcial & \Cumple \\
     \hline
     Liu y Choi \cite{liu2023wifi6}\contexto{Banco de pruebas}
       & Mediciones con equipos comerciales IEEE 802.11ax y múltiples clientes
@@ -77,7 +77,7 @@ La Tabla~\ref{tab:estado_arte} reúne lo que el recorrido anterior ha puesto de 
     \hline
     Cari Quispe \cite{cari2025altiplano}\contexto{U. Nacional del Altiplano, Perú}
       & Analítica de los registros de la controladora inalámbrica
-      & \NoCumple & \Cumple & \Parcial & \NoCumple & \NoCumple & \Cumple \\
+      & \NoCumple & \Cumple & \Cumple & \NoCumple & \Parcial & \Cumple \\
     \hline
     Moreno-Arteaga \textit{et al.} \cite{moreno2023sitesurvey}\contexto{U. Técnica de Manabí, Ecuador}
       & Estudio de sitio pasivo con Acrylic Wi-Fi HeatMaps y simulación de rediseños en OPNET
@@ -96,14 +96,73 @@ La Tabla~\ref{tab:estado_arte} reúne lo que el recorrido anterior ha puesto de 
       & \Cumple & \Cumple & \Cumple & \Cumple & \Cumple & \Cumple \\
     \hline
   \end{tabularx}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia con base en los trabajos citados}
+  \noindent\textit{Nota:} \Cumple{} aborda el criterio; \Parcial{} lo aborda de forma parcial (mide solo el uso o la señal, evalúa el desempeño únicamente por simulación o aplica umbrales propios sin sustento normativo); \NoCumple{} no lo aborda; N/E, los autores no especifican el medio de transmisión. \textit{Desempeño} designa la medición de latencia, \textit{jitter}, pérdida o rendimiento; \textit{normas o umbrales}, el contraste de los resultados con una norma técnica o con valores de referencia explícitos.
+\end{table}
+
+La lectura de la tabla arroja un balance inequívoco: el conocimiento disponible es fragmentado. Ningún trabajo examina a la vez la red cableada y la inalámbrica, y solo dos, el de Moreno-Arteaga \textit{et al.} y el de Ledesma Mera, contrastan de manera sistemática sus resultados con umbrales o normas, cada uno sobre un único medio. Por un lado, los estudios de campus se han concentrado en el comportamiento y la cobertura de la red inalámbrica; por otro, los trabajos sobre red cableada se orientan a la reestructuración física sin establecer métricas de desempeño de referencia.
+
+Ahora bien, la última columna de la tabla merece un examen propio, porque es en ella donde el diagnóstico se convierte en decisión. Cinco de los nueve trabajos formulan alguna propuesta de mejora, uno de ellos solo de forma parcial; pero ¿con qué grado de desarrollo? La Tabla~\ref{tab:propuestas_mejora} responde a esta pregunta descomponiendo cada propuesta según los componentes que el presente proyecto exige a su propio plan de mejora: el rediseño de la red, la priorización de las acciones, la estimación de los recursos y el cronograma de ejecución, junto con el medio por el que la propuesta fue validada.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Desarrollo de las propuestas de mejora formuladas en los trabajos analizados.}
+  \label{tab:propuestas_mejora}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.2}
+  \setlength{\tabcolsep}{4pt}
+  \newcommand{\girar}[1]{\rotatebox{90}{\textbf{#1}\hspace{6pt}}}
+  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.9cm}|c|c|c|c|}
+    \hline
+    & & & \multicolumn{4}{c|}{\scriptsize\textbf{Componentes}} \\
+    \cline{4-7}
+    \textbf{Trabajo} & \textbf{Propuesta formulada} & \textbf{Validación}
+      & \girar{Rediseño} & \girar{Priorización} & \girar{Recursos} & \girar{Cronograma} \\
+    \hline
+    Mahanti \textit{et al.} \cite{mahanti2007remote}
+      & Modelos de uso por zona como insumo para la planificación de la capacidad
+      & Sin validación
+      & \NoCumple & \NoCumple & \NoCumple & \NoCumple \\
+    \hline
+    Easha \textit{et al.} \cite{easha2020campus}
+      & Instalación de nuevos puntos de acceso PoE en las zonas de señal deficiente y junto a los más cargados
+      & Predicción de cobertura
+      & \Parcial & \NoCumple & \Parcial & \NoCumple \\
+    \hline
+    Cari Quispe \cite{cari2025altiplano}
+      & Reajuste de canales y redistribución de la carga en los puntos de acceso sobrecargados; gestión del ancho de banda, autenticación y umbrales dinámicos de alerta
+      & Sin validación
+      & \NoCumple & \NoCumple & \NoCumple & \NoCumple \\
+    \hline
+    Moreno-Arteaga \textit{et al.} \cite{moreno2023sitesurvey}
+      & Reasignación de canales, potencia y orientación de los puntos de acceso y, en un segundo diseño, reubicación de equipos con QoS IEEE 802.11e (EDCA)
+      & Simulación en OPNET
+      & \Cumple & \NoCumple & \NoCumple & \NoCumple \\
+    \hline
+    Ledesma Mera \cite{ledesma2018reestructuracion}
+      & Reestructuración del cableado según ANSI/TIA/EIA-568-B y 606, instalación de \textit{racks} y servidor \textit{proxy} Squid para el control de acceso
+      & Implementación y pruebas funcionales
+      & \Cumple & \NoCumple & \Cumple & \NoCumple \\
+    \hline\hline
+    \textbf{Presente proyecto}
+      & Plan de mejora derivado de la matriz de hallazgos, con propuesta de rediseño lógico de la red
+      & Revisión con el área técnica de la institución
+      & \Cumple & \Cumple & \Cumple & \Cumple \\
+    \hline
+  \end{tabularx}
   \vspace{4pt}
   \raggedright
   \elaboradopor{Josué Gabriel Godoy Apolo}
   \fuente{Elaboración propia con base en los trabajos citados}
-  \noindent\textit{Nota:} \Cumple{} aborda el criterio; \Parcial{} lo aborda de forma parcial (por ejemplo, caracteriza el uso o la señal sin medir la calidad de servicio); \NoCumple{} no lo aborda; N/E, los autores no especifican el medio de transmisión. \textit{Desempeño} designa la medición de latencia, \textit{jitter}, pérdida o rendimiento; \textit{normas o umbrales}, el contraste de los resultados con una norma técnica o con valores de referencia explícitos.
+  \noindent\textit{Nota:} \Cumple{} desarrolla el componente; \Parcial{} lo desarrolla de forma parcial; \NoCumple{} no lo desarrolla. \textit{Rediseño} designa la especificación de una nueva configuración física o lógica de la red; \textit{priorización}, el orden de las acciones según su criticidad o impacto; \textit{recursos}, la estimación de materiales, equipos o costos; \textit{cronograma}, los plazos de ejecución. En Easha \textit{et al.}, el rediseño se limita a la ubicación de los nuevos puntos de acceso y los recursos, a la longitud de cable requerida.
 \end{table}
 
-La lectura de la tabla arroja un balance inequívoco: el conocimiento disponible es fragmentado. Ningún trabajo examina a la vez la red cableada y la inalámbrica, y solo dos, el de Moreno-Arteaga \textit{et al.} y el de Ledesma Mera, contrastan sus resultados con umbrales o normas, cada uno sobre un único medio. Por un lado, los estudios de campus se han concentrado en el comportamiento y la cobertura de la red inalámbrica; por otro, los trabajos sobre red cableada se orientan a la reestructuración física sin establecer métricas de desempeño de referencia. Entre ambos enfoques se abre un espacio que ninguno ocupa por completo, y es precisamente ahí donde se sitúa el presente proyecto: caracterizar de manera conjunta la red cableada e inalámbrica, medir su desempeño mediante procedimientos normalizados y contrastar los resultados con la normativa técnica aplicable, a fin de producir una línea base reproducible y un plan de mejora priorizado.
+El contraste es elocuente. Las propuestas existentes son, en su mayoría, respuestas puntuales a un hallazgo aislado: añadir puntos de acceso donde la señal es débil, redistribuir la carga donde la latencia crece o reasignar los canales donde se solapan. Solo Moreno-Arteaga \textit{et al.} llegan a un rediseño completo, que validan por simulación; solo Ledesma Mera presupuesta su propuesta y la valida mediante su implementación. Ninguno, en cambio, ordena las acciones según su criticidad ni fija un horizonte temporal para ejecutarlas, de modo que la institución que recibe el diagnóstico sabe qué corregir, pero no por dónde empezar ni con qué recursos.
+
+Entre estos vacíos ---el de un diagnóstico que abarque ambos medios y el de una propuesta que jerarquice lo que encuentra--- se abre un espacio que ninguno de los trabajos ocupa por completo, y es precisamente ahí donde se sitúa el presente proyecto: caracterizar de manera conjunta la red cableada e inalámbrica, medir su desempeño mediante procedimientos normalizados, contrastar los resultados con la normativa técnica aplicable y traducir los hallazgos en un plan de mejora priorizado, con recursos y cronograma, sustentado en una línea base reproducible.
 
 \section{Planteamiento del Problema}
 
@@ -140,14 +199,13 @@ Ejecutar un diagnóstico técnico integral de la infraestructura de red de datos
 
 \subsection{Objetivos Específicos}
 
-Este propósito general se descompone en cinco objetivos específicos, que siguen el orden lógico del diagnóstico: conocer la red, medirla, evaluarla y, solo entonces, proponer su evolución.
+Este propósito general se descompone en cuatro objetivos específicos, que siguen el orden lógico del diagnóstico: documentar la red tal como es, diseñar el procedimiento con que será examinada, implementarlo para medirla y, solo entonces, evaluar lo medido y proponer su evolución.
 
 \begin{enumerate}
-  \item Levantar y documentar la topología física y lógica de la red institucional, incluyendo el inventario de activos, el esquema de direccionamiento IP, la segmentación por VLAN, los protocolos de conmutación y enrutamiento en operación y la configuración de los enlaces de acceso a internet.
-  \item Establecer una línea base de desempeño de la red mediante la medición de ancho de banda efectivo, latencia, \textit{jitter}, pérdida de paquetes y utilización de enlaces, aplicando procedimientos derivados de las RFC 2544 y RFC 6349 y los umbrales de la Recomendación ITU-T Y.1541.
-  \item Evaluar la cobertura, la capacidad y la calidad del espectro de la red inalámbrica mediante estudios de sitio pasivos y activos, identificando zonas de señal deficiente, solapamiento de canales, relación señal-ruido insuficiente y fuentes de interferencia.
-  \item Contrastar el estado del cableado estructurado, la organización de los cuartos de telecomunicaciones y la configuración de los equipos activos frente a las normas ANSI/TIA-568, ANSI/TIA-569 e ISO/IEC 11801 y frente a las buenas prácticas de aseguramiento de dispositivos de red.
-  \item Formular un plan de mejora priorizado por criticidad e impacto, que incluya la propuesta de rediseño lógico de la red, la estimación de los recursos requeridos y un cronograma referencial de implementación.
+  \item Documentar la topología física y lógica de la red de datos institucional, cableada e inalámbrica, con su inventario de activos, su esquema de direccionamiento IP, su segmentación por VLAN, los protocolos de conmutación y enrutamiento en operación y los enlaces de acceso a internet.
+  \item Diseñar el protocolo de diagnóstico de la red, con pruebas de desempeño derivadas de las RFC 2544 y RFC 6349, un procedimiento de estudio de sitio inalámbrico pasivo y activo y criterios de inspección del cableado estructurado y de la configuración de los equipos activos.
+  \item Implementar el protocolo de diagnóstico sobre los segmentos cableados e inalámbricos de la red institucional, con la obtención de una línea base de desempeño en ancho de banda efectivo, latencia, \textit{jitter}, pérdida de paquetes, utilización de enlaces, cobertura y calidad del espectro inalámbrico.
+  \item Evaluar los resultados del diagnóstico frente a los umbrales de la Recomendación ITU-T Y.1541, las normas ANSI/TIA-568, ANSI/TIA-569 e ISO/IEC 11801 y las buenas prácticas de aseguramiento de dispositivos de red, mediante una matriz de hallazgos clasificados por criticidad e impacto, base de un plan de mejora priorizado con propuesta de rediseño lógico, estimación de recursos y cronograma referencial.
 \end{enumerate}
 
 \section{Alcance del Proyecto}
@@ -178,19 +236,59 @@ Ningún diagnóstico es neutral: toda medición presupone un modelo de lo que se
 
 \subsection{Red de campus y modelo jerárquico}
 
-Una red de campus es la infraestructura que interconecta los edificios y espacios de una organización dentro de un área geográfica limitada. Para dominar su complejidad, su diseño se organiza habitualmente según un modelo jerárquico de tres capas \cite{oppenheimer2011topdown}. La capa de \textbf{núcleo} provee el transporte de alta velocidad entre los bloques de la red; la capa de \textbf{distribución} agrega el tráfico de acceso y aplica las políticas de enrutamiento y filtrado; y la capa de \textbf{acceso} es aquella a la que se conectan los dispositivos finales, mediante cableado o de forma inalámbrica. Este modelo no solo facilita la escalabilidad y el aislamiento de fallas, sino que ofrece también una gramática común para documentar la red, razón por la cual constituye el marco de referencia del levantamiento de la topología.
+Una red de campus es la infraestructura que interconecta los edificios y espacios de una organización dentro de un área geográfica limitada. Para dominar su complejidad, su diseño se organiza habitualmente según un modelo jerárquico de tres capas \cite{oppenheimer2011topdown}. La capa de \textbf{núcleo} provee el transporte de alta velocidad entre los bloques de la red; la capa de \textbf{distribución} agrega el tráfico de acceso y aplica las políticas de enrutamiento y filtrado; y la capa de \textbf{acceso} es aquella a la que se conectan los dispositivos finales, mediante cableado o de forma inalámbrica. Este modelo no solo facilita la escalabilidad y el aislamiento de fallas, sino que ofrece también una gramática común para documentar la red, razón por la cual constituye el marco de referencia del levantamiento de la topología. La Figura~\ref{fig:modelo_jerarquico} muestra cómo suele materializarse este modelo en un campus: un borde que enlaza con el proveedor de internet, un núcleo redundante y bloques de distribución que agregan los conmutadores de acceso, a los que se conectan tanto los equipos cableados como los puntos de acceso inalámbrico.
+
+\begin{figure}[htbp]
+  \centering
+  \input{Capítulos/fig/01_modelo_jerarquico}
+  \caption{Modelo jerárquico de tres capas aplicado a una red de campus.}
+  \label{fig:modelo_jerarquico}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia con base en Oppenheimer \cite{oppenheimer2011topdown}}
+\end{figure}
 
 \subsection{Ciclo de vida de red PPDIOO}
 
-Si el modelo jerárquico describe la red en el espacio, el ciclo PPDIOO la describe en el tiempo. Este ciclo divide la vida de una red en seis fases: preparación, planificación, diseño, implementación, operación y optimización \cite{oppenheimer2011topdown}. Las tres primeras tienen en común que preceden a toda intervención: se ocupan de comprender los requisitos de la organización, evaluar la red existente y formular un diseño que responda a dichos requisitos. No es casual, por tanto, que el presente trabajo se desarrolle precisamente en ellas. La preparación delimita el ámbito y las autorizaciones; la planificación caracteriza la red actual mediante el levantamiento y la medición; y el diseño concreta la propuesta de rediseño lógico y el plan de mejora.
+Si el modelo jerárquico describe la red en el espacio, el ciclo PPDIOO la describe en el tiempo. Este ciclo divide la vida de una red en seis fases: preparación, planificación, diseño, implementación, operación y optimización \cite{oppenheimer2011topdown}. Las tres primeras tienen en común que preceden a toda intervención: se ocupan de comprender los requisitos de la organización, evaluar la red existente y formular un diseño que responda a dichos requisitos. No es casual, por tanto, que el presente trabajo se desarrolle precisamente en ellas. La preparación delimita el ámbito y las autorizaciones; la planificación caracteriza la red actual mediante el levantamiento y la medición; y el diseño concreta la propuesta de rediseño lógico y el plan de mejora. La Figura~\ref{fig:ppdioo} sitúa así el trabajo dentro del ciclo: sus resultados alimentan las fases posteriores, cuya ejecución corresponderá a la institución.
+
+\begin{figure}[htbp]
+  \centering
+  \input{Capítulos/fig/02_ppdioo}
+  \caption{Ciclo de vida de red PPDIOO y fases en las que se desarrolla el presente trabajo.}
+  \label{fig:ppdioo}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia con base en Oppenheimer \cite{oppenheimer2011topdown}}
+\end{figure}
 
 \subsection{Segmentación, direccionamiento y enrutamiento}
 
-Más allá de su disposición física, una red se define por su organización lógica. Las redes de área local virtuales (VLAN), normalizadas por el estándar IEEE 802.1Q \cite{ieee8021q}, permiten dividir una red conmutada en dominios de difusión independientes; separan así los distintos tipos de usuarios y servicios y reducen el alcance de los fallos y de los incidentes de seguridad. Cada VLAN se asocia a una subred IP, y la comunicación entre ellas requiere enrutamiento en la capa 3. De ahí que la coherencia entre el plan de VLAN, el esquema de direccionamiento y las políticas de enrutamiento y filtrado constituya uno de los ejes del levantamiento lógico: una incoherencia en este plano puede degradar el desempeño tanto como una carencia de capacidad.
+Más allá de su disposición física, una red se define por su organización lógica. Las redes de área local virtuales (VLAN), normalizadas por el estándar IEEE 802.1Q \cite{ieee8021q}, permiten dividir una red conmutada en dominios de difusión independientes; separan así los distintos tipos de usuarios y servicios y reducen el alcance de los fallos y de los incidentes de seguridad. Para ello, el estándar inserta en la trama Ethernet una etiqueta de cuatro bytes cuyo campo VID, de doce bits, identifica la VLAN a la que pertenece la trama, y cuyo campo PCP transporta su prioridad (Figura~\ref{fig:trama_8021q}). Cada VLAN se asocia a una subred IP, y la comunicación entre ellas requiere enrutamiento en la capa 3. De ahí que la coherencia entre el plan de VLAN, el esquema de direccionamiento y las políticas de enrutamiento y filtrado constituya uno de los ejes del levantamiento lógico: una incoherencia en este plano puede degradar el desempeño tanto como una carencia de capacidad.
+
+\begin{figure}[htbp]
+  \centering
+  \input{Capítulos/fig/03_trama_8021q}
+  \caption{Formato de la trama Ethernet con etiqueta IEEE 802.1Q.}
+  \label{fig:trama_8021q}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia con base en IEEE 802.1Q \cite{ieee8021q}}
+\end{figure}
 
 \subsection{Tecnologías de acceso: IEEE 802.3 e IEEE 802.11}
 
-La red de campus reposa sobre dos familias de estándares que obedecen a lógicas distintas. La familia IEEE 802.3 define las especificaciones de Ethernet para la red cableada, incluidas las velocidades, los medios físicos y el control de acceso al medio \cite{ieee8023}. La familia IEEE 802.11, por su parte, define las redes de área local inalámbricas (WLAN) en las bandas de 2,4~GHz, 5~GHz y 6~GHz, con sucesivas enmiendas que incrementan la capacidad, como 802.11n (Wi-Fi 4), 802.11ac (Wi-Fi 5) y 802.11ax (Wi-Fi 6/6E) \cite{ieee80211}. La diferencia entre ambas no es solo de soporte: en la red inalámbrica el medio es compartido, de modo que el desempeño depende de la intensidad de la señal recibida (RSSI), de la relación señal-ruido (SNR), de la asignación de canales y del número de clientes asociados a cada punto de acceso. Es esta dependencia la que obliga a evaluar el medio inalámbrico con instrumentos propios.
+La red de campus reposa sobre dos familias de estándares que obedecen a lógicas distintas. La familia IEEE 802.3 define las especificaciones de Ethernet para la red cableada, incluidas las velocidades, los medios físicos y el control de acceso al medio \cite{ieee8023}. La familia IEEE 802.11, por su parte, define las redes de área local inalámbricas (WLAN) en las bandas de 2,4~GHz, 5~GHz y 6~GHz, con sucesivas enmiendas que incrementan la capacidad, como 802.11n (Wi-Fi 4), 802.11ac (Wi-Fi 5) y 802.11ax (Wi-Fi 6/6E) \cite{ieee80211}. La diferencia entre ambas no es solo de soporte: en la red inalámbrica el medio es compartido, de modo que el desempeño depende de la intensidad de la señal recibida (RSSI), de la relación señal-ruido (SNR), de la asignación de canales y del número de clientes asociados a cada punto de acceso. La asignación de canales es particularmente delicada en la banda de 2,4~GHz, cuyos canales, separados apenas 5~MHz y de 20 a 22~MHz de ancho, se superponen entre sí, de modo que solo tres de ellos ---el 1, el 6 y el 11--- pueden operar en un mismo espacio sin interferirse (Figura~\ref{fig:canales_24}). Es esta dependencia la que obliga a evaluar el medio inalámbrico con instrumentos propios.
+
+\begin{figure}[htbp]
+  \centering
+  \input{Capítulos/fig/04_canales_24ghz}
+  \caption{Canales 1 a 11 de la banda de 2,4~GHz y canales sin solapamiento.}
+  \label{fig:canales_24}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia con base en IEEE 802.11 \cite{ieee80211}}
+\end{figure}
 
 \subsection{Estudio de sitio inalámbrico}
 
@@ -198,7 +296,17 @@ Ese instrumento es el estudio de sitio (\textit{site survey}), procedimiento des
 
 \subsection{Métricas de desempeño de red}
 
-Medir el desempeño de una red supone, ante todo, ponerse de acuerdo sobre qué se entiende por desempeño. La línea base de este trabajo se construye sobre cinco magnitudes, cuyas definiciones formales provienen en buena parte del grupo de trabajo de métricas de desempeño IP (IPPM) del IETF. La más intuitiva es el \textbf{ancho de banda efectivo} (\textit{throughput}), es decir, la cantidad de datos útiles transferidos por unidad de tiempo entre dos puntos de la red. Sin embargo, una red puede ofrecer un ancho de banda elevado y resultar, aun así, inadecuada para ciertas aplicaciones si es lenta en responder; de ahí la importancia de la \textbf{latencia}, tiempo que tarda un paquete en viajar desde el origen hasta el destino, que puede medirse en un solo sentido \cite{rfc7679} o, más habitualmente, como tiempo de ida y vuelta (RTT) \cite{rfc2681}. Para la voz y la videoconferencia importa, más aún que la latencia misma, su regularidad, que se expresa en el \textbf{\textit{jitter}}, o variación del retardo entre paquetes \cite{rfc3393}. La \textbf{pérdida de paquetes}, proporción de paquetes enviados que no llegan a su destino, da cuenta por su parte de la fiabilidad del transporte \cite{rfc7680}. Finalmente, la \textbf{utilización}, porcentaje de la capacidad de un enlace ocupado por el tráfico en un intervalo de tiempo, permite relacionar todas las anteriores con la carga a la que está sometida la red.
+Medir el desempeño de una red supone, ante todo, ponerse de acuerdo sobre qué se entiende por desempeño. La línea base de este trabajo se construye sobre cinco magnitudes, cuyas definiciones formales provienen en buena parte del grupo de trabajo de métricas de desempeño IP (IPPM) del IETF. La más intuitiva es el \textbf{ancho de banda efectivo} (\textit{throughput}), es decir, la cantidad de datos útiles transferidos por unidad de tiempo entre dos puntos de la red. Sin embargo, una red puede ofrecer un ancho de banda elevado y resultar, aun así, inadecuada para ciertas aplicaciones si es lenta en responder; de ahí la importancia de la \textbf{latencia}, tiempo que tarda un paquete en viajar desde el origen hasta el destino, que puede medirse en un solo sentido \cite{rfc7679} o, más habitualmente, como tiempo de ida y vuelta (RTT) \cite{rfc2681}. Para la voz y la videoconferencia importa, más aún que la latencia misma, su regularidad, que se expresa en el \textbf{\textit{jitter}}, o variación del retardo entre paquetes \cite{rfc3393}. La \textbf{pérdida de paquetes}, proporción de paquetes enviados que no llegan a su destino, da cuenta por su parte de la fiabilidad del transporte \cite{rfc7680}. Finalmente, la \textbf{utilización}, porcentaje de la capacidad de un enlace ocupado por el tráfico en un intervalo de tiempo, permite relacionar todas las anteriores con la carga a la que está sometida la red. La Figura~\ref{fig:latencia_jitter} ilustra la relación entre la latencia, su variación y la pérdida en una secuencia de paquetes.
+
+\begin{figure}[htbp]
+  \centering
+  \input{Capítulos/fig/05_latencia_jitter}
+  \caption{Latencia, variación del retardo y pérdida de paquetes entre un emisor y un receptor.}
+  \label{fig:latencia_jitter}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia con base en las RFC 7679, 3393 y 7680 \cite{rfc7679,rfc3393,rfc7680}}
+\end{figure}
 
 \subsection{Línea base de desempeño}
 
@@ -216,7 +324,17 @@ Junto a las mediciones activas, la propia infraestructura constituye una fuente 
 
 \subsection{Normativa de cableado estructurado}
 
-Queda la capa sobre la que todo lo anterior descansa. El cableado estructurado es un sistema de cableado normalizado que soporta múltiples servicios de telecomunicaciones con independencia del fabricante. La norma ANSI/TIA-568 define los requisitos del cableado genérico para instalaciones de clientes, incluidas la topología, las categorías de cable y las distancias máximas \cite{tia568}; la norma ANSI/TIA-569 especifica los requisitos de las canalizaciones y de los espacios de telecomunicaciones, como los cuartos de equipos y los cuartos de telecomunicaciones \cite{tia569}; y la norma ISO/IEC 11801 constituye su equivalente internacional para el cableado genérico \cite{iso11801}. Estas normas proporcionan el referente para la inspección visual del cableado y de los espacios de telecomunicaciones que se realiza en este trabajo.
+Queda la capa sobre la que todo lo anterior descansa. El cableado estructurado es un sistema de cableado normalizado que soporta múltiples servicios de telecomunicaciones con independencia del fabricante. La norma ANSI/TIA-568 define los requisitos del cableado genérico para instalaciones de clientes, incluidas la topología, las categorías de cable y las distancias máximas \cite{tia568}; la norma ANSI/TIA-569 especifica los requisitos de las canalizaciones y de los espacios de telecomunicaciones, como los cuartos de equipos y los cuartos de telecomunicaciones \cite{tia569}; y la norma ISO/IEC 11801 constituye su equivalente internacional para el cableado genérico \cite{iso11801}. En conjunto, estas normas organizan el cableado en subsistemas ---instalación de entrada, sala de equipos, cableado vertebral, cuartos de telecomunicaciones, cableado horizontal y área de trabajo--- y limitan a 90~m el enlace permanente del cableado horizontal y a 100~m el canal completo, incluidos los cordones de conexión (Figura~\ref{fig:cableado_estructurado}). Estas normas proporcionan el referente para la inspección visual del cableado y de los espacios de telecomunicaciones que se realiza en este trabajo.
+
+\begin{figure}[htbp]
+  \centering
+  \input{Capítulos/fig/06_cableado_estructurado}
+  \caption{Subsistemas del cableado estructurado y distancias máximas del cableado horizontal.}
+  \label{fig:cableado_estructurado}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia con base en ANSI/TIA-568 y ANSI/TIA-569 \cite{tia568,tia569}}
+\end{figure}
 
 \subsection{Aseguramiento de dispositivos de red}
 
@@ -224,4 +342,14 @@ Una red puede ofrecer un desempeño impecable y ser, al mismo tiempo, frágil. P
 
 \subsection{Clasificación de hallazgos y análisis de riesgo}
 
-Diagnosticar, finalmente, no consiste en enumerar defectos, sino en jerarquizarlos. Un hallazgo que afecta a un enlace troncal no tiene el mismo peso que otro que afecta a un punto de acceso secundario. Para establecer esa jerarquía, el trabajo adopta el enfoque de evaluación de riesgos propuesto por el NIST en su publicación especial 800-30, según el cual el riesgo se determina a partir de la probabilidad de que una condición desfavorable se materialice y de la magnitud de su impacto, valoradas mediante escalas cualitativas o semicuantitativas \cite{nist80030}. La matriz de hallazgos resultante clasifica cada condición por criticidad y constituye el puente entre el diagnóstico y el plan de mejora, pues determina el orden en que las acciones correctivas deberían ejecutarse. Con ella se cierra el marco conceptual sobre el que se apoyará la metodología expuesta en el capítulo siguiente.
+Diagnosticar, finalmente, no consiste en enumerar defectos, sino en jerarquizarlos. Un hallazgo que afecta a un enlace troncal no tiene el mismo peso que otro que afecta a un punto de acceso secundario. Para establecer esa jerarquía, el trabajo adopta el enfoque de evaluación de riesgos propuesto por el NIST en su publicación especial 800-30, según el cual el riesgo se determina a partir de la probabilidad de que una condición desfavorable se materialice y de la magnitud de su impacto, valoradas mediante escalas cualitativas o semicuantitativas \cite{nist80030}. La Figura~\ref{fig:matriz_riesgo} reproduce la escala con la que dicha publicación combina ambas dimensiones en cinco niveles de riesgo. La matriz de hallazgos resultante clasifica cada condición por criticidad y constituye el puente entre el diagnóstico y el plan de mejora, pues determina el orden en que las acciones correctivas deberían ejecutarse. Con ella se cierra el marco conceptual sobre el que se apoyará la metodología expuesta en el capítulo siguiente.
+
+\begin{figure}[htbp]
+  \centering
+  \input{Capítulos/fig/07_matriz_riesgo}
+  \caption{Nivel de riesgo según la combinación de probabilidad e impacto.}
+  \label{fig:matriz_riesgo}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Adaptado de NIST SP 800-30 Rev.~1, tabla I-2 \cite{nist80030}}
+\end{figure}

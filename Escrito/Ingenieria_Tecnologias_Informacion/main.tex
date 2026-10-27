@@ -30,6 +30,18 @@
 \newcommand{\Parcial}{{\UTISimbolos ◐}}
 \newcommand{\NoCumple}{{\UTISimbolos ○}}
 
+% Figuras vectoriales (diagramas en Capítulos/fig/*.tex)
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing,shapes.geometric}
+\definecolor{FigAcento}{HTML}{1F4E79}
+\definecolor{FigSuave}{HTML}{DCE6F2}
+\tikzset{
+  caja/.style={draw=FigAcento, fill=FigSuave, rounded corners=2pt,
+    align=center, font=\scriptsize, inner sep=3pt},
+  flecha/.style={-{Stealth[length=2mm]}, thick, FigAcento},
+  cota/.style={{Bar[width=2mm]}-{Bar[width=2mm]}, gray!80!black},
+}
+
 \begin{document}
 
 % ==========================================================

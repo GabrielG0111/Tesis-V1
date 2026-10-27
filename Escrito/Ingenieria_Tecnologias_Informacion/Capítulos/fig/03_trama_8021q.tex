@@ -1,0 +1,24 @@
+% Trama Ethernet con etiqueta IEEE 802.1Q y detalle de la etiqueta
+\begin{tikzpicture}[
+  campo/.style={draw=FigAcento, minimum height=1.0cm, align=center, font=\scriptsize, inner sep=1pt, anchor=west},
+  subcampo/.style={campo, fill=FigSuave, minimum height=0.9cm},
+  nota/.style={font=\scriptsize, align=center, anchor=north, text=gray!30!black}]
+  % Trama
+  \node[campo, minimum width=2.1cm] (dst) at (0,0) {MAC destino\\6 B};
+  \node[campo, minimum width=2.1cm] (src) at (dst.east) {MAC origen\\6 B};
+  \node[campo, minimum width=2.4cm, fill=FigSuave, font=\scriptsize\bfseries] (tag) at (src.east) {Etiqueta 802.1Q\\4 B};
+  \node[campo, minimum width=1.9cm] (et) at (tag.east) {EtherType\\2 B};
+  \node[campo, minimum width=3.3cm] (pl) at (et.east) {Carga útil\\42--1500 B};
+  \node[campo, minimum width=1.4cm] (fcs) at (pl.east) {FCS\\4 B};
+  % Detalle de la etiqueta (32 bits)
+  \node[subcampo, minimum width=3.6cm] (tpid) at (0.45,-2.2) {TPID = 0x8100\\16 bits};
+  \node[subcampo, minimum width=1.6cm] (pcp) at (tpid.east) {PCP\\3 bits};
+  \node[subcampo, minimum width=1.3cm] (dei) at (pcp.east) {DEI\\1 bit};
+  \node[subcampo, minimum width=3.4cm] (vid) at (dei.east) {VID\\12 bits};
+  \draw[dashed, FigAcento] (tag.south west) -- (tpid.north west);
+  \draw[dashed, FigAcento] (tag.south east) -- (vid.north east);
+  \node[nota, text width=3.4cm] at ([yshift=-3pt]tpid.south) {Identifica la trama\\como etiquetada};
+  \node[nota, text width=1.6cm] at ([yshift=-3pt]pcp.south) {Prioridad\\(802.1p)};
+  \node[nota, text width=1.3cm] at ([yshift=-3pt]dei.south) {Descarte\\elegible};
+  \node[nota, text width=3.3cm] at ([yshift=-3pt]vid.south) {Identificador de VLAN\\(1 a 4094)};
+\end{tikzpicture}

@@ -1,0 +1,27 @@
+% Nivel de riesgo según probabilidad e impacto (NIST SP 800-30 Rev. 1, tabla I-2)
+% Filas de abajo hacia arriba: probabilidad muy baja ... muy alta
+% Valores: 1 muy bajo, 2 bajo, 3 moderado, 4 alto, 5 muy alto
+\begin{tikzpicture}[x=2.0cm, y=0.8cm]
+  \definecolor{riesgo1}{HTML}{C6E5B3}
+  \definecolor{riesgo2}{HTML}{E4EFA6}
+  \definecolor{riesgo3}{HTML}{FFE699}
+  \definecolor{riesgo4}{HTML}{F8B98A}
+  \definecolor{riesgo5}{HTML}{F08A80}
+  \foreach \fila [count=\r] in {{1,1,1,2,2},{1,2,2,2,3},{1,2,3,3,4},{1,2,3,4,5},{1,2,3,4,5}}{
+    \foreach \nivel [count=\c] in \fila {
+      \fill[riesgo\nivel] (\c-1,\r-1) rectangle (\c,\r);
+      \draw[white, line width=1.2pt] (\c-1,\r-1) rectangle (\c,\r);
+      \node[font=\scriptsize] at (\c-0.5,\r-0.5)
+        {\ifcase\nivel\or Muy bajo\or Bajo\or Moderado\or Alto\or Muy alto\fi};
+    }
+  }
+  % Rótulos de probabilidad (filas) e impacto (columnas)
+  \foreach \t [count=\r] in {Muy baja, Baja, Moderada, Alta, Muy alta}{
+    \node[font=\scriptsize, anchor=east] at (-0.05,\r-0.5) {\t};
+  }
+  \foreach \t [count=\c] in {Muy bajo, Bajo, Moderado, Alto, Muy alto}{
+    \node[font=\scriptsize, anchor=north] at (\c-0.5,-0.05) {\t};
+  }
+  \node[font=\footnotesize\bfseries, text=FigAcento, rotate=90] at (-0.95,2.5) {Probabilidad};
+  \node[font=\footnotesize\bfseries, text=FigAcento] at (2.5,-1.05) {Impacto};
+\end{tikzpicture}
