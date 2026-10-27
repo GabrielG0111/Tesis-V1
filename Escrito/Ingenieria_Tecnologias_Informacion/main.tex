@@ -21,6 +21,15 @@
 \renewcommand{\bibname}{REFERENCIAS} % report/book
 % (si fuera article sería \renewcommand{\refname}{REFERENCIAS})
 
+% Tablas comparativas: columnas de ancho automático y símbolos de cobertura
+% (Century Gothic no incluye estos símbolos: se toman de DejaVu Sans,
+% distribuida con TeX Live; requiere XeLaTeX)
+\usepackage{tabularx}
+\newfontfamily\UTISimbolos{DejaVuSans.ttf}
+\newcommand{\Cumple}{{\UTISimbolos ●}}
+\newcommand{\Parcial}{{\UTISimbolos ◐}}
+\newcommand{\NoCumple}{{\UTISimbolos ○}}
+
 \begin{document}
 
 % ==========================================================

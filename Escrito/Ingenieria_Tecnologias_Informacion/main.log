@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025/Debian) (preloaded format=xelatex 2026.10.13)  23 OCT 2026 07:27
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025/Debian) (preloaded format=xelatex 2026.10.13)  27 OCT 2026 07:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1003,7 +1003,40 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip130
 )
-(./main.aux
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
+
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
+\col@sep=\dimen189
+\ar@mcellbox=\box57
+\extrarowheight=\dimen190
+\NC@list=\toks27
+\extratabsurround=\skip131
+\backup@length=\skip132
+\ar@cellbox=\box58
+)
+\TX@col@width=\dimen191
+\TX@old@table=\dimen192
+\TX@old@col=\dimen193
+\TX@target=\dimen194
+\TX@delta=\dimen195
+\TX@cols=\count339
+\TX@ftn=\toks28
+)
+
+Package fontspec Info: 
+(fontspec)             Font family 'DejaVuSans.ttf(0)' created for font
+(fontspec)             'DejaVuSans.ttf' with options [Ligatures=TeX].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"[DejaVuSans.ttf]/OT:script=latn;language=dflt;mappin
+g=tex-text;"
+
+ (./main.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 Package babel Info: 'spanish' activates 'spanish' shorthands.
@@ -1011,47 +1044,47 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
 (Font)                  TU/TeXGyreTermesMath(1)/m/n --> TU/CenturyGothic(0)/m/n
- on input line 24.
+ on input line 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
 (Font)                  OT1/cmr/m/it --> TU/CenturyGothic(0)/m/it on input line
- 24.
+ 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
 (Font)                  OT1/cmr/bx/n --> TU/CenturyGothic(0)/b/n on input line 
-24.
+33.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
 (Font)                  OT1/cmss/m/n --> TU/CenturyGothic(0)/m/n on input line 
-24.
+33.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/cmss/bx/n --> TU/CenturyGothic(0)/b/n on input line
- 24.
+ 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 24.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 33.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 24.
-LaTeX Info: Redefining \. on input line 24.
-LaTeX Info: Redefining \% on input line 24.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 33.
+LaTeX Info: Redefining \. on input line 33.
+LaTeX Info: Redefining \% on input line 33.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1090,7 +1123,7 @@ LaTeX Info: Redefining \% on input line 24.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 24.
+Package hyperref Info: Link coloring OFF on input line 33.
 (./main.out) (./main.out)
 \@outlinefile=\write3
 \openout3 = `main.out'.
@@ -1098,17 +1131,17 @@ Package hyperref Info: Link coloring OFF on input line 24.
 File: Logos/LOGO-UTI-1.png Graphic file (type bmp)
 <Logos/LOGO-UTI-1.png>
 LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(2)/m/n' will be
-(Font)              scaled to size 12.00128pt on input line 95.
+(Font)              scaled to size 12.00128pt on input line 104.
 LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(2)/m/n' will be
-(Font)              scaled to size 8.88095pt on input line 95.
+(Font)              scaled to size 8.88095pt on input line 104.
 LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(2)/m/n' will be
-(Font)              scaled to size 6.60071pt on input line 95.
+(Font)              scaled to size 6.60071pt on input line 104.
 LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(3)/m/n' will be
-(Font)              scaled to size 11.99872pt on input line 95.
+(Font)              scaled to size 11.99872pt on input line 104.
 LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(3)/m/n' will be
-(Font)              scaled to size 8.87904pt on input line 95.
+(Font)              scaled to size 8.87904pt on input line 104.
 LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(3)/m/n' will be
-(Font)              scaled to size 6.59929pt on input line 95.
+(Font)              scaled to size 6.59929pt on input line 104.
  [1
 
 ] (./Preliminares/01_RepositorioDigital.tex
@@ -1266,7 +1299,7 @@ AN
 )
 
 Package spanish Warning: Replacing `TU/CenturyGothic(0)/m/sc' by 
-(spanish)                faked small caps on input line 126.
+(spanish)                faked small caps on input line 135.
 
 [16
 
@@ -1276,42 +1309,28 @@ Capítulo I.
 
 
 ] [18] [19] [20]
-LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(2)/m/n' will be
-(Font)              scaled to size 10.00107pt on input line 46.
-LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(2)/m/n' will be
-(Font)              scaled to size 7.00075pt on input line 46.
-LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(2)/m/n' will be
-(Font)              scaled to size 5.00053pt on input line 46.
-LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 46.
-LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 46.
-LaTeX Font Info:    Font shape `TU/TeXGyreTermesMath(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 46.
 
-Overfull \hbox (1.92516pt too wide) in paragraph at lines 46--72
-[][] 
- []
+LaTeX Warning: Float too large for page by 8.93375pt on input line 104.
 
-[21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31] [32])
-(./Capítulos/02_Metodología.tex [33]
+[21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31] [32] [33])
+(./Capítulos/02_Metodología.tex [34]
 Capítulo II.
 
 Underfull \hbox (badness 1112) in paragraph at lines 16--17
-[]\TU/CenturyGothic(0)/m/it/12 [Indique el dominio académico o
+[]|\TU/CenturyGothic(0)/m/it/12 [Indique el dominio académico o
  []
 
 
 Underfull \hbox (badness 2229) in paragraph at lines 18--19
-[]\TU/CenturyGothic(0)/m/sc/12 Redes informáticas de comunica-
+[]|\TU/CenturyGothic(0)/m/sc/12 Redes informáticas de comunica-
  []
 
 
 Underfull \hbox (badness 3701) in paragraph at lines 28--29
-[]\TU/CenturyGothic(0)/m/it/12 [Indique la organización, sistema,
+[]|\TU/CenturyGothic(0)/m/it/12 [Indique la organización, sistema,
  []
 
-[34
+[35
 
 ]
 Overfull \hbox (8.2094pt too wide) in paragraph at lines 52--53
@@ -1319,12 +1338,12 @@ Overfull \hbox (8.2094pt too wide) in paragraph at lines 52--53
 gías, herramien-
  []
 
-[35]
+[36]
 File: Capítulos/img/img_ejemplo_1.png Graphic file (type bmp)
 <Capítulos/img/img_ejemplo_1.png>
 Package hyperref Info: bookmark level for unknown imagen defaults to 0 on input
  line 62.
-) (./Capítulos/03_Implementación.tex [36]
+) (./Capítulos/03_Implementación.tex [37]
 Capítulo III.
 
 Overfull \hbox (2.23283pt too wide) in paragraph at lines 8--9
@@ -1334,18 +1353,18 @@ omponentes y des-
 
 File: Capítulos/fig/fig_ejemplo_2.png Graphic file (type bmp)
 <Capítulos/fig/fig_ejemplo_2.png>
-[37
+[38
 
 ]
 File: Capítulos/img/img_ejemplo_2.png Graphic file (type bmp)
 <Capítulos/img/img_ejemplo_2.png>
- [38]) (./Capítulos/04_Conclusiones.tex [39]
+ [39]) (./Capítulos/04_Conclusiones.tex [40]
 Capítulo IV.
-) (./Capítulos/05_Referencias.tex [40
+) (./Capítulos/05_Referencias.tex [41
 
-] (./main.bbl [41
+] (./main.bbl [42
 
-] [42
+] [43
 
 ]
 Underfull \hbox (badness 1325) in paragraph at lines 96--98
@@ -1376,12 +1395,12 @@ Underfull \hbox (badness 2753) in paragraph at lines 103--108
 ontrol
  []
 
-[43] [44])) (./Capítulos/06_Glosario.tex [45]) [46
+[44] [45])) (./Capítulos/06_Glosario.tex [46]) [47
 
 
 ] (./Anexos/01_Anexo.tex
 Apéndice A.
-) [47
+) [48
 
 
 ] (./main.aux
@@ -1400,12 +1419,12 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 9B6518BC65285AB1BC4E21C23446349A;9739.
  ) 
 Here is how much of TeX's memory you used:
- 20280 strings out of 468173
- 376052 string characters out of 5435519
- 949758 words of memory out of 5000000
- 48682 multiletter control sequences out of 15000+600000
- 630909 words of font info for 107 fonts, out of 8000000 for 9000
+ 20433 strings out of 468173
+ 378697 string characters out of 5435519
+ 959275 words of memory out of 5000000
+ 48822 multiletter control sequences out of 15000+600000
+ 631185 words of font info for 113 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  101i,12n,121p,1497b,751s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.xdv (48 pages, 641468 bytes).
+Output written on main.xdv (49 pages, 664360 bytes).

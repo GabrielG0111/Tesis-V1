@@ -1,18 +1,18 @@
 # Fdb version 4
-["bibtex main"] 1792758428.02268 "main.aux" "main.bbl" "main" 1792758430.91698 0
+["bibtex main"] 1793104133.70536 "main.aux" "main.bbl" "main" 1793104208.48191 0
   "./referencias.bib" 1792758253.35321 10247 eeeb3d7012aa9b9456a3ed3d0f108115 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "main.aux" 1792758429.67384 12602 bb5434dd5403dff08e6d03486b09771c "xelatex"
+  "main.aux" 1793104207.24687 12652 5445e272fd32f7a54afe6c78712ecea9 "xelatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["xdvipdfmx"] 1792758429.99023 "main.xdv" "main.pdf" "main" 1792758430.9184 0
-  "main.xdv" 1792758429.67601 641468 ef0667e5d7d596422a0056a7ea6c9c94 "xelatex"
+["xdvipdfmx"] 1793104207.56291 "main.xdv" "main.pdf" "main" 1793104208.48331 0
+  "main.xdv" 1793104207.25646 664360 57f7b035e66e188bf4af3ff50127e729 "xelatex"
   (generated)
   "main.pdf"
   (rewritten before read)
-["xelatex"] 1792758428.13296 "main.tex" "main.xdv" "main" 1792758430.91708 0
+["xelatex"] 1793104205.67627 "main.tex" "main.xdv" "main" 1793104208.48201 0
   "/etc/texmf/web2c/texmf.cnf" 1791895899.37798 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
@@ -82,6 +82,8 @@
   "/usr/share/texlive/texmf-dist/tex/latex/setspace/setspace.sty" 1670275497 22490 8cac309b79a4c53a4ffce4b1b07aead0 ""
   "/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty" 1736023606 48766 87a17a4ef312a39cd43896e34a679a56 ""
   "/usr/share/texlive/texmf-dist/tex/latex/tocloft/tocloft.sty" 1578692495 36103 3e78d14f0f4b1a30560fea5e04de805d ""
+  "/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty" 1761946296 15651 9d7c62df82cb29a555c00550babfe364 ""
+  "/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty" 1748806692 7243 a2c17f18e2c9b702b84fad03d5f9c78b ""
   "/usr/share/texlive/texmf-dist/tex/latex/unicode-math/unicode-math-table.tex" 1691956686 241443 1a7594ad34b6e3e9ee4c5855f2c3ee83 ""
   "/usr/share/texlive/texmf-dist/tex/latex/unicode-math/unicode-math-xetex.sty" 1691956686 131459 a23c98c9e5ecfc17568c7bc94fda1317 ""
   "/usr/share/texlive/texmf-dist/tex/latex/unicode-math/unicode-math.sty" 1691956686 1474 b42cfbe849cb22ed1c0632800327884f ""
@@ -90,7 +92,7 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1769369718 41603 27f93b3067076450172040dcd57ca8b3 ""
   "/var/lib/texmf/web2c/xetex/xelatex.fmt" 1791896363 5949444 53118c7166cdd1e63c17ac420bf104d9 ""
   "Anexos/01_Anexo.tex" 1788367700 614 5abc7163436d9ce61a9f4fbdafef7cd3 ""
-  "Capítulos/01_Introducción.tex" 1792758426.08865 39453 d33dbf089472218ab4ac6fcfeb67a3e6 ""
+  "Capítulos/01_Introducción.tex" 1793104205.57731 42635 4a5926c9bc72df0875f3ddd6bac241f9 ""
   "Capítulos/02_Metodología.tex" 1788367700 3843 dd7edda09c9ca65b9dd4a24f17b00309 ""
   "Capítulos/03_Implementación.tex" 1788367700 3619 db5760c611955cb275d1e249a589d505 ""
   "Capítulos/04_Conclusiones.tex" 1788367700 460 7e81553e7f1c16848513019b4933ae39 ""
@@ -109,16 +111,16 @@
   "Preliminares/07_Índices.tex" 1788374898 302 775983e04f3d667ee48413c7020d8a0b ""
   "Preliminares/08_Resumen.tex" 1788367700 449 b6df66f4c18ef3fc755152966da43f9b ""
   "Preliminares/09_Abstract.tex" 1788367700 364 4f76c355f6c9afd9e365e7be11d0035e ""
-  "main.aux" 1792758429.67384 12602 bb5434dd5403dff08e6d03486b09771c "xelatex"
-  "main.bbl" 1792758428.12975 7544 bbbc6277900bbb26709978fdc626bf88 "bibtex main"
-  "main.loa" 1792758429.67601 73 a5a0a57e861b8c1b9f28585b274f62db "xelatex"
-  "main.loe" 1792758429.67601 191 29996d245fa8430e2a06dfbeab8d97f1 "xelatex"
-  "main.lof" 1792758429.67601 281 9243e3c59c73bbd4644192f5c17116a1 "xelatex"
-  "main.loi" 1792758429.67601 409 1cdb12ab4456d351449f8dae8b799587 "xelatex"
-  "main.lot" 1792758429.67601 517 d033dcb5136a837a5551c21d41e6480c "xelatex"
-  "main.out" 1792758429.67501 9739 9b6518bc65285ab1bc4e21c23446349a "xelatex"
-  "main.tex" 1792673122.50286 6804 d4ca9a08fcbd17a6e1cf5240cabaf052 ""
-  "main.toc" 1792758429.67601 4732 ba495efad076d11485ec42f0985e303b "xelatex"
+  "main.aux" 1793104207.24687 12652 5445e272fd32f7a54afe6c78712ecea9 "xelatex"
+  "main.bbl" 1793104134.10241 7544 bbbc6277900bbb26709978fdc626bf88 "bibtex main"
+  "main.loa" 1793104207.25011 73 d943f89a33c1ffae7c0c9fae3038d313 "xelatex"
+  "main.loe" 1793104207.25011 191 685aec3be0095f4b2383cd34b155f314 "xelatex"
+  "main.lof" 1793104207.25011 281 4086bb100b988d5cbac4a243f888f609 "xelatex"
+  "main.loi" 1793104207.25011 409 118ff0fa9ee42c743e4e6ed5d934c9a6 "xelatex"
+  "main.lot" 1793104207.25011 542 27ad6a30ed9413eb23a91e62f15f156b "xelatex"
+  "main.out" 1793104207.24946 9739 9b6518bc65285ab1bc4e21c23446349a "xelatex"
+  "main.tex" 1793104159.08592 7191 8bd2a06d92c1797ed67a0aec79bde099 ""
+  "main.toc" 1793104207.25011 4732 393f915ddafefcd83cca8eb5b5400e2d "xelatex"
   "uti_tfm.sty" 1792674666.94175 26121 e396df5b306540b6ba8caf069f64c1a6 ""
   (generated)
   "main.aux"

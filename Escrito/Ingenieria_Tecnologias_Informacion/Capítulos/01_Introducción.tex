@@ -28,7 +28,7 @@ Con todo, los trabajos anteriores describen el uso de la red más que su calidad
 
 La calidad de una red inalámbrica no depende, sin embargo, únicamente de dónde se ubican los puntos de acceso, sino también de la generación tecnológica de estos y de los clientes que se les asocian. Liu y Choi \cite{liu2023wifi6} realizaron una de las primeras mediciones experimentales de equipos comerciales IEEE 802.11ax (Wi-Fi 6) en escenarios con múltiples clientes. Encontraron que, en coexistencia con redes de generaciones anteriores, Wi-Fi 6 triplica el rendimiento agregado y reduce la latencia en un factor de cinco, pero que la implementación vigente del acceso múltiple por división de frecuencias ortogonales (OFDMA) multiplica por seis el consumo de energía y que el mecanismo de negociación \textit{Target Wake Time} es vulnerable a diversos ataques. Para un diagnóstico, la consecuencia es inmediata: el inventario de activos debe registrar el estándar y la versión de \textit{firmware} de cada equipo, pues de ellos dependen tanto el desempeño alcanzable como la superficie de exposición.
 
-¿Son estas conclusiones, obtenidas en universidades de Estados Unidos, Canadá y Australia, válidas en el contexto latinoamericano? El trabajo de Cari Quispe \cite{cari2025altiplano} sugiere que sí. Al aplicar analítica de datos sobre los registros de la controladora inalámbrica de la Universidad Nacional del Altiplano, en Perú, el autor identificó picos de uso entre las 10:00 y las 14:00, comportamientos anómalos asociados a dispositivos recurrentes y debilidades en un mecanismo de acceso carente de autenticación individual y de trazabilidad. Su estudio confirma tanto la concentración horaria de la demanda propia de las redes universitarias como el valor diagnóstico de la información que la propia infraestructura ya produce.
+¿Son estas conclusiones, obtenidas en universidades de Estados Unidos, Canadá y Australia, válidas en el contexto latinoamericano? El trabajo de Cari Quispe \cite{cari2025altiplano} sugiere que sí. Al aplicar analítica de datos sobre los registros de la controladora inalámbrica de la Universidad Nacional del Altiplano, en Perú, el autor identificó picos de uso entre las 10:00 y las 14:00, comportamientos anómalos asociados a dispositivos recurrentes y debilidades en un mecanismo de acceso carente de autenticación individual y de trazabilidad, a partir de lo cual formuló recomendaciones para la gestión del ancho de banda y la autenticación. Su estudio confirma tanto la concentración horaria de la demanda propia de las redes universitarias como el valor diagnóstico de la información que la propia infraestructura ya produce.
 
 El contexto ecuatoriano ofrece, por su parte, el antecedente más próximo al presente trabajo. Moreno-Arteaga \textit{et al.} \cite{moreno2023sitesurvey} estudiaron la red inalámbrica de acceso libre del campus Lodana de la Universidad Técnica de Manabí, motivados expresamente por el peso de la conectividad en la evaluación institucional del CACES. Mediante estudios de sitio pasivos con la herramienta Acrylic Wi-Fi HeatMaps, y con umbrales de referencia de $-75$~dBm de intensidad de señal, 20~dB de relación señal-ruido y 200~ms de tiempo de ida y vuelta, identificaron un solapamiento evidente de canales y fuentes de interferencia que degradaban el servicio; propusieron luego dos diseños alternativos, evaluados por simulación en OPNET, uno de ellos con mecanismos de calidad de servicio. El trabajo valida, en una universidad del país, la pertinencia del estudio de sitio y de los umbrales explícitos; su alcance se limita, no obstante, a la banda de 2,4~GHz y a la red inalámbrica.
 
@@ -36,45 +36,74 @@ Queda por establecer en qué medida la concentración de la demanda degrada efec
 
 Por último, casi ninguno de los estudios citados examina la capa física, como si el cableado fuera un dato y no una variable. El trabajo de Ledesma Mera \cite{ledesma2018reestructuracion}, desarrollado también en el Ecuador, recuerda lo contrario. Al diagnosticar la red LAN de una unidad educativa de Guayaquil, la autora constató que el cableado incumplía las normas de cableado estructurado: los cables carecían de protección, existían fallas físicas, faltaban puntos de red y los dispositivos no estaban asegurados, todo lo cual se traducía en problemas de conectividad. El estudio ilustra así la relación directa entre el estado de la capa física y la calidad del servicio percibido, si bien su propósito es la reestructuración y no la construcción de una línea base de desempeño.
 
-La Tabla~\ref{tab:estado_arte} permite apreciar de un vistazo lo que el recorrido anterior ha puesto de manifiesto.
+La Tabla~\ref{tab:estado_arte} reúne lo que el recorrido anterior ha puesto de manifiesto. En ella, cada trabajo se contrasta con los criterios que, en correspondencia con los objetivos específicos de este proyecto, definen un diagnóstico integral: el medio de transmisión estudiado, la medición del desempeño, el estudio de sitio, el contraste con normas o umbrales de referencia y la formulación de una propuesta de mejora.
 
 \begin{table}[htbp]
   \centering
-  \caption{Comparación de los trabajos analizados frente al alcance del proyecto.}
+  \caption{Cobertura de los trabajos analizados frente a los criterios que definen el alcance del proyecto.}
   \label{tab:estado_arte}
   \footnotesize
-  \begin{tabular}{|l|c|c|c|c|}
+  \renewcommand{\arraystretch}{1.2}
+  \setlength{\tabcolsep}{4pt}
+  \newcommand{\girar}[1]{\rotatebox{90}{\textbf{#1}\hspace{6pt}}}
+  \newcommand{\contexto}[1]{\newline{\scriptsize\itshape #1}}
+  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}X|c|c|c|c|c|c|}
     \hline
-    \textbf{Trabajo} & \textbf{\shortstack{Red\\cableada}} & \textbf{\shortstack{Red\\inalámbrica}} & \textbf{\shortstack{Métricas de\\desempeño}} & \textbf{Normativa} \\
+    & & \multicolumn{2}{c|}{\textbf{Medio}} & \multicolumn{4}{c|}{\textbf{Alcance}} \\
+    \cline{3-8}
+    \textbf{Trabajo y contexto} & \textbf{Técnica principal}
+      & \girar{Cableado} & \girar{Inalámbrico}
+      & \girar{Desempeño} & \girar{Estudio de sitio} & \girar{Normas o umbrales} & \girar{Propuesta de mejora} \\
     \hline
-    Kotz y Essien \cite{kotz2005campus} & -- & \checkmark & Parcial & -- \\
+    Kotz y Essien \cite{kotz2005campus}\contexto{Dartmouth College, EE.\,UU.}
+      & Trazas de \textit{syslog}, SNMP y captura de tráfico durante once semanas
+      & \NoCumple & \Cumple & \Parcial & \NoCumple & \NoCumple & \NoCumple \\
     \hline
-    Henderson \textit{et al.} \cite{henderson2004changing} & -- & \checkmark & Parcial & -- \\
+    Henderson \textit{et al.} \cite{henderson2004changing}\contexto{Dartmouth College, EE.\,UU.}
+      & Trazas de \textit{syslog}, SNMP y captura de tráfico durante diecisiete semanas
+      & \NoCumple & \Cumple & \Parcial & \NoCumple & \NoCumple & \NoCumple \\
     \hline
-    Mahanti \textit{et al.} \cite{mahanti2007remote} & -- & \checkmark & Parcial & -- \\
+    Mahanti \textit{et al.} \cite{mahanti2007remote}\contexto{Universidad de Calgary, Canadá}
+      & Monitoreo pasivo en nueve zonas del campus durante seis semanas
+      & \NoCumple & \Cumple & \Parcial & \NoCumple & \NoCumple & \Parcial \\
     \hline
-    Easha \textit{et al.} \cite{easha2020campus} & -- & \checkmark & \checkmark & -- \\
+    Easha \textit{et al.} \cite{easha2020campus}\contexto{Universidad Macquarie, Australia}
+      & Estudio de sitio por radiofrecuencia, predicción de cobertura y análisis de datos de los puntos de acceso
+      & \NoCumple & \Cumple & \Cumple & \Cumple & \NoCumple & \Cumple \\
     \hline
-    Liu y Choi \cite{liu2023wifi6} & -- & \checkmark & \checkmark & -- \\
+    Liu y Choi \cite{liu2023wifi6}\contexto{Banco de pruebas}
+      & Mediciones con equipos comerciales IEEE 802.11ax y múltiples clientes
+      & \NoCumple & \Cumple & \Cumple & \NoCumple & \NoCumple & \NoCumple \\
     \hline
-    Cari Quispe \cite{cari2025altiplano} & -- & \checkmark & Parcial & -- \\
+    Cari Quispe \cite{cari2025altiplano}\contexto{U. Nacional del Altiplano, Perú}
+      & Analítica de los registros de la controladora inalámbrica
+      & \NoCumple & \Cumple & \Parcial & \NoCumple & \NoCumple & \Cumple \\
     \hline
-    Moreno-Arteaga \textit{et al.} \cite{moreno2023sitesurvey} & -- & \checkmark & Parcial & -- \\
+    Moreno-Arteaga \textit{et al.} \cite{moreno2023sitesurvey}\contexto{U. Técnica de Manabí, Ecuador}
+      & Estudio de sitio pasivo con Acrylic Wi-Fi HeatMaps y simulación de rediseños en OPNET
+      & \NoCumple & \Cumple & \Parcial & \Cumple & \Cumple & \Cumple \\
     \hline
-    Toledo y Ríos \cite{toledo2026densidad} & N/E & N/E & \checkmark & -- \\
+    Toledo y Ríos \cite{toledo2026densidad}\contexto{Laboratorio controlado}
+      & Wireshark e iperf3 bajo tres escenarios de densidad de dispositivos
+      & N/E & N/E & \Cumple & \NoCumple & \NoCumple & \NoCumple \\
     \hline
-    Ledesma Mera \cite{ledesma2018reestructuracion} & \checkmark & -- & -- & \checkmark \\
+    Ledesma Mera \cite{ledesma2018reestructuracion}\contexto{Unidad educativa, Guayaquil, Ecuador}
+      & Inspección del cableado frente a las normas de cableado estructurado
+      & \Cumple & \NoCumple & \NoCumple & \NoCumple & \Cumple & \Cumple \\
+    \hline\hline
+    \textbf{Presente proyecto}\contexto{UTI, Ecuador}
+      & Pruebas derivadas de las RFC 2544 y 6349, estudio de sitio pasivo y activo e inspección frente a ANSI/TIA e ISO/IEC
+      & \Cumple & \Cumple & \Cumple & \Cumple & \Cumple & \Cumple \\
     \hline
-    \textbf{Presente proyecto} & \checkmark & \checkmark & \checkmark & \checkmark \\
-    \hline
-  \end{tabular}
+  \end{tabularx}
+  \vspace{4pt}
   \raggedright
   \elaboradopor{Josué Gabriel Godoy Apolo}
-  \fuente{Elaboración propia}
-  \noindent\textit{Nota:} N/E indica que los autores no especifican el medio de transmisión evaluado.
+  \fuente{Elaboración propia con base en los trabajos citados}
+  \noindent\textit{Nota:} \Cumple{} aborda el criterio; \Parcial{} lo aborda de forma parcial (por ejemplo, caracteriza el uso o la señal sin medir la calidad de servicio); \NoCumple{} no lo aborda; N/E, los autores no especifican el medio de transmisión. \textit{Desempeño} designa la medición de latencia, \textit{jitter}, pérdida o rendimiento; \textit{normas o umbrales}, el contraste de los resultados con una norma técnica o con valores de referencia explícitos.
 \end{table}
 
-El balance es, pues, el de un conocimiento fragmentado. Por un lado, los estudios de campus se han concentrado en el comportamiento y la cobertura de la red inalámbrica; por otro, los trabajos sobre red cableada se orientan a la reestructuración física sin establecer métricas de desempeño de referencia. Entre ambos enfoques se abre un espacio que ninguno ocupa por completo, y es precisamente ahí donde se sitúa el presente proyecto: caracterizar de manera conjunta la red cableada e inalámbrica, medir su desempeño mediante procedimientos normalizados y contrastar los resultados con la normativa técnica aplicable, a fin de producir una línea base reproducible y un plan de mejora priorizado.
+La lectura de la tabla arroja un balance inequívoco: el conocimiento disponible es fragmentado. Ningún trabajo examina a la vez la red cableada y la inalámbrica, y solo dos, el de Moreno-Arteaga \textit{et al.} y el de Ledesma Mera, contrastan sus resultados con umbrales o normas, cada uno sobre un único medio. Por un lado, los estudios de campus se han concentrado en el comportamiento y la cobertura de la red inalámbrica; por otro, los trabajos sobre red cableada se orientan a la reestructuración física sin establecer métricas de desempeño de referencia. Entre ambos enfoques se abre un espacio que ninguno ocupa por completo, y es precisamente ahí donde se sitúa el presente proyecto: caracterizar de manera conjunta la red cableada e inalámbrica, medir su desempeño mediante procedimientos normalizados y contrastar los resultados con la normativa técnica aplicable, a fin de producir una línea base reproducible y un plan de mejora priorizado.
 
 \section{Planteamiento del Problema}
 
