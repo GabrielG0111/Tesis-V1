@@ -10,7 +10,7 @@
 \contentsline {section}{\numberline {1.6}Alcance del Proyecto}{29}{section.1.6}%
 \contentsline {section}{\numberline {1.7}Fundamentación Teórica}{31}{section.1.7}%
 \contentsline {subsection}{\numberline {1.7.1}Red de campus y modelo jerárquico}{31}{subsection.1.7.1}%
-\contentsline {subsection}{\numberline {1.7.2}Ciclo de vida de red PPDIOO}{32}{subsection.1.7.2}%
+\contentsline {subsection}{\numberline {1.7.2}Ciclo de vida de red PPDIOO}{31}{subsection.1.7.2}%
 \contentsline {subsection}{\numberline {1.7.3}Segmentación, direccionamiento y enrutamiento}{32}{subsection.1.7.3}%
 \contentsline {subsection}{\numberline {1.7.4}Tecnologías de acceso: IEEE 802.3 e IEEE 802.11}{34}{subsection.1.7.4}%
 \contentsline {subsection}{\numberline {1.7.5}Estudio de sitio inalámbrico}{34}{subsection.1.7.5}%

@@ -1,18 +1,18 @@
 # Fdb version 4
-["bibtex main"] 1793104133.70536 "main.aux" "main.bbl" "main" 1793108941.49326 0
+["bibtex main"] 1793123723.3042 "main.aux" "main.bbl" "main" 1793123727.43672 0
   "./referencias.bib" 1792758253.35321 10247 eeeb3d7012aa9b9456a3ed3d0f108115 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "main.aux" 1793108940.19405 15627 ae5b6db984ddc32ff06406211ee556c3 "xelatex"
+  "main.aux" 1793123726.09432 15627 d6614086e09af11a9a44dac62b3e3676 "xelatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["xdvipdfmx"] 1793108940.55787 "main.xdv" "main.pdf" "main" 1793108941.49585 0
-  "main.xdv" 1793108940.19879 902356 a68a40ae3a91b998c0ba7f19c18da3f5 "xelatex"
+["xdvipdfmx"] 1793123726.45377 "main.xdv" "main.pdf" "main" 1793123727.43924 0
+  "main.xdv" 1793123726.09826 902068 d0377680d6ede80d9bc9aee885951f5a "xelatex"
   (generated)
   "main.pdf"
   (rewritten before read)
-["xelatex"] 1793108937.55263 "main.tex" "main.xdv" "main" 1793108941.49337 0
+["xelatex"] 1793123723.41491 "main.tex" "main.xdv" "main" 1793123727.43682 0
   "/etc/texmf/web2c/texmf.cnf" 1791895899.37798 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
@@ -166,7 +166,7 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1769369718 41603 27f93b3067076450172040dcd57ca8b3 ""
   "/var/lib/texmf/web2c/xetex/xelatex.fmt" 1791896363 5949444 53118c7166cdd1e63c17ac420bf104d9 ""
   "Anexos/01_Anexo.tex" 1788367700 614 5abc7163436d9ce61a9f4fbdafef7cd3 ""
-  "Capítulos/01_Introducción.tex" 1793108862.47541 51979 2ca1d8f06272765def2063ace02535bb ""
+  "Capítulos/01_Introducción.tex" 1793123720.13401 51944 10e04e77456ec2f559906395313cd17a ""
   "Capítulos/02_Metodología.tex" 1788367700 3843 dd7edda09c9ca65b9dd4a24f17b00309 ""
   "Capítulos/03_Implementación.tex" 1788367700 3619 db5760c611955cb275d1e249a589d505 ""
   "Capítulos/04_Conclusiones.tex" 1788367700 460 7e81553e7f1c16848513019b4933ae39 ""
@@ -192,16 +192,16 @@
   "Preliminares/07_Índices.tex" 1788374898 302 775983e04f3d667ee48413c7020d8a0b ""
   "Preliminares/08_Resumen.tex" 1788367700 449 b6df66f4c18ef3fc755152966da43f9b ""
   "Preliminares/09_Abstract.tex" 1788367700 364 4f76c355f6c9afd9e365e7be11d0035e ""
-  "main.aux" 1793108940.19405 15627 ae5b6db984ddc32ff06406211ee556c3 "xelatex"
-  "main.bbl" 1793104134.10241 7544 bbbc6277900bbb26709978fdc626bf88 "bibtex main"
-  "main.loa" 1793108940.19705 73 aa68d3aa7cbf28edcd357c0df73bdaf6 "xelatex"
-  "main.loe" 1793108940.19705 191 dbd1f50989b651cb8195c61e666e6539 "xelatex"
-  "main.lof" 1793108940.19705 1332 ba902628d44210020b1da705c0c9caec "xelatex"
-  "main.loi" 1793108940.19705 411 8e9dcde54512a85cde51fdfea082cf64 "xelatex"
-  "main.lot" 1793108940.19705 698 fd55eea6ebfe0b6ddade79ad174564d7 "xelatex"
-  "main.out" 1793108940.19705 9741 7dc4e2ee41c01338dbc4420041e028ab "xelatex"
+  "main.aux" 1793123726.09432 15627 d6614086e09af11a9a44dac62b3e3676 "xelatex"
+  "main.bbl" 1793123723.41045 7544 bbbc6277900bbb26709978fdc626bf88 "bibtex main"
+  "main.loa" 1793123726.09732 73 aa68d3aa7cbf28edcd357c0df73bdaf6 "xelatex"
+  "main.loe" 1793123726.09732 191 dbd1f50989b651cb8195c61e666e6539 "xelatex"
+  "main.lof" 1793123726.09732 1332 ba902628d44210020b1da705c0c9caec "xelatex"
+  "main.loi" 1793123726.09732 411 8e9dcde54512a85cde51fdfea082cf64 "xelatex"
+  "main.lot" 1793123726.09732 698 fd55eea6ebfe0b6ddade79ad174564d7 "xelatex"
+  "main.out" 1793123726.09632 9741 7dc4e2ee41c01338dbc4420041e028ab "xelatex"
   "main.tex" 1793108703.28787 7677 effddb0d497d8b5cd1e30bb252da5d58 ""
-  "main.toc" 1793108940.19705 4734 558e5cdf9e8fcba33d31a2992bcb6bb2 "xelatex"
+  "main.toc" 1793123726.09732 4734 bd9958ca58bc7134d0731fa8d25794cd "xelatex"
   "uti_tfm.sty" 1792674666.94175 26121 e396df5b306540b6ba8caf069f64c1a6 ""
   (generated)
   "main.aux"
