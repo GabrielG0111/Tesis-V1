@@ -3,7 +3,7 @@
   fase/.style={caja, fill=white, font=\footnotesize, minimum width=2.9cm, minimum height=0.9cm},
   abordada/.style={fill=FigSuave, font=\footnotesize\bfseries}]
   \foreach \ang/\nombre/\estilo [count=\i] in {
-      90/Preparación/abordada, 30/Planificación/abordada, -30/Diseño/abordada,
+      90/Preparación/abordada, 30/Planificación/abordada, -30/Diseño/,
       -90/Implementación/, -150/Operación/, 150/Optimización/}{
     \node[fase, \estilo] (f\i) at ({3.9*cos(\ang)},{2.3*sin(\ang)}) {\nombre};
   }

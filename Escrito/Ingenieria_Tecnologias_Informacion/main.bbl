@@ -37,23 +37,6 @@ T.~Henderson, D.~Kotz, and I.~Abyzov, ``The changing usage of a mature
   calidad de las universidades y escuelas politécnicas,'' CACES, Quito,
   Ecuador, Resolución 141-SO-29-CACES-2023, 2023.
 
-\bibitem{mahanti2007remote}
-A.~Mahanti, C.~Williamson, and M.~Arlitt, ``Remote analysis of a distributed
-  {WLAN} using passive wireless-side measurement,'' \emph{Performance
-  Evaluation}, vol.~64, no. 9--12, pp. 909--932, 2007.
-
-\bibitem{easha2020campus}
-\BIBentryALTinterwordspacing
-F.~B.~K. Easha, R.~Abbas, and M.~Daley, ``Campus {Wi-Fi} coverage mapping and
-  analysis,'' arXiv:2004.01561, 2020. [Online]. Available:
-  \url{https://arxiv.org/abs/2004.01561}
-\BIBentrySTDinterwordspacing
-
-\bibitem{liu2023wifi6}
-R.~Liu and N.~Choi, ``A first look at {Wi-Fi} 6 in action: Throughput, latency,
-  energy efficiency, and security,'' \emph{Proc. ACM Meas. Anal. Comput.
-  Syst.}, vol.~7, no.~1, pp. 25:1--25:25, 2023.
-
 \bibitem{cari2025altiplano}
 \BIBentryALTinterwordspacing
 A.~B. Cari~Quispe, ``Aplicación de analítica de datos para la detección de
@@ -61,6 +44,33 @@ A.~B. Cari~Quispe, ``Aplicación de analítica de datos para la detección de
   universitario de la {Universidad Nacional del Altiplano},'' arXiv:2601.00798,
   2025. [Online]. Available: \url{https://arxiv.org/abs/2601.00798}
 \BIBentrySTDinterwordspacing
+
+\bibitem{sui2016wifiseer}
+K.~Sui, M.~Zhou, D.~Liu, M.~Ma, D.~Pei, Y.~Zhao, Z.~Li, and T.~Moscibroda,
+  ``Characterizing and improving {WiFi} latency in large-scale operational
+  networks,'' in \emph{Proc. 14th Annu. Int. Conf. Mobile Systems,
+  Applications, and Services (MobiSys)}, Singapore, 2016.
+
+\bibitem{pei2016weakest}
+C.~Pei, Y.~Zhao, G.~Chen, R.~Tang, Y.~Meng, M.~Ma, K.~Ling, and D.~Pei,
+  ``{WiFi} can be the weakest link of round trip network latency in the wild,''
+  in \emph{Proc. 35th Annu. IEEE Int. Conf. Computer Communications (INFOCOM)},
+  San Francisco, CA, USA, 2016.
+
+\bibitem{zhang2002flowrates}
+Y.~Zhang, L.~Breslau, V.~Paxson, and S.~Shenker, ``On the characteristics and
+  origins of {Internet} flow rates,'' in \emph{Proc. ACM SIGCOMM}, Pittsburgh,
+  PA, USA, 2002.
+
+\bibitem{sundaresan2013web}
+S.~Sundaresan, N.~Feamster, R.~Teixeira, and N.~Magharei, ``Measuring and
+  mitigating web performance bottlenecks in broadband access networks,'' in
+  \emph{Proc. Internet Measurement Conf. (IMC)}, Barcelona, Spain, 2013.
+
+\bibitem{luckie2010pmtud}
+M.~Luckie and B.~Stasiewicz, ``Measuring path {MTU} discovery behaviour,'' in
+  \emph{Proc. 10th ACM SIGCOMM Conf. Internet Measurement (IMC)}, Melbourne,
+  Australia, 2010, pp. 102--108.
 
 \bibitem{moreno2023sitesurvey}
 \BIBentryALTinterwordspacing
@@ -78,33 +88,27 @@ N.~Toledo~González and M.~S. Ríos~Gómez, ``Evaluación experimental del
   dispositivos,'' \emph{Ciencia y Educación}, vol.~7, no.~5, pp. 181--191,
   2026.
 
-\bibitem{ledesma2018reestructuracion}
-\BIBentryALTinterwordspacing
-D.~C. Ledesma~Mera, ``Reestructuración de la infraestructura de red {LAN}
-  basado en las normas de cableado estructurado, y la aplicación de políticas
-  de seguridad para el control de acceso mediante un servicio proxy {Linux} en
-  la {Unidad Educativa Hispanoamericano},'' Proyecto técnico de grado,
-  Universidad Politécnica Salesiana, Guayaquil, Ecuador, 2018. [Online].
-  Available: \url{https://dspace.ups.edu.ec/handle/123456789/17336}
-\BIBentrySTDinterwordspacing
+\bibitem{rfc6349}
+B.~Constantine, G.~Forget, R.~Geib, and R.~Schrage, ``Framework for {TCP}
+  throughput testing,'' IETF, RFC 6349, 2011.
 
 \bibitem{oppenheimer2011topdown}
 P.~Oppenheimer, \emph{Top-Down Network Design}, 3rd~ed.\hskip 1em plus 0.5em
   minus 0.4em\relax Indianapolis, IN, USA: Cisco Press, 2011.
 
-\bibitem{ieee8021q}
-{IEEE}, ``{IEEE} standard for local and metropolitan area networks--bridges and
-  bridged networks,'' IEEE, Standard 802.1Q-2022, 2022.
+\bibitem{rfc1213}
+K.~McCloghrie and M.~T. Rose, ``Management information base for network
+  management of {TCP/IP}-based internets: {MIB-II},'' IETF, RFC 1213, 1991.
 
-\bibitem{ieee8023}
-------, ``{IEEE} standard for {Ethernet},'' IEEE, Standard 802.3-2022, 2022.
+\bibitem{rfc7011}
+B.~Claise, B.~Trammell, and P.~Aitken, ``Specification of the {IP} flow
+  information export ({IPFIX}) protocol for the exchange of flow information,''
+  IETF, RFC 7011, 2013.
 
-\bibitem{ieee80211}
-------, ``{IEEE} standard for information technology--telecommunications and
-  information exchange between systems--local and metropolitan area
-  networks--specific requirements--part 11: Wireless {LAN} medium access
-  control ({MAC}) and physical layer ({PHY}) specifications,'' IEEE, Standard
-  802.11-2020, 2021.
+\bibitem{ituy1540}
+{ITU-T}, ``Internet protocol data communication service -- {IP} packet transfer
+  and availability performance parameters,'' International Telecommunication
+  Union, Geneva, Switzerland, Recommendation Y.1540, 2019.
 
 \bibitem{rfc7679}
 G.~Almes, S.~Kalidindi, M.~Zekauskas, and A.~Morton, ``A one-way delay metric
@@ -122,45 +126,83 @@ C.~Demichelis and P.~Chimento, ``{IP} packet delay variation metric for {IP}
 G.~Almes, S.~Kalidindi, M.~Zekauskas, and A.~Morton, ``A one-way loss metric
   for {IP} performance metrics ({IPPM}),'' IETF, RFC 7680, 2016.
 
-\bibitem{rfc2544}
-S.~Bradner and J.~McQuaid, ``Benchmarking methodology for network interconnect
-  devices,'' IETF, RFC 2544, 1999.
-
-\bibitem{rfc6349}
-B.~Constantine, G.~Forget, R.~Geib, and R.~Schrage, ``Framework for {TCP}
-  throughput testing,'' IETF, RFC 6349, 2011.
+\bibitem{rfc3550}
+H.~Schulzrinne, S.~Casner, R.~Frederick, and V.~Jacobson, ``{RTP}: A transport
+  protocol for real-time applications,'' IETF, RFC 3550, 2003.
 
 \bibitem{ituy1541}
 {ITU-T}, ``Network performance objectives for {IP}-based services,''
   International Telecommunication Union, Geneva, Switzerland, Recommendation
   Y.1541, 2011.
 
-\bibitem{rfc1213}
-K.~McCloghrie and M.~T. Rose, ``Management information base for network
-  management of {TCP/IP}-based internets: {MIB-II},'' IETF, RFC 1213, 1991.
+\bibitem{rfc9293}
+W.~Eddy, ``Transmission control protocol ({TCP}),'' IETF, RFC 9293, 2022.
 
-\bibitem{rfc7011}
-B.~Claise, B.~Trammell, and P.~Aitken, ``Specification of the {IP} flow
-  information export ({IPFIX}) protocol for the exchange of flow information,''
-  IETF, RFC 7011, 2013.
+\bibitem{rfc7323}
+D.~Borman, B.~Braden, V.~Jacobson, and R.~Scheffenegger, ``{TCP} extensions for
+  high performance,'' IETF, RFC 7323, 2014.
 
-\bibitem{tia568}
-{Telecommunications Industry Association}, ``Generic telecommunications cabling
-  for customer premises,'' TIA, Standard ANSI/TIA-568.0-E, 2020.
+\bibitem{rfc5681}
+M.~Allman, V.~Paxson, and E.~Blanton, ``{TCP} congestion control,'' IETF, RFC
+  5681, 2009.
 
-\bibitem{tia569}
-------, ``Telecommunications pathways and spaces,'' TIA, Standard
-  ANSI/TIA-569-E, 2019.
+\bibitem{rfc9438}
+L.~Xu, S.~Ha, I.~Rhee, V.~Goel, and L.~Eggert, ``{CUBIC} for fast and
+  long-distance networks,'' IETF, RFC 9438, 2023.
 
-\bibitem{iso11801}
-{ISO/IEC}, ``Information technology -- generic cabling for customer premises --
-  part 1: General requirements,'' International Organization for
-  Standardization, Standard ISO/IEC 11801-1:2017, 2017.
+\bibitem{mathis1997macroscopic}
+M.~Mathis, J.~Semke, J.~Mahdavi, and T.~Ott, ``The macroscopic behavior of the
+  {TCP} congestion avoidance algorithm,'' \emph{ACM SIGCOMM Computer
+  Communication Review}, vol.~27, no.~3, pp. 67--82, 1997.
 
-\bibitem{nsa2023netinfra}
-{National Security Agency}, ``Network infrastructure security guide,'' NSA
-  Cybersecurity Directorate, Fort Meade, MD, USA, Cybersecurity Technical
-  Report U/OO/118623-22, ver. 1.2, 2023.
+\bibitem{balakrishnan1997comparison}
+H.~Balakrishnan, V.~N. Padmanabhan, S.~Seshan, and R.~H. Katz, ``A comparison
+  of mechanisms for improving {TCP} performance over wireless links,''
+  \emph{IEEE/ACM Transactions on Networking}, vol.~5, no.~6, pp. 756--769,
+  1997.
+
+\bibitem{rfc2544}
+S.~Bradner and J.~McQuaid, ``Benchmarking methodology for network interconnect
+  devices,'' IETF, RFC 2544, 1999.
+
+\bibitem{rfc6815}
+S.~Bradner, K.~Dubray, J.~McQuaid, and A.~Morton, ``Applicability statement for
+  {RFC} 2544: Use on production networks considered harmful,'' IETF, RFC 6815,
+  2012.
+
+\bibitem{rfc1191}
+J.~Mogul and S.~Deering, ``Path {MTU} discovery,'' IETF, RFC 1191, 1990.
+
+\bibitem{rfc8201}
+J.~McCann, S.~Deering, J.~Mogul, and R.~Hinden, ``Path {MTU} discovery for {IP}
+  version 6,'' IETF, RFC 8201, 2017.
+
+\bibitem{rfc4821}
+M.~Mathis and J.~Heffner, ``Packetization layer path {MTU} discovery,'' IETF,
+  RFC 4821, 2007.
+
+\bibitem{rfc2131}
+R.~Droms, ``Dynamic host configuration protocol,'' IETF, RFC 2131, 1997.
+
+\bibitem{rfc1034}
+P.~Mockapetris, ``Domain names -- concepts and facilities,'' IETF, RFC 1034,
+  1987.
+
+\bibitem{rfc8446}
+E.~Rescorla, ``The transport layer security ({TLS}) protocol version 1.3,''
+  IETF, RFC 8446, 2018.
+
+\bibitem{ieee80211}
+{IEEE}, ``{IEEE} standard for information technology--telecommunications and
+  information exchange between systems--local and metropolitan area
+  networks--specific requirements--part 11: Wireless {LAN} medium access
+  control ({MAC}) and physical layer ({PHY}) specifications,'' IEEE, Standard
+  802.11-2020, 2021.
+
+\bibitem{hollander2014nonparametric}
+M.~Hollander, D.~A. Wolfe, and E.~Chicken, \emph{Nonparametric Statistical
+  Methods}, 3rd~ed.\hskip 1em plus 0.5em minus 0.4em\relax Hoboken, NJ, USA:
+  Wiley, 2014.
 
 \bibitem{nist80030}
 {Joint Task Force Transformation Initiative}, ``Guide for conducting risk

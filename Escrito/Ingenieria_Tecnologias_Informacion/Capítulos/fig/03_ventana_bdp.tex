@@ -1,0 +1,17 @@
+% Tasa de una conexión TCP según la ventana efectiva: límite de la ventana y límite de la ruta
+\begin{tikzpicture}[x=1cm, y=1cm, rot/.style={font=\scriptsize}]
+  % Ejes
+  \draw[-{Stealth[length=2mm]}, thick] (0,0) -- (10.4,0);
+  \node[rot, anchor=north east] at (10.4,-0.45) {Ventana efectiva $W$};
+  \draw[-{Stealth[length=2mm]}, thick] (0,0) -- (0,4.6) node[above, rot] {Tasa TCP $T$};
+  % Curva: crece con la ventana hasta el producto ancho de banda-retardo
+  \draw[FigAcento, very thick] (0,0) -- (5,3.5) -- (9.8,3.5);
+  \draw[densely dashed, gray!70!black] (5,0) node[below, rot] {$W = \mathrm{BDP} = \mathrm{BB} \times \mathrm{RTT}$} -- (5,3.5);
+  \draw[densely dashed, gray!70!black] (0,3.5) node[left, rot] {BB} -- (5,3.5);
+  % Regiones
+  \node[rot, align=center] at (1.7,2.9) {Limitada por la ventana\\$T = W/\mathrm{RTT}$};
+  \node[rot, align=center] at (7.4,4.05) {Limitada por la ruta\\$T = \mathrm{BB}$};
+  % Leyenda
+  \node[rot, anchor=north west, text width=10.4cm, align=left] at (0,-1.0)
+    {BB: ancho de banda del cuello de botella de la ruta; RTT: tiempo de ida y vuelta; BDP: producto ancho de banda-retardo.};
+\end{tikzpicture}

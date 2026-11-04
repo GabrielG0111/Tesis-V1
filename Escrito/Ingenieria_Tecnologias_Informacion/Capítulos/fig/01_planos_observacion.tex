@@ -1,0 +1,32 @@
+% Planos de observación de una red: gestión de la infraestructura frente a extremo cliente
+\begin{tikzpicture}[x=1cm, y=1cm,
+  nodo/.style={caja, minimum width=1.7cm, minimum height=0.95cm},
+  gestion/.style={-{Stealth[length=1.6mm]}, densely dashed, gray!70!black},
+  medida/.style={{Stealth[length=2mm]}-{Stealth[length=2mm]}, thick, FigAcento},
+  rot/.style={font=\scriptsize}]
+  % Ruta extremo a extremo
+  \node[nodo, fill=white, very thick] (cli) at (0,0) {Equipo\\cliente};
+  \node[nodo] (ap) at (2.35,0) {Punto de\\acceso};
+  \node[nodo] (campus) at (4.7,0) {Red de\\campus};
+  \node[nodo] (borde) at (7.05,0) {Borde y\\proveedor};
+  \node[nodo, ellipse, minimum width=1.9cm, inner sep=1pt] (inet) at (9.4,0) {Internet};
+  \node[nodo, fill=white] (srv) at (11.75,0) {Servidor de\\referencia};
+  \draw[FigAcento, thick, densely dotted] (cli) -- (ap);
+  \node[rot] at (1.175,0.65) {802.11};
+  \draw[FigAcento, thick] (ap) -- (campus) -- (borde) -- (inet) -- (srv);
+  % Plano de gestión: los equipos informan a una estación con credenciales
+  \node[caja, minimum width=3.2cm, minimum height=0.8cm] (gest) at (4.7,2.1) {Estación de gestión};
+  \draw[gestion] (ap.north) -- ($(gest.south)+(-1.1,0)$);
+  \draw[gestion] (campus.north) -- (gest.south);
+  \draw[gestion] (borde.north) -- ($(gest.south)+(1.1,0)$);
+  \node[rot, text=gray!70!black] at (7.4,1.35) {SNMP, IPFIX};
+  \node[rot, anchor=south west, text width=13.2cm, align=left] at (-0.85,2.6)
+    {\textbf{\textcolor{FigAcento}{Plano de gestión}} (requiere credenciales administrativas): contadores de interfaz y exportación de flujos de los equipos; describe la utilización de los enlaces y la composición agregada del tráfico.};
+  % Plano del extremo: el equipo del usuario mide hacia destinos internos y externos
+  \draw[medida] ($(cli.south)+(0.3,0)$) |- (4.7,-1.0) -- (campus.south);
+  \node[rot, above] at (2.5,-1.0) {Destinos institucionales};
+  \draw[medida] ($(cli.south)+(-0.3,0)$) |- (11.75,-1.6) -- (srv.south);
+  \node[rot, above] at (6.0,-1.6) {Destinos externos};
+  \node[rot, anchor=north west, text width=13.2cm, align=left] at (-0.85,-1.85)
+    {\textbf{\textcolor{FigAcento}{Plano del extremo}} (sin privilegios): medición activa y disección pasiva desde el equipo del usuario; cuantifica el servicio entregado en el punto de consumo.};
+\end{tikzpicture}

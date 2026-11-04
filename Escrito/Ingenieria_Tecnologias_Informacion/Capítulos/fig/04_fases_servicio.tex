@@ -1,0 +1,37 @@
+% Fases del establecimiento de un servicio web cifrado: DNS, TCP, TLS 1.3, primer byte y transferencia
+\begin{tikzpicture}[x=1cm, y=1.3cm,
+  msj/.style={-{Stealth[length=1.8mm]}, thick, FigAcento},
+  etq/.style={font=\scriptsize, fill=white, inner sep=1pt},
+  rot/.style={font=\scriptsize}]
+  % Participantes y líneas de vida
+  \foreach \x/\n/\t in {0/cli/Cliente, 4.5/dns/Resolutor DNS, 9.0/srv/Servidor}{
+    \node[caja, minimum width=2.0cm] (\n) at (\x,0.5) {\t};
+    \draw[gray!60, thick] (\x,0.2) -- (\x,-5.8);
+  }
+  % Resolución DNS
+  \draw[msj] (0,-0.3) -- node[etq] {Consulta} (4.5,-0.7);
+  \draw[msj] (4.5,-0.9) -- node[etq] {Respuesta} (0,-1.3);
+  % Conexión TCP
+  \draw[msj] (0,-1.6) -- node[etq, pos=0.25] {SYN} (9.0,-2.0);
+  \draw[msj] (9.0,-2.0) -- node[etq, pos=0.25] {SYN-ACK} (0,-2.4);
+  % Negociación TLS 1.3
+  \draw[msj] (0,-2.4) -- node[etq, pos=0.25] {ACK + ClientHello} (9.0,-2.8);
+  \draw[msj] (9.0,-2.8) -- node[etq, pos=0.25] {ServerHello \dots{} Finished} (0,-3.2);
+  % Solicitud y primer byte
+  \draw[msj] (0,-3.2) -- node[etq, pos=0.25] {Finished + solicitud HTTP} (9.0,-3.6);
+  \node[rot, anchor=east, text=gray!70!black] at (8.85,-3.8) {procesamiento};
+  \draw[msj] (9.0,-4.0) -- node[etq, pos=0.35] {Primer byte de la respuesta} (0,-4.4);
+  % Transferencia
+  \draw[msj] (9.0,-4.6) -- (0,-5.0);
+  \draw[msj] (9.0,-4.9) -- node[etq, pos=0.25] {Datos} (0,-5.3);
+  \draw[msj] (9.0,-5.2) -- (0,-5.6);
+  % Fases medidas en el cliente
+  \foreach \a/\b/\t in {-1.3/-0.3/Resolución DNS, -2.4/-1.6/Conexión TCP, -3.2/-2.4/Negociación TLS,
+      -4.4/-3.2/Espera del primer byte, -5.6/-4.4/Transferencia}{
+    \draw[decorate, decoration={brace, amplitude=4pt}] (-0.25,\a) -- (-0.25,\b)
+      node[midway, left=5pt, rot] {\t};
+  }
+  % Correspondencia con los tiempos de curl
+  \node[rot, anchor=north west, text width=12.4cm, align=left] at (-3.1,-6.0)
+    {curl registra el instante acumulado en que termina cada fase: \texttt{time\_namelookup}, \texttt{time\_connect}, \texttt{time\_appconnect}, \texttt{time\_starttransfer} y \texttt{time\_total}.};
+\end{tikzpicture}
