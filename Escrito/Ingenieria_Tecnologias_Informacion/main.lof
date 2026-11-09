@@ -1,14 +1,14 @@
 \babel@toc {spanish}{}\relax 
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1}{\ignorespaces Planos de observación de una red: plano de gestión y plano del extremo.}}{32}{figure.caption.2}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Retardo en un sentido, variación del retardo y pérdida de paquetes entre dos puntos de medición.}}{34}{figure.caption.3}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Tasa de una conexión TCP según la ventana efectiva y el producto ancho de banda-retardo.}}{37}{figure.caption.5}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Fases del establecimiento de un servicio web cifrado con TLS 1.3.}}{39}{figure.caption.6}%
-\contentsline {figure}{\numberline {5}{\ignorespaces Canales 1 a 11 de la banda de 2,4~GHz y canales sin solapamiento.}}{40}{figure.caption.7}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Ciclo de vida de red PPDIOO y fases en las que se desarrolla el presente trabajo.}}{42}{figure.caption.8}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Nivel de riesgo según la combinación de probabilidad e impacto.}}{43}{figure.caption.9}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Planos de observación de una red: plano de gestión y plano del extremo.}}{29}{figure.caption.2}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Retardo en un sentido, variación del retardo y pérdida de paquetes entre dos puntos de medición.}}{31}{figure.caption.3}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Tasa de una conexión TCP según la ventana efectiva y el producto ancho de banda-retardo.}}{33}{figure.caption.5}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Fases del establecimiento de un servicio web cifrado sobre TCP y TLS 1.3.}}{36}{figure.caption.6}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Canales 1 a 11 de la banda de 2,4~GHz y canales sin solapamiento.}}{37}{figure.caption.7}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Ciclo de vida de red PPDIOO y fases en las que se desarrolla el presente trabajo.}}{39}{figure.caption.8}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Nivel de riesgo según la combinación de probabilidad e impacto.}}{40}{figure.caption.9}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {8}{\ignorespaces Ejemplo de figura para presentar resultados o arquitectura implementada.}}{48}{figure.caption.12}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Ejemplo de figura para presentar resultados o arquitectura implementada.}}{45}{figure.caption.12}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

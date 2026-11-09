@@ -192,12 +192,28 @@ P.~Mockapetris, ``Domain names -- concepts and facilities,'' IETF, RFC 1034,
 E.~Rescorla, ``The transport layer security ({TLS}) protocol version 1.3,''
   IETF, RFC 8446, 2018.
 
+\bibitem{rfc9114}
+M.~Bishop, ``{HTTP/3},'' IETF, RFC 9114, 2022.
+
+\bibitem{rfc9000}
+J.~Iyengar and M.~Thomson, ``{QUIC}: A {UDP}-based multiplexed and secure
+  transport,'' IETF, RFC 9000, 2021.
+
+\bibitem{rfc9001}
+M.~Thomson and S.~Turner, ``Using {TLS} to secure {QUIC},'' IETF, RFC 9001,
+  2021.
+
 \bibitem{ieee80211}
 {IEEE}, ``{IEEE} standard for information technology--telecommunications and
   information exchange between systems--local and metropolitan area
   networks--specific requirements--part 11: Wireless {LAN} medium access
   control ({MAC}) and physical layer ({PHY}) specifications,'' IEEE, Standard
   802.11-2020, 2021.
+
+\bibitem{liu2023wifi6}
+R.~Liu and N.~Choi, ``A first look at {Wi-Fi} 6 in action: Throughput, latency,
+  energy efficiency, and security,'' \emph{Proc. ACM Meas. Anal. Comput.
+  Syst.}, vol.~7, no.~1, pp. 25:1--25:25, 2023.
 
 \bibitem{hollander2014nonparametric}
 M.~Hollander, D.~A. Wolfe, and E.~Chicken, \emph{Nonparametric Statistical

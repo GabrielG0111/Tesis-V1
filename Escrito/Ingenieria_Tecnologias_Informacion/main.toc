@@ -1,54 +1,54 @@
 \babel@toc {spanish}{}\relax 
 \contentsline {chapter}{\numberline {I}Introducción}{17}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Contextualización}{17}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Estado del Arte}{19}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Planteamiento del Problema}{24}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Justificación}{25}{section.1.4}%
-\contentsline {section}{\numberline {1.5}Objetivos}{27}{section.1.5}%
-\contentsline {subsection}{\numberline {1.5.1}Objetivo General}{27}{subsection.1.5.1}%
-\contentsline {subsection}{\numberline {1.5.2}Objetivos Específicos}{28}{subsection.1.5.2}%
-\contentsline {section}{\numberline {1.6}Alcance del Proyecto}{29}{section.1.6}%
-\contentsline {section}{\numberline {1.7}Fundamentación Teórica}{31}{section.1.7}%
-\contentsline {subsection}{\numberline {1.7.1}Planos de observación de una red}{31}{subsection.1.7.1}%
-\contentsline {subsection}{\numberline {1.7.2}Medición activa y disección pasiva}{32}{subsection.1.7.2}%
-\contentsline {subsection}{\numberline {1.7.3}Parámetros de transferencia de paquetes IP}{33}{subsection.1.7.3}%
-\contentsline {subsection}{\numberline {1.7.4}Objetivos de desempeño de la Recomendación ITU-T Y.1541}{34}{subsection.1.7.4}%
-\contentsline {subsection}{\numberline {1.7.5}El protocolo TCP y los factores que limitan su desempeño}{35}{subsection.1.7.5}%
-\contentsline {subsection}{\numberline {1.7.6}Metodología de la RFC 6349}{36}{subsection.1.7.6}%
-\contentsline {subsection}{\numberline {1.7.7}Unidad máxima de transmisión y su descubrimiento}{38}{subsection.1.7.7}%
-\contentsline {subsection}{\numberline {1.7.8}Fases del establecimiento de un servicio}{38}{subsection.1.7.8}%
-\contentsline {subsection}{\numberline {1.7.9}Acceso inalámbrico IEEE 802.11}{39}{subsection.1.7.9}%
-\contentsline {subsection}{\numberline {1.7.10}Línea base y tratamiento estadístico}{40}{subsection.1.7.10}%
-\contentsline {subsection}{\numberline {1.7.11}Ciclo de vida de red PPDIOO}{41}{subsection.1.7.11}%
-\contentsline {subsection}{\numberline {1.7.12}Clasificación de hallazgos y análisis de riesgo}{41}{subsection.1.7.12}%
-\contentsline {chapter}{\numberline {II}Metodología}{44}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Diagnóstico de la Situación Actual}{44}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Área de Estudio}{44}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Metodología de Desarrollo o Implementación}{45}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Técnicas e Instrumentos de Recolección de Información}{45}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Requerimientos del Proyecto}{45}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Requerimientos Funcionales}{45}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Requerimientos No Funcionales}{45}{subsection.2.5.2}%
-\contentsline {section}{\numberline {2.6}Diseño de la Solución}{45}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Justificación Técnica}{45}{section.2.7}%
-\contentsline {subsection}{\numberline {2.7.1}Ejemplo de Imagen 1}{46}{subsection.2.7.1}%
-\contentsline {subsection}{\numberline {2.7.2}Ejemplo de Ecuación 1}{46}{subsection.2.7.2}%
-\contentsline {chapter}{\numberline {III}Implementación, Pruebas y Resultados}{47}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Descripción de la Solución}{47}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Proceso de Implementación}{47}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Pruebas y Validación}{47}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Resultados}{47}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Ejemplo de Figura 2}{47}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Ejemplo de Tabla 2}{48}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Ejemplo de Imagen 2}{48}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}Ejemplo de Ecuación 2}{48}{subsection.3.4.4}%
-\contentsline {subsection}{\numberline {3.4.5}Ejemplos de Referencias Cruzadas}{49}{subsection.3.4.5}%
-\contentsline {section}{\numberline {3.5}Cronograma y Presupuesto}{49}{section.3.5}%
-\contentsline {chapter}{\numberline {IV}Conclusiones y Recomendaciones}{50}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Conclusiones}{50}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Recomendaciones}{50}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Trabajos Futuros}{50}{section.4.3}%
-\contentsline {chapter}{REFERENCIAS}{51}{section*.15}%
-\contentsline {chapter}{GLOSARIO}{57}{chapter*.17}%
+\contentsline {section}{\numberline {1.2}Estado del Arte}{18}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Planteamiento del Problema}{22}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Justificación}{23}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Objetivos}{25}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Objetivo General}{25}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Objetivos Específicos}{25}{subsection.1.5.2}%
+\contentsline {section}{\numberline {1.6}Alcance del Proyecto}{26}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Fundamentación Teórica}{28}{section.1.7}%
+\contentsline {subsection}{\numberline {1.7.1}Planos de observación de una red}{28}{subsection.1.7.1}%
+\contentsline {subsection}{\numberline {1.7.2}Medición activa y disección pasiva}{29}{subsection.1.7.2}%
+\contentsline {subsection}{\numberline {1.7.3}Parámetros de transferencia de paquetes IP}{30}{subsection.1.7.3}%
+\contentsline {subsection}{\numberline {1.7.4}Objetivos de desempeño de la Recomendación ITU-T Y.1541}{31}{subsection.1.7.4}%
+\contentsline {subsection}{\numberline {1.7.5}El protocolo TCP y los factores que limitan su desempeño}{32}{subsection.1.7.5}%
+\contentsline {subsection}{\numberline {1.7.6}Metodología de la RFC 6349}{33}{subsection.1.7.6}%
+\contentsline {subsection}{\numberline {1.7.7}Unidad máxima de transmisión y su descubrimiento}{34}{subsection.1.7.7}%
+\contentsline {subsection}{\numberline {1.7.8}Fases del establecimiento de un servicio}{35}{subsection.1.7.8}%
+\contentsline {subsection}{\numberline {1.7.9}Acceso inalámbrico IEEE 802.11}{37}{subsection.1.7.9}%
+\contentsline {subsection}{\numberline {1.7.10}Línea base y tratamiento estadístico}{38}{subsection.1.7.10}%
+\contentsline {subsection}{\numberline {1.7.11}Ciclo de vida de red PPDIOO}{39}{subsection.1.7.11}%
+\contentsline {subsection}{\numberline {1.7.12}Clasificación de hallazgos y análisis de riesgo}{39}{subsection.1.7.12}%
+\contentsline {chapter}{\numberline {II}Metodología}{41}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Diagnóstico de la Situación Actual}{41}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Área de Estudio}{41}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Metodología de Desarrollo o Implementación}{42}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Técnicas e Instrumentos de Recolección de Información}{42}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Requerimientos del Proyecto}{42}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Requerimientos Funcionales}{42}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Requerimientos No Funcionales}{42}{subsection.2.5.2}%
+\contentsline {section}{\numberline {2.6}Diseño de la Solución}{42}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Justificación Técnica}{42}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}Ejemplo de Imagen 1}{43}{subsection.2.7.1}%
+\contentsline {subsection}{\numberline {2.7.2}Ejemplo de Ecuación 1}{43}{subsection.2.7.2}%
+\contentsline {chapter}{\numberline {III}Implementación, Pruebas y Resultados}{44}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Descripción de la Solución}{44}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Proceso de Implementación}{44}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Pruebas y Validación}{44}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Resultados}{44}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Ejemplo de Figura 2}{44}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Ejemplo de Tabla 2}{45}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Ejemplo de Imagen 2}{45}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}Ejemplo de Ecuación 2}{45}{subsection.3.4.4}%
+\contentsline {subsection}{\numberline {3.4.5}Ejemplos de Referencias Cruzadas}{46}{subsection.3.4.5}%
+\contentsline {section}{\numberline {3.5}Cronograma y Presupuesto}{46}{section.3.5}%
+\contentsline {chapter}{\numberline {IV}Conclusiones y Recomendaciones}{47}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Conclusiones}{47}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Recomendaciones}{47}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Trabajos Futuros}{47}{section.4.3}%
+\contentsline {chapter}{REFERENCIAS}{48}{section*.15}%
+\contentsline {chapter}{GLOSARIO}{54}{chapter*.17}%
 \renewcommand {\cftchappresnum }{ANEXO~}
-\contentsline {chapter}{\numberline {A}Título del Anexo A}{58}{appendix.Alph1}%
+\contentsline {chapter}{\numberline {A}Título del Anexo A}{55}{appendix.Alph1}%
