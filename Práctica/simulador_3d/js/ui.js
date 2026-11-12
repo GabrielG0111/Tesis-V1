@@ -105,7 +105,7 @@ Power save: ${c.psm ? 'on' : 'off'}</pre></div>
   $('#ver-gestion').addEventListener('change', (e) => Escena.mostrarGestion(e.target.checked));
   document.querySelectorAll('#camaras button').forEach((b) => b.addEventListener('click', () => {
     document.querySelectorAll('#camaras button').forEach((x) => x.classList.toggle('activo', x === b));
-    if (Escena.anatomiaActiva) alternarAnatomia();
+    if (Escena.anatomiaActiva) alternarDespiece3D();
     Escena.camaraPreset(b.dataset.cam);
   }));
 
@@ -122,16 +122,51 @@ Power save: ${c.psm ? 'on' : 'off'}</pre></div>
       <tr><td>Interfaces</td><td>${info.ifaces || '—'}</td></tr>
       <tr><td>Visible en mtr</td><td>${info.salto ? 'Sí (salto IP)' : 'No'}</td></tr></table>`;
     $('#info-partes').innerHTML = g.userData.partes.map((p) => `<li${p.nombre === parteTocada ? ' style="background:#16324a"' : ''}><b>${p.nombre}.</b> ${p.desc}</li>`).join('');
-    $('#anatomia').disabled = g.userData.partes.length < 2;
-    $('#anatomia').textContent = 'Ver anatomía (vista explosionada)';
+    const figura = window.ANATOMIA && ANATOMIA.equipos[id];
+    $('#anatomia').disabled = !figura && g.userData.partes.length < 2;
+    $('#despiece3d').disabled = g.userData.partes.length < 2;
+    $('#despiece3d').textContent = 'Despiece 3D';
   };
-  function alternarAnatomia() {
+
+  /* ---------- anatomía: figura de la skill anatomy en una capa sobre la escena ---------- */
+  let figuraViva = null;
+  function datosVivos(fid) {
+    const c = condiciones(), w = Red.wifi(c);
+    const punto = { cerca: 'P1', medio: 'P2', lejos: 'P3' }[c.punto];
+    if (fid === 'portatil') return { wifi: `tarjeta Wi-Fi 2×2 · en ${punto} recibe ${w.rssi} dBm · MCS ${w.mcs} · ${w.phy} Mbit/s de PHY` };
+    if (fid === 'ap') return { radio5: `radio de 5 GHz · canal 36, 80 MHz · ocupación ${Math.round(w.util * 100)} % · reintentos ${Math.round(w.reint * 100)} %` };
+    return {};
+  }
+  function abrirAnatomia(id) {
+    const fid = window.ANATOMIA && ANATOMIA.equipos[id];
+    if (!fid) { alternarDespiece3D(); return; }
+    cerrarAnatomia();
+    const fig = ANATOMIA.figuras[fid];
+    $('#anatomia-figura').innerHTML = fig.html;
+    $('#capa-equipo').textContent = Escena.equipos[id].userData.nombre;
+    $('#capa-anatomia').hidden = false;
+    figuraViva = Anatomia.montar($('#anatomia-figura .an-fig'), fig.datos, { dice: datosVivos(fid), despiezado: true, esperaInicial: 0.8 });
+    $('#anatomia-figura .an-escenario').focus({ preventScroll: true });
+  }
+  function cerrarAnatomia() {
+    if (figuraViva) { figuraViva.destruir(); figuraViva = null; }
+    $('#capa-anatomia').hidden = true;
+    $('#anatomia-figura').innerHTML = '';
+  }
+  function alternarDespiece3D() {
     const activa = !Escena.anatomiaActiva;
     Escena.anatomiaVista(activa);
-    $('#anatomia').textContent = activa ? 'Cerrar anatomía' : 'Ver anatomía (vista explosionada)';
+    $('#despiece3d').textContent = activa ? 'Cerrar despiece' : 'Despiece 3D';
   }
-  $('#anatomia').addEventListener('click', alternarAnatomia);
-  window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && Escena.anatomiaActiva) alternarAnatomia(); });
+  $('#anatomia').addEventListener('click', () => abrirAnatomia(Escena.seleccionado));
+  $('#despiece3d').addEventListener('click', alternarDespiece3D);
+  $('#cerrar-anatomia').addEventListener('click', cerrarAnatomia);
+  $('#capa-anatomia').addEventListener('click', (e) => { if (e.target.id === 'capa-anatomia') cerrarAnatomia(); });
+  window.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (figuraViva) cerrarAnatomia();
+    else if (Escena.anatomiaActiva) alternarDespiece3D();
+  });
 
   salida.wifi(Red.wifi(condiciones()), condiciones());
   Escena.seleccionar('portatil');
@@ -142,6 +177,6 @@ Power save: ${c.psm ? 'on' : 'off'}</pre></div>
   [['psm', 'psm'], ['icmp', 'icmpfiltrado'], ['quic', 'quic']].forEach(([k, id]) => { if (q.get(k) === '1') $('#' + id).checked = true; });
   if (q.get('vel')) { $('#velocidad').value = q.get('vel'); Pruebas.velocidad = parseFloat(q.get('vel')); }
   if (q.get('cam')) Escena.camaraPreset(q.get('cam'));
-  if (q.get('equipo')) { Escena.seleccionar(q.get('equipo')); if (q.get('anatomia') === '1') setTimeout(alternarAnatomia, 300); }
+  if (q.get('equipo')) { Escena.seleccionar(q.get('equipo')); if (q.get('anatomia') === '1') setTimeout(() => abrirAnatomia(q.get('equipo')), 300); if (q.get('anatomia') === '3d') setTimeout(alternarDespiece3D, 300); }
   if (q.get('prueba')) { $('#escenario').value = q.get('prueba'); desc(); if (q.get('pestana')) setTimeout(() => pestana(q.get('pestana')), 100); Pruebas.ejecutar(q.get('prueba'), condiciones(), salida).then(() => { if (q.get('pestana')) pestana(q.get('pestana')); }); }
 })();

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Simulador 3D — Caracterización extremo a extremo</title>
   <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="css/anatomia.css">
   <script>
     /* Muestra en pantalla cualquier error de JavaScript, para diagnosticar sin abrir la consola. */
     window.addEventListener('error', (e) => {
@@ -104,7 +105,10 @@
       <h2 id="info-titulo">Seleccione un equipo</h2>
       <p id="info-rol" class="nota">Haga clic sobre cualquier equipo de la escena para ver su función en el proyecto, sus interfaces y su anatomía.</p>
       <div id="info-datos"></div>
-      <button id="anatomia" class="primario" disabled>Ver anatomía (vista explosionada)</button>
+      <div class="fila-botones">
+        <button id="anatomia" class="primario" disabled>Ver anatomía</button>
+        <button id="despiece3d" disabled title="Separa las piezas del modelo dentro de la escena 3D">Despiece 3D</button>
+      </div>
       <ol id="info-partes"></ol>
     </aside>
 
@@ -125,12 +129,24 @@
     <div id="estado"></div>
   </main>
 
+  <div id="capa-anatomia" class="iso" data-theme="light" hidden>
+    <div class="capa-marco" role="dialog" aria-modal="true" aria-label="Anatomía del equipo">
+      <div class="capa-cabecera">
+        <span id="capa-equipo"></span>
+        <button id="cerrar-anatomia" title="Cerrar (Esc)">Cerrar ✕</button>
+      </div>
+      <div id="anatomia-figura"></div>
+    </div>
+  </div>
+
   <script src="lib/three.min.js"></script>
   <script src="lib/OrbitControls.js"></script>
   <script src="js/modelos.js"></script>
   <script src="js/escena.js"></script>
   <script src="js/red.js"></script>
   <script src="js/pruebas.js"></script>
+  <script src="js/anatomia-datos.js"></script>
+  <script src="js/anatomia.js"></script>
   <script src="js/ui.js"></script>
 </body>
 </html>

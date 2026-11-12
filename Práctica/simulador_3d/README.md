@@ -36,13 +36,50 @@ El color de los cables indica el medio:
 
 ## Anatomía de los equipos
 
-Para ver la anatomía de un equipo:
+Las figuras de anatomía se hicieron con la skill **anatomy** (kit isométrico en SVG, licencia MIT, copiado en `anatomia/kit/`). Cada equipo es una figura con muchas piezas pequeñas y sombreado por caras. Al despiezarlo, sus conjuntos se separan con resortes escalonados y se reordenan por profundidad en cada cuadro.
 
-1. Haga clic sobre el equipo. El panel derecho muestra su función en el proyecto, su dirección IP, su capa, sus interfaces y si aparece como salto en mtr.
-2. Pulse **Ver anatomía**. Los equipos montados en rack salen del bastidor y se separan en sus partes, cada una con una etiqueta numerada que se describe en el panel. Por ejemplo, el portátil muestra su tarjeta Wi-Fi M.2 con antenas y el switch de acceso muestra su ASIC de conmutación.
-3. Pulse `Esc` para cerrar la vista.
+1. Haga clic sobre un equipo de la escena. El panel derecho muestra su función, su dirección IP, su capa y si aparece como salto en mtr.
+2. Pulse **Ver anatomía**. Se abre la figura del equipo en una tarjeta sobre la escena. Para recorrerla:
+   - Un clic o la barra espaciadora despiezan el equipo y lo vuelven a montar.
+   - El puntero, las flechas o los botones numerados de la leyenda eligen una pieza; la lectura de la esquina explica qué papel cumple en la medición.
+   - Si nadie interactúa, la figura hace sola un recorrido por las piezas.
+3. Pulse `Esc` o **Cerrar** para volver a la escena.
 
-Los modelos están hechos por código en `js/modelos.js`, con geometrías de Three.js. No están a escala: los equipos se agrandan para que se distingan.
+En el portátil y en el punto de acceso, la lectura de la tarjeta Wi-Fi y de la radio de 5 GHz se calcula con el mismo modelo de la sesión: potencia recibida, MCS, ocupación del canal y reintentos.
+
+El botón **Despiece 3D** mantiene la vista anterior, que separa las piezas del modelo dentro de la propia escena.
+
+| Figura | Equipo | Qué resalta |
+|---|---|---|
+| 1 | Portátil del estudiante | Tarjeta Wi-Fi M.2, cables de antena y adaptador USB-C a RJ45 |
+| 2 | Punto de acceso | Radio de 5 GHz bajo su blindaje, antenas y etapa PoE |
+| 3 | Roseta de pared | Keystone de la medición cableada y latiguillo |
+| 4 | Patch panel | Keystones con bloque IDC y cableado horizontal |
+| 5 y 8 | Switch de acceso y del laboratorio | ASIC de conmutación de capa 2 |
+| 6 | Switch de núcleo | ASIC de capa 3 (puerta de enlace) y módulo de CPU |
+| 7 y 13 | Servidores DNS y público | Tarjeta de red sobre elevador PCIe |
+| 9 y 10 | PC del laboratorio y estación de gestión | Tarjeta de red PCIe |
+| 11 | Cortafuegos de borde | Procesador de red (NAT y filtrado de ICMP) |
+| 12 | Enrutador del proveedor | Procesador de rutas frente a tarjetas de línea |
+| 14 | Teléfono de un tercero | Módulo Wi-Fi que comparte el canal |
+
+Las figuras se generan con Node.js (20.10 o superior) desde `anatomia/`:
+
+```
+node build.mjs                 # todas las figuras: escribe js/anatomia-datos.js y css/anatomia.css
+node build.mjs --solo switch   # una sola figura
+node build.mjs --audit         # auditoría geométrica de la skill
+```
+
+La auditoría comprueba, en reposo, despiezado y en cada cuadro de la animación, cinco cosas:
+
+- que ningún cable ni pieza atraviese a otra
+- que cada extremo de cable termine sobre un conector
+- que ninguna pieza flote sin apoyo
+- que nada quede dibujado delante de lo que lo tapa
+- que ninguna línea quede suelta
+
+Las 14 figuras la pasan. Los equipos no están a escala entre sí.
 
 ## Escenarios de prueba
 
@@ -89,17 +126,21 @@ index.html?equipo=swacc&anatomia=1
 index.html?prueba=mtu&icmp=1&vel=2
 ```
 
-Parámetros disponibles: `prueba`, `franja`, `punto`, `medio`, `destino`, `psm`, `icmp`, `quic`, `vel`, `cam`, `equipo`, `anatomia` y `pestana`.
+Parámetros disponibles: `prueba`, `franja`, `punto`, `medio`, `destino`, `psm`, `icmp`, `quic`, `vel`, `cam`, `equipo`, `anatomia` (`1` abre la figura, `3d` el despiece en la escena) y `pestana`.
 
 ## Archivos
 
 ```
 index.html        estructura de la página
 css/estilos.css   estilos
-js/modelos.js     modelos 3D de los equipos, construidos por partes (anatomía)
+js/modelos.js     modelos 3D de los equipos en la escena, construidos por partes
 js/escena.js      zonas, ubicación de equipos, cableado, selección y vista anatómica
 js/red.js         metadatos de cada equipo y modelo de retardo, pérdida y capacidad
 js/pruebas.js     escenarios animados y resultados con formato de cada herramienta
-js/ui.js          controles, panel de información y pestañas
+js/ui.js          controles, panel de información, pestañas y capa de anatomía
+js/anatomia.js    despiece, selección y lectura en vivo de las figuras de anatomía
+js/anatomia-datos.js  figuras generadas (no editar a mano)
+css/anatomia.css  estilos del kit anatomy y de las figuras (generado)
+anatomia/         fuente de las figuras: base.mjs, equipos/*.mjs, build.mjs y el kit de la skill
 lib/              Three.js r147 y OrbitControls
 ```
