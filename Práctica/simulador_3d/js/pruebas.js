@@ -71,6 +71,87 @@ const Pruebas = (() => {
     historial[clave] = { ...m, c: { ...c }, hora: new Date().toLocaleTimeString('es-EC') };
   }
 
+  /* ---------------- Medidas (sin animación) ----------------
+   * Las usan los escenarios animados y la campaña muestral: ambos salen del mismo modelo. */
+
+  /* fping: n sondas ICMP al destino; parámetros de Y.1540 calculados sobre el RTT. */
+  function medirICMP(c, n = 1000, intervalo = 60) {
+    const ruta = Red.nodos(c);
+    const muestras = []; let perdidas = 0;
+    for (let k = 0; k < n; k++) { const r = Red.muestraRTT(c, ruta, ruta.length - 1, { intervalo }); if (r === null) perdidas++; else muestras.push(r); }
+    const min = Math.min(...muestras);
+    const q999 = Red.percentil(muestras, 0.999);
+    return { muestras, perdidas, n, min, media: Red.media(muestras), mediana: Red.percentil(muestras, 0.5), p95: Red.percentil(muestras, 0.95),
+      q999, desv: Red.desv(muestras), ipdv: q999 - min, iplr: perdidas / n, volumenMB: n * 84 / 1e6 };
+  }
+
+  /* iperf3 TCP según la RFC 6349: MTU, RTT base, cuello de botella y flujo de 10 s con 2 s de arranque descartados. */
+  function medirTCP(c) {
+    const ruta = Red.nodos(c);
+    const rtts = []; for (let k = 0; k < 40; k++) { const r = Red.muestraRTT(c, ruta, ruta.length - 1, { intervalo: 200 }); if (r !== null) rtts.push(r); }
+    const rttBase = Math.min(...rtts);
+    const { mtu } = Red.mtuRuta(c.destino);
+    const mss = mtu - 52;
+    const { bb, limita } = Red.cuelloBotella(c);
+    const bufPct = (c.franja === 'alta' ? (c.destino === 'publico' ? 85 : 35) : 9) + (c.medio === 'wifi' && c.punto === 'lejos' ? 20 : 0) + Red.U(-3, 3);
+    const rttCarga = rttBase * (1 + bufPct / 100);
+    // pérdida aleatoria en el sentido de los datos (la congestión del enlace ya está en BB)
+    const p = Math.max(1e-6, (c.medio === 'wifi' ? Red.perdidaTramo(c, 'ap', 'portatil') : 0) + 0.00001);
+    const rwnd = 6 * 1048576;                               // ventana de recepción máxima: autoajuste de Linux (tcp_rmem)
+    const rttS = rttCarga / 1000;
+    const porVentana = rwnd * 8 / rttS / 1e6;
+    // respuesta de CUBIC (RFC 9438): ventana media 1,054·RTT^0,75/p^0,75 segmentos, nunca peor que Reno (Mathis)
+    const reno = (mss * 8 / rttS) * (1.22 / Math.sqrt(p)) / 1e6;
+    const cubic = 1.054 * Math.pow(rttS, 0.75) / Math.pow(p, 0.75) * mss * 8 / rttS / 1e6;
+    const mathis = Math.max(reno, cubic);
+    const ideal = bb * (mss / (mtu + 38));
+    const minimo = Math.min(ideal, porVentana, mathis);
+    const goodput = minimo * Red.U(0.92, 0.98);
+    const limitacion = minimo === ideal ? 'capacidad' : (minimo === porVentana ? 'rwnd' : 'cwnd');
+    const causa = limitacion === 'capacidad' ? limita : (limitacion === 'rwnd' ? 'ventana de recepción' : 'pérdida aleatoria (control de congestión CUBIC)');
+    const bdp = bb * 1e6 / 8 * rttBase / 1000;
+    const retx = Math.round(goodput * 1e6 / 8 / mss * 10 * p * 1.1 + (c.medio === 'wifi' ? Red.U(0, 4) : 0));
+    const enviados = Math.round(goodput * 1e6 / 8 * 10);
+    const eficiencia = 100 * (1 - retx * mss / Math.max(1, enviados));
+    const fueraOrden = c.medio === 'wifi' ? Math.round(retx * Red.U(0.1, 0.4)) : (Math.random() < 0.15 ? 1 : 0);
+    return { ruta, rtts, rttBase, mtu, mss, bb, limita, bufPct, rttCarga, p, rwnd, goodput, ideal, minimo, limitacion, causa, bdp,
+      retx, enviados, eficiencia, fueraOrden, dupAck: retx * 3 + fueraOrden, ventanaLlena: limitacion === 'rwnd' ? Math.round(Red.U(20, 80)) : 0,
+      enVuelo: goodput * 1e6 / 8 * rttS, omitido: 2, duracion: 10, volumenMB: goodput * 10 / 8 };
+  }
+
+  /* iperf3 UDP a 5 Mbit/s durante 60 s: variación suavizada (RFC 3550), pérdida y datagramas fuera de orden. */
+  function medirUDP(c) {
+    const ruta = Red.nodos(c);
+    let J = 0, prev = null, perdidos = 0; const N = 5000;
+    for (let k = 0; k < N; k++) {
+      let d = 0, perdido = false;
+      for (let i = 0; i < ruta.length - 1; i++) { if (Math.random() < Red.perdidaTramo(c, ruta[i], ruta[i + 1])) perdido = true; d += Red.retardoTramo(c, ruta[i], ruta[i + 1], 'subida', { intervalo: 2 }); }
+      if (perdido) { perdidos++; continue; }
+      if (prev !== null) J += (Math.abs(d - prev) - J) / 16;
+      prev = d;
+    }
+    const fueraOrden = c.medio === 'wifi' ? Math.round(N * Red.wifi(c).reint * Red.U(0.002, 0.006)) : 0;
+    return { jitter: J, perdUdp: perdidos / N, fueraOrden, datagramas: N, volumenMB: 5 * 60 / 8 };
+  }
+
+  /* dig + curl: tiempos por fase de la carga de un servicio institucional o externo. */
+  function medirFases(c) {
+    const ruta = Red.nodos(c);
+    const rutaDNS = Red.nodos(c, 'dns');
+    const rttDNS = Red.muestraRTT(c, rutaDNS, rutaDNS.length - 1) ?? 5;
+    const rtt = () => Red.muestraRTT(c, ruta, ruta.length - 1, { intervalo: 5 }) ?? 80;
+    const fallo = Math.random() < (c.franja === 'alta' ? 0.35 : 0.2);
+    const dns = rttDNS + 0.2 + (fallo ? Red.U(25, 70) : 0);
+    const rConn = rtt(), rTls = rtt(), rReq = rtt();
+    const proc = Red.U(12, 45);
+    const { bb } = Red.cuelloBotella(c);
+    const tam = 1.6;                                                    // MB transferidos
+    const rondas = Math.ceil(Math.log2(tam * 1e6 / (10 * 1448)));
+    const transf = rondas * rReq * 0.6 + tam * 8 / (bb * 0.85) * 1000;
+    const tt = c.quic ? { dns, conn: 0, tls: Math.max(rConn, rTls) + 2, ttfb: rReq + proc, transf } : { dns, conn: rConn, tls: rTls + 1.5, ttfb: rReq + proc, transf };
+    return { ...tt, fallo, tam, total: tt.dns + tt.conn + tt.tls + tt.ttfb + tt.transf, host: c.destino === 'interno' ? 'web.lab.ies.edu.ec' : 'www.example.org', volumenMB: tam };
+  }
+
   /* ---------------- Escenarios ---------------- */
 
   async function mtr(c, s, t) {
@@ -105,6 +186,8 @@ const Pruebas = (() => {
     const falsa = filas.find((r) => r.id === 'ispcore' && r.loss > 0);
     if (falsa && dst.loss === 0) html += `<p class="nota">El salto ${falsa.n} muestra ${f(falsa.loss)} % de «pérdida», pero el destino no pierde nada: el enrutador limita sus respuestas ICMP. No es pérdida real.</p>`;
     if (c.psm && c.medio === 'wifi') html += '<p class="nota">El ahorro de energía está activo: las respuestas esperan la baliza del punto de acceso y el RTT se infla hasta en 102,4 ms desde el primer salto.</p>';
+    const nIda = filas.filter((r) => !r.l2).length;
+    html += `<p class="nota"><b>Simetría de la ruta:</b> ${nIda} saltos IP de ida; la respuesta del destino llega con TTL ${64 - nIda} (TTL inicial 64), es decir, ${nIda} saltos de vuelta. Coinciden en número de saltos; si no coincidieran, la vuelta seguiría otro camino y el RTT no podría repartirse por mitades entre ida y vuelta.</p>`;
     s.resultados(html);
     pantalla([`$ mtr -n -r -c 30 ${IP[destino]}`, ...filas.filter((r) => !r.l2).map((r) => `${String(r.n).padStart(2)}. ${r.ip.padEnd(14)} ${f(r.loss).padStart(5)}% ${f(r.avg).padStart(6)} ms`)]);
     registrar(c, { prueba: 'mtr', rttMedia: dst.avg, ipdv: Red.percentil(dst.muestras, 0.999) - dst.best, iplr: dst.loss / 100, n: 30 });
@@ -113,32 +196,10 @@ const Pruebas = (() => {
   }
 
   async function tcp(c, s, t) {
-    const ruta = Red.nodos(c), dst = ruta[ruta.length - 1];
-    const rtts = []; for (let k = 0; k < 40; k++) { const r = Red.muestraRTT(c, ruta, ruta.length - 1, { intervalo: 200 }); if (r !== null) rtts.push(r); }
-    const rttBase = Math.min(...rtts);
-    const { mtu } = Red.mtuRuta(c.destino);
-    const mss = mtu - 52;
-    const { bb, limita } = Red.cuelloBotella(c);
-    const bufPct = (c.franja === 'alta' ? (c.destino === 'publico' ? 85 : 35) : 9) + (c.medio === 'wifi' && c.punto === 'lejos' ? 20 : 0) + Red.U(-3, 3);
-    const rttCarga = rttBase * (1 + bufPct / 100);
-    // pérdida aleatoria en el sentido de los datos (la congestión del enlace ya está en BB)
-    const p = Math.max(1e-6, (c.medio === 'wifi' ? Red.perdidaTramo(c, 'ap', 'portatil') : 0) + 0.00001);
-    const ventanaMax = 6 * 1048576;
-    const rttS = rttCarga / 1000;
-    const porVentana = ventanaMax * 8 / rttS / 1e6;
-    // respuesta de CUBIC (RFC 9438): ventana media 1,054·RTT^0,75/p^0,75 segmentos, nunca peor que Reno (Mathis)
-    const reno = (mss * 8 / rttS) * (1.22 / Math.sqrt(p)) / 1e6;
-    const cubic = 1.054 * Math.pow(rttS, 0.75) / Math.pow(p, 0.75) * mss * 8 / rttS / 1e6;
-    const mathis = Math.max(reno, cubic);
-    const ideal = bb * (mss / (mtu + 38));
-    const goodput = Math.min(ideal, porVentana, mathis) * Red.U(0.92, 0.98);
-    const minimo = Math.min(ideal, porVentana, mathis);
-    const causa = minimo === ideal ? limita : (minimo === porVentana ? 'ventana de recepción' : 'pérdida aleatoria (control de congestión CUBIC)');
-    const bdp = bb * 1e6 / 8 * rttBase / 1000;
-    const retx = Math.round(goodput * 1e6 / 8 / mss * 10 * p * 1.1 + (c.medio === 'wifi' ? Red.U(0, 4) : 0));
-    const enviados = Math.round(goodput * 1e6 / 8 * 10);
-    const eficiencia = 100 * (1 - retx * mss / Math.max(1, enviados));
-    pantalla([`$ tracepath -n ${IP[dst]}   # paso 1: MTU`, `pmtu ${mtu}`, `$ ping -c 40 ${IP[dst]}   # paso 2: RTT base`, `rtt min ${f(rttBase, 2)} ms`, `$ iperf3 -c ${IP[dst]} -R -t 10 -O 2`]);
+    const m = medirTCP(c);
+    const { ruta, rtts, rttBase, mtu, mss, bb, limita, bufPct, rttCarga, goodput, ideal, causa, bdp, retx, eficiencia } = m;
+    const dst = ruta[ruta.length - 1];
+    pantalla([`$ tracepath -n ${IP[dst]}   # paso 1: MTU`, `pmtu ${mtu}`, `$ ping -c 40 ${IP[dst]}   # paso 2: RTT base`, `rtt min ${f(rttBase, 2)} ms`, `$ iperf3 -c ${IP[dst]} -R -t 10 -O 2 -J > tcp.json`]);
 
     s.estado('RFC 6349 · paso 3: flujo TCP (descarga)');
     await enviar(ruta, { texto: 'SYN' }); comprobar(t);
@@ -170,13 +231,18 @@ const Pruebas = (() => {
       <tr><td>TCP Transfer Time Ratio</td><td class="num">${f(ttr, 2)}</td><td><span class="insignia aviso">Depende de BB</span></td></tr>
       <tr><td>Eficiencia TCP</td><td class="num">${f(eficiencia, 2)} %</td><td><span class="insignia ok">Medible</span> (Retr y captura)</td></tr>
       <tr><td>Retardo por búfer</td><td class="num">${f(bufPct, 0)} %</td><td><span class="insignia ok">Medible</span> RTT con carga ${f(rttCarga, 1)} ms</td></tr>
-    </table></div></div>`);
-    registrar(c, { prueba: 'iperf3 TCP', rttMedia: Red.media(rtts), goodput, n: rtts.length, ipdv: null, iplr: null });
+      <tr><td>Ventana de recepción máxima (rwnd)</td><td class="num">${f(m.rwnd / 1024, 0)} KiB</td><td>autoajuste de Linux (<code>tcp_rmem</code>); ${m.rwnd >= bdp ? 'cubre el BDP' : '<span class="insignia mal">menor que el BDP</span>'}</td></tr>
+      <tr><td>Fase de arranque descartada</td><td class="num">${m.omitido} s</td><td><code>-O ${m.omitido}</code>: el arranque lento no entra en el promedio</td></tr>
+      <tr><td>Volumen inyectado</td><td class="num">${f(m.volumenMB, 1)} MB</td><td>sesión acotada a ${m.duracion} s</td></tr>
+      ${c.medio === 'wifi' ? `<tr><td>Goodput / tasa nominal 802.11ac</td><td class="num">${f(goodput / Red.wifi(c).phy * 100, 0)} %</td><td>nominal ${f(Red.wifi(c).phy, 1)} Mbit/s</td></tr>` : ''}
+    </table><p class="nota">iperf3 guarda la sesión completa en JSON (<code>-J</code>): intervalos, retransmisiones y ventana de congestión del emisor.</p></div></div>`);
+    registrar(c, { prueba: 'iperf3 TCP', rttMedia: Red.media(rtts), goodput, n: rtts.length, ipdv: null, iplr: null, volumenMB: m.volumenMB });
     s.captura([
       ['TCP', IP.portatil, IP[dst], `52814 → 5201 [SYN] Win=64240 MSS=1460 WS=128`],
       ['TCP', IP[dst], IP.portatil, `5201 → 52814 [SYN, ACK] MSS=${mss + 12}`],
       ['TCP', IP[dst], IP.portatil, `5201 → 52814 [ACK] Len=${mss}`],
       ...(retx > 0 ? [['TCP', IP.portatil, IP[dst], '[TCP Dup ACK 412#1] 52814 → 5201 [ACK]'], ['TCP', IP.portatil, IP[dst], '[TCP Dup ACK 412#2]'], ['TCP', IP.portatil, IP[dst], '[TCP Dup ACK 412#3]'], ['TCP', IP[dst], IP.portatil, '[TCP Fast Retransmission] 5201 → 52814']] : []),
+      ...(m.fueraOrden > 0 ? [['TCP', IP[dst], IP.portatil, '[TCP Out-Of-Order] 5201 → 52814 [ACK] Len=' + mss]] : []),
       ...(causa.startsWith('ventana') ? [['TCP', IP[dst], IP.portatil, '[TCP Window Full] 5201 → 52814']] : []),
     ]);
   }
@@ -191,31 +257,25 @@ const Pruebas = (() => {
       await pausa(140, t);
     }
     await Promise.all(vis); comprobar(t);
-    const muestras = []; let perdidas = 0;
-    for (let k = 0; k < 1000; k++) { const r = Red.muestraRTT(c, ruta, ruta.length - 1, { intervalo: 60 }); if (r === null) perdidas++; else muestras.push(r); }
-    const min = Math.min(...muestras), q999 = Red.percentil(muestras, 0.999);
-    // iperf3: variación suavizada (RFC 3550) sobre tiempos de tránsito en un sentido
-    let J = 0, prev = null, perdUdp = 0; const N = 5000;
-    for (let k = 0; k < N; k++) {
-      let d = 0, perdido = false;
-      for (let i = 0; i < ruta.length - 1; i++) { if (Math.random() < Red.perdidaTramo(c, ruta[i], ruta[i + 1])) perdido = true; d += Red.retardoTramo(c, ruta[i], ruta[i + 1], 'subida', { intervalo: 2 }); }
-      if (perdido) { perdUdp++; continue; }
-      if (prev !== null) J += (Math.abs(d - prev) - J) / 16;
-      prev = d;
-    }
-    const m = { prueba: 'fping + iperf3 UDP', rttMedia: Red.media(muestras), ipdv: q999 - min, iplr: perdidas / 1000, n: 1000 };
+    const icmp = medirICMP(c, 1000, 60), u = medirUDP(c);
+    const { muestras, perdidas, min } = icmp;
+    const J = u.jitter;
+    const m = { prueba: 'fping + iperf3 UDP', rttMedia: icmp.media, ipdv: icmp.ipdv, iplr: icmp.iplr, n: 1000, volumenMB: icmp.volumenMB + u.volumenMB };
     registrar(c, m);
     const pct = [0.5, 0.9, 0.99, 0.999].map((q) => Red.percentil(muestras, q));
     const maxBar = Math.max(...pct);
     const barras = pct.map((v, i) => `<div style="display:flex;align-items:center;gap:6px;margin:2px 0"><span style="width:52px">${['p50', 'p90', 'p99', 'p99,9'][i]}</span><span style="height:12px;background:#3fa9f5;width:${Math.max(2, v / maxBar * 220)}px"></span><span>${f(v, 1)} ms</span></div>`).join('');
     s.resultados(`<div class="columnas"><div><table>
-      <tr><th>Parámetro (fping, n = 1000)</th><th class="num">Valor</th></tr>
-      <tr><td>RTT mínimo / medio</td><td class="num">${f(min, 2)} / ${f(m.rttMedia, 2)} ms</td></tr>
-      <tr><td>IPDV Y.1541 = q(1−10⁻³) − mín. (sobre RTT)</td><td class="num">${f(m.ipdv, 2)} ms</td></tr>
-      <tr><td>Pérdida ida y vuelta (IPLR)</td><td class="num">${perdidas} / 1000 = ${f(m.iplr * 100, 2)} %</td></tr>
-      <tr><td>Jitter iperf3 (RFC 3550, suavizado)</td><td class="num">${f(J, 3)} ms</td></tr>
-      <tr><td>Pérdida UDP iperf3 (un sentido)</td><td class="num">${f(perdUdp / N * 100, 3)} %</td></tr>
-      </table><p class="nota">El jitter de iperf3 y la IPDV de Y.1541 miden cosas distintas: solo la segunda se compara con la tabla de clases.</p></div>
+      <tr><th>Parámetro de Y.1540 (fping, n = 1000)</th><th class="num">Valor</th></tr>
+      <tr><td>IPTD: RTT mínimo / medio / mediana</td><td class="num">${f(min, 2)} / ${f(m.rttMedia, 2)} / ${f(icmp.mediana, 2)} ms</td></tr>
+      <tr><td>IPDV = q(1−10⁻³) − mínimo (sobre RTT)</td><td class="num">${f(m.ipdv, 2)} ms</td></tr>
+      <tr><td>IPLR: pérdida de ida y vuelta</td><td class="num">${perdidas} / 1000 = ${f(m.iplr * 100, 2)} %</td></tr>
+      <tr><th>iperf3 UDP (5 Mbit/s, 60 s)</th><th class="num"></th></tr>
+      <tr><td>Jitter (RFC 3550, suavizado)</td><td class="num">${f(J, 3)} ms</td></tr>
+      <tr><td>Pérdida UDP (un sentido)</td><td class="num">${f(u.perdUdp * 100, 3)} %</td></tr>
+      <tr><td>Datagramas fuera de orden (reordenamiento)</td><td class="num">${u.fueraOrden} de ${u.datagramas}</td></tr>
+      <tr><td>Volumen inyectado</td><td class="num">${f(m.volumenMB, 1)} MB</td></tr>
+      </table><p class="nota">El jitter de iperf3 y la IPDV de Y.1540 miden cosas distintas: solo la segunda se compara con los objetivos de Y.1541.</p></div>
       <div><b>Distribución del RTT (cola larga)</b>${barras}</div></div>`);
     s.y1541();
     s.captura([['ICMP', IP.portatil, IP[dst], 'Echo (ping) request id=0x2a1f, seq=1/256'], ['ICMP', IP[dst], IP.portatil, 'Echo (ping) reply seq=1/256'],
@@ -259,6 +319,13 @@ const Pruebas = (() => {
       n++;
     }
     lineas.push(`     Resume: pmtu ${info.mtu} hops ${saltos.length} back ${saltos.length}`);
+    // Verificación con ping y bit DF: 1472 + 28 = 1500 bytes; 1464 + 28 = 1492 bytes.
+    const df = [`$ ping -M do -s 1472 -c 3 ${IP[dst]}`];
+    if (!info.donde) df.push('3 packets transmitted, 3 received, 0% packet loss');
+    else if (c.icmpFiltrado) df.push('3 packets transmitted, 0 received, 100% packet loss   <- sin aviso: agujero negro');
+    else df.push(`From ${IP.pe} icmp_seq=1 Frag needed and DF set (mtu = 1492)`, '3 packets transmitted, 0 received, +3 errors');
+    df.push(`$ ping -M do -s ${info.mtu - 28} -c 3 ${IP[dst]}`, '3 packets transmitted, 3 received, 0% packet loss');
+    lineas.push('', ...df);
     pantalla(lineas);
     s.resultados(`<div class="columnas"><pre>${lineas.join('\n')}</pre><div>
       <p><b>MTU efectiva:</b> ${info.mtu} bytes${info.donde ? ` (${info.motivo})` : ' (Ethernet en toda la ruta)'}.</p>
@@ -271,11 +338,9 @@ const Pruebas = (() => {
   async function fases(c, s, t) {
     const ruta = Red.nodos(c), dst = ruta[ruta.length - 1];
     const rutaDNS = Red.nodos(c, 'dns');
-    const rttDNS = Red.muestraRTT(c, rutaDNS, rutaDNS.length - 1) ?? 5;
-    const rtt = () => Red.muestraRTT(c, ruta, ruta.length - 1, { intervalo: 5 }) ?? 80;
-    const fallo = Math.random() < (c.franja === 'alta' ? 0.35 : 0.2);
-    const tDNS = rttDNS + 0.2 + (fallo ? Red.U(25, 70) : 0);
-    const host = c.destino === 'interno' ? 'web.lab.ies.edu.ec' : 'www.example.org';
+    const m = medirFases(c);
+    const { fallo, host, tam } = m;
+    const tDNS = m.dns;
     pantalla([`$ dig ${host} @${IP.dns}`, `;; Query time: ${Math.round(tDNS)} msec`, `$ curl --http2 -o /dev/null -s -w '...' https://${host}/`]);
     s.estado('Fase 1: resolución DNS');
     await enviar(rutaDNS, { texto: 'DNS consulta' });
@@ -285,23 +350,17 @@ const Pruebas = (() => {
       await enviar(sal, { color: VIOLETA }); await enviar([...sal].reverse(), { color: VIOLETA });
     }
     await enviar([...rutaDNS].reverse(), { color: AZUL, texto: 'DNS respuesta' }); comprobar(t);
-    const rConn = rtt(), rTls = rtt(), rReq = rtt();
-    const proc = Red.U(12, 45);
-    const { bb } = Red.cuelloBotella(c);
-    const tam = 1.6;                                                        // MB transferidos
-    const rondas = Math.ceil(Math.log2(tam * 1e6 / (10 * 1448)));
-    const tTransf = Math.min(rondas * rReq, rondas * rReq * 0.6) + tam * 8 / (bb * 0.85) * 1000;
     let tt;
     if (c.quic) {
       s.estado('QUIC: conexión y TLS 1.3 en un solo RTT (UDP 443)');
       await enviar(ruta, { texto: 'QUIC Initial (ClientHello)' }); await enviar([...ruta].reverse(), { color: AZUL, texto: 'Initial + Handshake' });
-      tt = { dns: tDNS, conn: 0, tls: Math.max(rConn, rTls) + 2, ttfb: rReq + proc, transf: tTransf };
+      tt = m;
     } else {
       s.estado('Fase 2: conexión TCP');
       await enviar(ruta, { texto: 'SYN' }); await enviar([...ruta].reverse(), { color: AZUL, texto: 'SYN-ACK' });
       s.estado('Fase 3: negociación TLS 1.3');
       await enviar(ruta, { texto: 'ACK + ClientHello' }); await enviar([...ruta].reverse(), { color: AZUL, texto: 'ServerHello … Finished' });
-      tt = { dns: tDNS, conn: rConn, tls: rTls + 1.5, ttfb: rReq + proc, transf: tTransf };
+      tt = m;
     }
     comprobar(t);
     s.estado('Fases 4 y 5: primer byte y transferencia');
@@ -348,16 +407,75 @@ const Pruebas = (() => {
       await fases(c, { ...s, resultados: () => {}, captura: () => {} }, t);
     } finally { Escena.quitar(burbuja); }
     const ruta = Red.nodos(c), dst = ruta[ruta.length - 1];
+    const tcpM = medirTCP(c);                       // la captura cubre también la sesión iperf3 TCP
+    const rapidas = Math.round(tcpM.retx * 0.8), rto = tcpM.retx - rapidas;
     s.captura([
       ['DHCP', '0.0.0.0', '255.255.255.255', 'DHCP Discover - Transaction ID 0x3d1f'], ['DHCP', IP.core, IP.portatil, 'DHCP Offer'],
       ['DHCP', '0.0.0.0', '255.255.255.255', 'DHCP Request'], ['DHCP', IP.core, IP.portatil, 'DHCP ACK (router 10.20.32.1, DNS 10.20.1.53)'],
       ['DNS', IP.portatil, IP.dns, 'Standard query A'], ['DNS', IP.dns, IP.portatil, 'Standard query response'],
       ...(c.quic ? [['QUIC', IP.portatil, IP[dst], 'Initial (ClientHello)'], ['QUIC', IP[dst], IP.portatil, 'Handshake']]
         : [['TCP', IP.portatil, IP[dst], '[SYN]'], ['TCP', IP[dst], IP.portatil, '[SYN, ACK]'], ['TLSv1.3', IP.portatil, IP[dst], 'Client Hello']]),
+      ['TCP', IP[dst], IP.portatil, '5201 → 52814 [ACK] Len=' + tcpM.mss + ' (iperf3)'],
+      ...(tcpM.retx > 0 ? [['TCP', IP.portatil, IP[dst], '[TCP Dup ACK 2210#1] 52814 → 5201'], ['TCP', IP[dst], IP.portatil, '[TCP Fast Retransmission] 5201 → 52814']] : []),
+      ...(tcpM.fueraOrden > 0 ? [['TCP', IP[dst], IP.portatil, '[TCP Out-Of-Order] 5201 → 52814']] : []),
+      ...(tcpM.ventanaLlena > 0 ? [['TCP', IP[dst], IP.portatil, '[TCP Window Full] 5201 → 52814']] : []),
     ]);
-    s.resultados(`<p><b>Captura propia:</b> interfaz ${c.medio === 'wifi' ? 'wlp2s0' : 'enp1s0'}, sin modo promiscuo (<code>-p</code>), filtro de captura <code>host 10.20.34.57</code>.</p>
-      <p>Se registran el intercambio DHCP, la resolución DNS, ${c.quic ? 'la sesión QUIC (tratada por separado)' : 'la conexión TCP y la negociación TLS'}. Los paquetes de los dispositivos de terceros (grises) comparten el canal, pero no entran en la captura.</p>
-      <p class="nota">Vea la pestaña «Captura» para la lista de tramas.</p>`);
+    const n = (v) => String(v).padStart(11);
+    const experto = [`$ tshark -r sesion.pcapng -q -z expert,note`, '=============', `Warnings (${tcpM.retx + tcpM.fueraOrden + tcpM.ventanaLlena})`, '=============',
+      '  Frequency      Group   Protocol  Summary',
+      `${n(rto)}   Sequence        TCP  This frame is a (suspected) retransmission`,
+      `${n(rapidas)}   Sequence        TCP  This frame is a (suspected) fast retransmission`,
+      `${n(tcpM.fueraOrden)}   Sequence        TCP  This frame is a (suspected) out-of-order segment`,
+      `${n(tcpM.ventanaLlena)}   Sequence        TCP  TCP window specified by the receiver is now completely full`,
+      '=============', `Notes (${tcpM.dupAck})`, '=============',
+      `${n(tcpM.dupAck)}   Sequence        TCP  Duplicate ACK (#1)`].join('\n');
+    const veredicto = {
+      cwnd: '<b>Limitada por la ventana de congestión.</b> Los bytes en vuelo caen tras cada pérdida (CUBIC reduce la ventana un 30 %) y nunca alcanzan la ventana anunciada por el receptor.',
+      rwnd: '<b>Limitada por la ventana de recepción.</b> Los bytes en vuelo tocan la ventana anunciada y Wireshark marca «TCP Window Full»: el receptor, no la red, frena la transferencia.',
+      capacidad: '<b>Limitada por la capacidad de la ruta.</b> Los bytes en vuelo se estabilizan cerca del producto ancho de banda por retardo, sin llegar a la ventana anunciada: ni la ventana de congestión ni la de recepción son el límite.',
+    }[tcpM.limitacion];
+    s.resultados(`<div class="columnas"><div>
+      <p><b>Captura propia:</b> interfaz ${c.medio === 'wifi' ? 'wlp2s0' : 'enp1s0'}, sin modo promiscuo (<code>-p</code>), filtro de captura <code>host 10.20.34.57</code>. Registra el intercambio DHCP, la resolución DNS, ${c.quic ? 'la sesión QUIC (tratada por separado)' : 'la conexión TCP con su negociación TLS'} y la sesión iperf3 TCP. El tráfico de terceros (paquetes grises) comparte el canal, pero no entra en la captura.</p>
+      <pre>${experto}</pre></div>
+      <div><b>Bytes en vuelo de la sesión iperf3</b> (<code>tcp.analysis.bytes_in_flight</code>, gráfico de flujo TCP de Wireshark)${graficoVuelo(tcpM)}
+      <p>${veredicto}</p><p class="nota">Retransmisiones: ${tcpM.retx} · fuera de orden: ${tcpM.fueraOrden} · ACK duplicados: ${tcpM.dupAck} · eficiencia TCP ${f(tcpM.eficiencia, 2)} %. Vea la pestaña «Captura» para la lista de tramas.</p></div></div>`);
+  }
+
+  /* Serie de bytes en vuelo de 10 s según qué limite la sesión, dibujada como el gráfico de flujo TCP de Wireshark. */
+  function graficoVuelo(m) {
+    const W = 460, H = 150, iz = 46, ab = 22, N = 200;
+    const media = Math.min(m.enVuelo, m.rwnd);
+    const serie = [];
+    const caidas = Math.max(1, Math.min(8, Math.round(m.retx / 2)));
+    for (let i = 0; i <= N; i++) {
+      const t = i / N * 10;
+      const arranque = Math.min(1, t / 0.6);
+      let v;
+      if (m.limitacion === 'rwnd') v = m.rwnd * arranque * (0.985 + 0.015 * Math.sin(i * 1.7));
+      else if (m.limitacion === 'capacidad') v = media * arranque * (0.97 + 0.04 * Math.sin(i * 0.9) + 0.02 * Math.sin(i * 2.3));
+      else {
+        const fase = (t * caidas / 10) % 1;                          // un diente de sierra por cada pérdida
+        const cubica = 1 - 0.3 * Math.pow(1 - fase, 3);              // crecimiento cúbico hacia la ventana previa
+        v = media / 0.85 * cubica * arranque;
+      }
+      serie.push([t, v]);
+    }
+    const maxSerie = Math.max(...serie.map((p) => p[1]));
+    const rwndVisible = m.rwnd <= maxSerie * 3;                     // si la ventana anunciada queda muy por encima, se indica fuera de escala
+    const tope = (rwndVisible ? Math.max(m.rwnd, maxSerie) : maxSerie) * 1.08;
+    const X = (t) => iz + t / 10 * (W - iz - 8), Y = (v) => H - ab - v / tope * (H - ab - 8);
+    const d = serie.map(([t, v], i) => `${i ? 'L' : 'M'}${X(t).toFixed(1)} ${Y(v).toFixed(1)}`).join('');
+    const kib = (v) => (v / 1024 >= 1024 ? f(v / 1048576, 1) + ' MiB' : f(v / 1024, 0) + ' KiB');
+    return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;display:block;margin:6px 0" role="img" aria-label="Bytes en vuelo frente al tiempo, con la ventana de recepción como referencia">
+      <line x1="${iz}" y1="${H - ab}" x2="${W - 8}" y2="${H - ab}" stroke="#2b3644"/><line x1="${iz}" y1="8" x2="${iz}" y2="${H - ab}" stroke="#2b3644"/>
+      ${rwndVisible ? `<line x1="${iz}" y1="${Y(m.rwnd)}" x2="${W - 8}" y2="${Y(m.rwnd)}" stroke="#ff9f1c" stroke-dasharray="5 4"/>
+      <text x="${W - 10}" y="${Y(m.rwnd) - 4}" fill="#ff9f1c" font-size="10" text-anchor="end">ventana anunciada ${kib(m.rwnd)}</text>`
+        : `<text x="${W - 10}" y="16" fill="#ff9f1c" font-size="10" text-anchor="end">ventana anunciada ${kib(m.rwnd)} ↑ (muy por encima, fuera de escala)</text>`}
+      <path d="${d}" fill="none" stroke="#3fa9f5" stroke-width="1.6"/>
+      <text x="${iz - 4}" y="${Y(tope / 1.08) + 4}" fill="#8b98a8" font-size="10" text-anchor="end">${kib(tope / 1.08)}</text>
+      <text x="${iz - 4}" y="${H - ab}" fill="#8b98a8" font-size="10" text-anchor="end">0</text>
+      ${[0, 2, 4, 6, 8, 10].map((t) => `<text x="${X(t)}" y="${H - 6}" fill="#8b98a8" font-size="10" text-anchor="middle">${t} s</text>`).join('')}
+    </svg>`;
   }
 
   function enviarTercero() {
@@ -376,9 +494,9 @@ const Pruebas = (() => {
     mtr: { fn: mtr, desc: 'Sondas ICMP con TTL creciente: cada salto IP responde «tiempo excedido». Muestra retardo, pérdida y qué equipos son invisibles por ser de capa 2.' },
     tcp: { fn: tcp, desc: 'Los tres pasos de la RFC 6349 (MTU, RTT base y BB, flujo TCP) y sus métricas, indicando cuáles son medibles desde el extremo y cuáles solo estimables.' },
     udp: { fn: udp, desc: '1000 sondas en ~1 minuto, como exige Y.1541 para el cuantil 1−10⁻³. Compara la IPDV con el jitter suavizado de iperf3.' },
-    mtu: { fn: mtu, desc: 'Paquetes con DF de tamaño creciente. Active «El cortafuegos de borde descarta ICMP» para ver el agujero negro de PMTUD y su solución con PLPMTUD.' },
+    mtu: { fn: mtu, desc: 'tracepath y ping con el bit de no fragmentación (-M do). Active «El cortafuegos de borde descarta ICMP» para ver el agujero negro de PMTUD y su solución con PLPMTUD.' },
     fases: { fn: fases, desc: 'Descompone el tiempo de carga en DNS, TCP, TLS, primer byte y transferencia, con las variables de curl. Active HTTP/3 para ver QUIC.' },
-    captura: { fn: captura, desc: 'Captura en la interfaz propia sin modo promiscuo: DHCP, DNS, TCP y TLS del estudiante; el tráfico de terceros queda fuera.' },
+    captura: { fn: captura, desc: 'Captura en la interfaz propia sin modo promiscuo: DHCP, DNS, TCP y TLS del estudiante, más la información experta de tshark (retransmisiones, reordenamiento) y los bytes en vuelo para saber qué ventana limita la sesión. El tráfico de terceros queda fuera.' },
   };
 
   async function ejecutar(nombre, c, salida) {
@@ -395,6 +513,7 @@ const Pruebas = (() => {
     }
   }
 
-  return { ejecutar, detener: () => { limpiar(); }, ESCENARIOS, historial, evaluarY1541, f,
+  return { ejecutar, detener: () => { limpiar(); }, ESCENARIOS, historial, evaluarY1541, f, CLASES,
+    medirICMP, medirTCP, medirUDP, medirFases, graficoVuelo,
     set velocidad(v) { velocidad = v; } };
 })();

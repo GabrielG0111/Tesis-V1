@@ -83,6 +83,18 @@ select { font: inherit; color: var(--texto); background: #1f2935; border: 1px so
 .tab th, .tab td { text-align: left; padding: 3px 8px; border-bottom: 1px solid var(--borde); white-space: nowrap; }
 .tab th { color: var(--tenue); font-weight: 600; position: sticky; top: 30px; background: var(--panel); }
 .tab td.num, .tab th.num { text-align: right; }
+.tab table.envuelve td { white-space: normal; vertical-align: top; min-width: 110px; }
+.tab table.envuelve td:first-child, .tab table.envuelve td:nth-child(2) { min-width: 0; }
+.protocolo p, .protocolo ul { margin: 0 0 8px; }
+.protocolo ul { padding-left: 18px; }
+.protocolo code, .tab code { color: #9fd3ff; }
+#pestanas { flex-wrap: wrap; }
+.fila-flex { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-start; }
+.fila-flex > div { flex: 0 1 auto; min-width: 0; }
+.fila-flex .corr-tabla { max-width: 620px; }
+.fila-flex .corr-tabla table { width: auto; }
+.fila-flex > div:last-child { flex: 1 1 340px; max-width: 420px; }
+#capa-nota { display: block; margin: 2px 0 0; font-size: 11.5px; }
 .tab .columnas { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
 .tab pre { margin: 0; font: 12px/1.4 ui-monospace, "DejaVu Sans Mono", monospace; color: #c9d1d9; white-space: pre-wrap; }
 tr.l2 td { color: var(--tenue); font-style: italic; }

@@ -85,12 +85,12 @@ Las 14 figuras la pasan. Los equipos no están a escala entre sí.
 
 | Escenario | Qué muestra |
 |---|---|
-| mtr | Sondas ICMP con TTL creciente. Muestra el retardo y la pérdida por salto, los equipos de capa 2 que mtr no ve y la «pérdida» falsa que causa un enrutador cuando limita sus respuestas ICMP. |
-| iperf3 TCP | Los tres pasos de la RFC 6349: MTU, RTT base y cuello de botella, y flujo TCP. Calcula el TCP Transfer Time Ratio, la eficiencia TCP y el retardo por búfer, e indica qué es medible desde el extremo y qué solo puede estimarse. |
-| iperf3 UDP + fping | 1000 sondas en un minuto. Calcula la IPDV de la Y.1541 (cuantil 1−10⁻³ menos el mínimo) y la compara con el jitter suavizado de iperf3 (RFC 3550). |
-| tracepath | La MTU de la ruta. Con la opción «El cortafuegos de borde descarta ICMP», reproduce el agujero negro de PMTUD y su solución con PLPMTUD. |
-| dig + curl | Las fases DNS, TCP, TLS, primer byte y transferencia, con las variables de curl. Con la opción HTTP/3, muestra QUIC. |
-| Captura | DHCP, DNS, TCP y TLS del propio equipo, capturados sin modo promiscuo y con el filtro `host 10.20.34.57`. El tráfico de terceros comparte el medio, pero no entra en la captura. |
+| mtr | Sondas ICMP con TTL creciente: retardo y pérdida por salto, los equipos de capa 2 que mtr no ve, la «pérdida» falsa de un enrutador que limita sus respuestas ICMP y la verificación de la simetría de la ruta por el TTL de las respuestas. |
+| iperf3 TCP | Los tres pasos de la RFC 6349 (MTU, RTT base y cuello de botella, flujo TCP de 10 s). Registra la ventana de recepción, los 2 s de arranque descartados (`-O 2`), la salida JSON (`-J`), el volumen inyectado y el goodput frente a la tasa nominal 802.11. Indica qué es medible desde el extremo y qué solo puede estimarse. |
+| iperf3 UDP + fping | 1000 sondas en un minuto con los parámetros de Y.1540 (IPTD, IPDV como cuantil 1−10⁻³ menos el mínimo, IPLR), más el jitter de iperf3 (RFC 3550), la pérdida y los datagramas fuera de orden. |
+| tracepath | La MTU de la ruta y su verificación con `ping -M do` (bit de no fragmentación). Con la opción «El cortafuegos de borde descarta ICMP», reproduce el agujero negro de PMTUD y su solución con PLPMTUD. |
+| dig + curl | Las fases DNS, TCP, TLS, primer byte y transferencia, con las variables de curl, contra un servicio institucional o externo. Con la opción HTTP/3, muestra QUIC. |
+| Captura | DHCP, DNS, TCP, TLS y la sesión iperf3 del propio equipo, capturados sin modo promiscuo y con el filtro `host 10.20.34.57`. Añade la información experta de tshark (retransmisiones, retransmisiones rápidas, segmentos fuera de orden, ventana llena, ACK duplicados) y el gráfico de bytes en vuelo, que indica si la sesión la limita la ventana de congestión, la de recepción o la capacidad. El tráfico de terceros comparte el medio, pero no entra en la captura. |
 
 Las condiciones de cada sesión se eligen en el panel izquierdo:
 
@@ -105,6 +105,49 @@ La pestaña **Contraste ITU-T Y.1541** acumula las sesiones ejecutadas y las eva
 - **IPTD:** un RTT por debajo del umbral garantiza que se cumple; uno por encima es «no concluyente».
 - **IPDV e IPLR:** se evalúan solo con n ≥ 1000.
 
+## Campaña muestral y análisis
+
+El botón **Ejecutar campaña** del panel izquierdo ejecuta el diseño muestral completo sin animación:
+
+- 3 puntos de asociación × 2 franjas × 2 destinos con Wi-Fi, más el cable de control en la roseta.
+- De 3 a 10 repeticiones por estrato, una por día, con sesiones espaciadas 10 minutos.
+- Cada sesión registra sus variables de contexto (RSSI, ruido, SNR, canal y ancho de canal, MCS, tasa nominal, reintentos, ocupación del canal, ahorro de energía, MTU y volumen inyectado) y todas sus medidas.
+
+Se descartan las sesiones que cumplen alguno de estos criterios de validez:
+
+- ahorro de energía activo
+- señal apartada más de 6 dB de la habitual del punto
+- iperf3 que no completa los 10 s
+- valores atípicos dentro del estrato (regla de Tukey, 3 × RIC)
+
+Las pestañas que llena la campaña son:
+
+| Pestaña | Contenido |
+|---|---|
+| Línea base | Mediana, rango intercuartílico, percentil 95 y coeficiente de variación por punto, franja y destino; gráfico de goodput con su dispersión; contraste por estrato con Y.1541; aporte de cada segmento (acceso inalámbrico, campus, salida a Internet) como parámetros de entrada para el trabajo complementario de modelado. |
+| Correlación | ρ de Spearman entre los indicadores de capa física y de enlace y el desempeño (goodput, RTT, IPDV, IPLR, carga web), con su umbral de significación aproximado, y el diagrama de dispersión RSSI–goodput. |
+| Hallazgos | Matriz de hallazgos clasificada por criticidad, con lugar y franja, impacto sobre el usuario, evidencia y recomendación técnica. |
+| Protocolo y datos | El protocolo de medición documentado (plano de observación, diseño muestral, comandos, criterios de descarte, normas, ética, carga sobre el medio y cronograma) y la descarga del conjunto de datos y de la línea base en CSV. |
+
+## Correspondencia con la propuesta del Tema 1
+
+| Punto de la propuesta | Dónde se cumple en el simulador |
+|---|---|
+| Objetivo 1: diseñar el protocolo de medición | Pestaña Protocolo y datos; campaña muestral con puntos, franjas, destinos, repeticiones y criterios de descarte |
+| Objetivo 2: goodput RFC 6349, RTT, IPDV, IPLR y MTU | Escenarios iperf3 TCP, iperf3 UDP + fping, mtr y tracepath |
+| Objetivo 3: disección DNS, TCP, TLS y transferencia, retransmisiones, reordenamiento y ventana de congestión | Escenarios dig + curl y Captura (información experta de tshark y bytes en vuelo) |
+| Objetivo 4: correlación con RSSI, SNR, MCS y reintentos | Pestañas Acceso inalámbrico y Correlación |
+| Objetivo 5: contraste con Y.1541 y tasas nominales 802.11, matriz de hallazgos y recomendaciones | Pestañas Contraste ITU-T Y.1541, Línea base y Hallazgos; goodput frente a la tasa nominal en iperf3 TCP |
+| Línea base por punto y franja con tendencia central y dispersión, tabular y gráfica | Pestaña Línea base |
+| Conjunto de datos tabular con condiciones y validez de cada sesión | Descarga CSV en Protocolo y datos |
+| Destinos institucionales e internos para acotar la ruta externa | Destino interno (laboratorio), resolutor DNS institucional y aporte por segmento |
+| Inyección dimensionada, sesiones acotadas, espaciadas y con volumen registrado | Volumen por sesión y por campaña; espaciado de 10 min |
+| Captura restringida a las interfaces propias | tcpdump `-p` con filtro por la dirección propia; el tráfico de terceros queda fuera |
+| Exclusión del plano de gestión y del diagnóstico del equipamiento activo | Estación de gestión marcada fuera del alcance; las figuras de anatomía de la infraestructura se declaran ilustrativas |
+| Herramientas: iperf3, ping, fping, mtr, tracepath, dig, curl, Wireshark, tshark, tcpdump, iw, wavemon, netsh wlan, Python o LibreOffice | Comandos de cada escenario y del protocolo |
+| Marcos: Y.1540, Y.1541, RFC 6349, RFC 2544, IEEE 802.11 | Escenarios y pestaña Protocolo y datos |
+| Parámetros de entrada para el tema de modelado | Aporte de cada segmento en Línea base y CSV |
+
 ## Importante
 
 Los valores son **sintéticos**. Los genera `js/red.js` con distribuciones que reproducen el comportamiento esperado: cola larga en el Wi-Fi, congestión en la franja alta y limitación de ICMP en el proveedor. No son mediciones de la institución. Las direcciones IP públicas pertenecen a los rangos reservados para documentación (RFC 5737).
@@ -112,7 +155,7 @@ Los valores son **sintéticos**. Los genera `js/red.js` con distribuciones que r
 El simulador sirve para:
 
 - explicar el diseño del protocolo de medición
-- ensayar la lectura de los resultados
+- ensayar la lectura de los resultados y el análisis (línea base, correlación y hallazgos)
 
 Los datos de la tesis provienen de la campaña real.
 
@@ -124,9 +167,10 @@ Los parámetros de la URL permiten abrir directamente una situación. Por ejempl
 index.html?prueba=udp&franja=alta&punto=lejos&pestana=y1541
 index.html?equipo=swacc&anatomia=1
 index.html?prueba=mtu&icmp=1&vel=2
+index.html?campana=1&repeticiones=10&pestana=hall
 ```
 
-Parámetros disponibles: `prueba`, `franja`, `punto`, `medio`, `destino`, `psm`, `icmp`, `quic`, `vel`, `cam`, `equipo`, `anatomia` (`1` abre la figura, `3d` el despiece en la escena) y `pestana`.
+Parámetros disponibles: `prueba`, `franja`, `punto`, `medio`, `destino`, `psm`, `icmp`, `quic`, `vel`, `cam`, `equipo`, `anatomia` (`1` abre la figura, `3d` el despiece en la escena), `campana` (`1` ejecuta la campaña al abrir), `repeticiones` y `pestana` (`res`, `wifi`, `y1541`, `cap`, `base`, `corr`, `hall`, `prot`).
 
 ## Archivos
 
@@ -136,7 +180,8 @@ css/estilos.css   estilos
 js/modelos.js     modelos 3D de los equipos en la escena, construidos por partes
 js/escena.js      zonas, ubicación de equipos, cableado, selección y vista anatómica
 js/red.js         metadatos de cada equipo y modelo de retardo, pérdida y capacidad
-js/pruebas.js     escenarios animados y resultados con formato de cada herramienta
+js/pruebas.js     medidas, escenarios animados y resultados con formato de cada herramienta
+js/analisis.js    campaña muestral, línea base, correlación, hallazgos, protocolo y CSV
 js/ui.js          controles, panel de información, pestañas y capa de anatomía
 js/anatomia.js    despiece, selección y lectura en vivo de las figuras de anatomía
 js/anatomia-datos.js  figuras generadas (no editar a mano)

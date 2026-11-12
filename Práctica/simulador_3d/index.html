@@ -82,6 +82,13 @@
         <button id="ejecutar" class="primario">▶ Ejecutar prueba</button>
         <button id="detener">■</button>
       </div>
+      <h2>Campaña muestral</h2>
+      <p class="nota">Ejecuta el diseño completo sin animación: 3 puntos × 2 franjas × 2 destinos, más el cable de control, con criterios de descarte. Llena la línea base, la correlación y los hallazgos.</p>
+      <label>Repeticiones por estrato (una por día)
+        <select id="repeticiones"><option value="3">3</option><option value="5" selected>5</option><option value="10">10</option></select>
+      </label>
+      <div class="fila-botones"><button id="campana" class="primario">▶ Ejecutar campaña</button></div>
+
       <label>Velocidad de animación
         <input type="range" id="velocidad" min="0.25" max="3" step="0.25" value="1">
       </label>
@@ -118,12 +125,20 @@
         <button data-tab="wifi">Acceso inalámbrico</button>
         <button data-tab="y1541">Contraste ITU-T Y.1541</button>
         <button data-tab="cap">Captura</button>
+        <button data-tab="base">Línea base</button>
+        <button data-tab="corr">Correlación</button>
+        <button data-tab="hall">Hallazgos</button>
+        <button data-tab="prot">Protocolo y datos</button>
         <button id="plegar" title="Plegar o desplegar el panel de resultados">▾ Plegar</button>
       </nav>
       <div id="tab-res" class="tab activo"><p class="nota">Elija un escenario y pulse «Ejecutar prueba».</p></div>
       <div id="tab-wifi" class="tab"></div>
       <div id="tab-y1541" class="tab"><p class="nota">Ejecute el escenario «iperf3 UDP + fping» o «mtr» para contrastar con los objetivos de la Recomendación ITU-T Y.1541.</p></div>
       <div id="tab-cap" class="tab"><p class="nota">Ejecute una prueba para ver las tramas capturadas en la interfaz del propio equipo.</p></div>
+      <div id="tab-base" class="tab"></div>
+      <div id="tab-corr" class="tab"></div>
+      <div id="tab-hall" class="tab"></div>
+      <div id="tab-prot" class="tab"></div>
     </section>
 
     <div id="estado"></div>
@@ -132,7 +147,7 @@
   <div id="capa-anatomia" class="iso" data-theme="light" hidden>
     <div class="capa-marco" role="dialog" aria-modal="true" aria-label="Anatomía del equipo">
       <div class="capa-cabecera">
-        <span id="capa-equipo"></span>
+        <span><span id="capa-equipo"></span><span id="capa-nota" class="nota"></span></span>
         <button id="cerrar-anatomia" title="Cerrar (Esc)">Cerrar ✕</button>
       </div>
       <div id="anatomia-figura"></div>
@@ -145,6 +160,7 @@
   <script src="js/escena.js"></script>
   <script src="js/red.js"></script>
   <script src="js/pruebas.js"></script>
+  <script src="js/analisis.js"></script>
   <script src="js/anatomia-datos.js"></script>
   <script src="js/anatomia.js"></script>
   <script src="js/ui.js"></script>

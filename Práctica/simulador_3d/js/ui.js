@@ -50,6 +50,7 @@
         <tr><td>Intensidad de señal (RSSI)</td><td class="num">${w.rssi} dBm</td><td><span class="insignia ${ins(w.rssi >= -67, w.rssi >= -75)}">${w.rssi >= -67 ? 'Buena' : w.rssi >= -75 ? 'Aceptable' : 'Débil'}</span></td></tr>
         <tr><td>Ruido del canal</td><td class="num">${w.ruido} dBm</td><td></td></tr>
         <tr><td>Relación señal-ruido (SNR)</td><td class="num">${w.snr} dB</td><td><span class="insignia ${ins(w.snr >= 25, w.snr >= 20)}">${w.snr >= 25 ? 'Holgada' : w.snr >= 20 ? 'Justa' : 'Baja'}</span></td></tr>
+        <tr><td>Canal y ancho de canal</td><td class="num">${w.canal} (5180 MHz), ${w.ancho} MHz</td><td>${w.banda}</td></tr>
         <tr><td>MCS negociado</td><td class="num">VHT-MCS ${w.mcs}, 2 flujos</td><td></td></tr>
         <tr><td>Tasa nominal de capa física</td><td class="num">${f(w.phy, 1)} Mbit/s</td><td>${w.estandar}</td></tr>
         <tr><td>Capacidad útil estimada</td><td class="num">${f(w.capacidad, 0)} Mbit/s</td><td>${f(w.capacidad / w.phy * 100, 0)} % de la nominal</td></tr>
@@ -69,7 +70,7 @@ $ iw dev wlp2s0 survey dump | grep -A1 "in use"
 	noise:		${w.ruido} dBm
 $ iw dev wlp2s0 get power_save
 Power save: ${c.psm ? 'on' : 'off'}</pre></div>
-      <p class="nota">En Windows, <code>netsh wlan show interfaces</code> ofrece un conjunto más reducido (calidad de señal en %, canal y tasas); la disponibilidad de cada indicador debe verificarse con el adaptador concreto.</p>`;
+      <p class="nota">En GNU/Linux, <code>wavemon</code> muestra los mismos indicadores en tiempo real durante la sesión. En Windows, <code>netsh wlan show interfaces</code> ofrece un conjunto más reducido (calidad de señal en %, canal y tasas); la disponibilidad de cada indicador debe verificarse con el adaptador concreto.</p>`;
     },
     y1541() {
       const sesiones = Object.values(Pruebas.historial).filter((m) => m.rttMedia !== undefined);
@@ -88,7 +89,7 @@ Power save: ${c.psm ? 'on' : 'off'}</pre></div>
       }).join('');
       $('#tab-y1541').innerHTML = `<table><tr><th>Hora</th><th>Prueba</th><th>Destino</th><th>Franja</th><th>Punto</th><th class="num">RTT medio (ms)</th><th class="num">IPDV (ms)</th><th class="num">IPLR</th><th class="num">n</th>
         <th>Clase 0</th><th>Clase 1</th><th>Clase 2</th><th>Clase 3</th><th>Clase 4</th></tr>${filas}</table>
-        <p class="nota">Contraste conservador: el RTT acota por exceso el retardo en un sentido, así que un RTT bajo el umbral de IPTD garantiza el cumplimiento y uno por encima es «no concluyente». IPDV = cuantil 1−10⁻³ menos el mínimo, y exige n ≥ 1000. Los resultados se separan por tipo de destino: frente al servidor público, la ruta incluye redes externas. Pase el cursor sobre cada celda para ver el detalle.</p>`;
+        <p class="nota">Parámetros definidos en ITU-T Y.1540 (IPTD, IPDV, IPLR); objetivos por clase de ITU-T Y.1541. Contraste conservador: el RTT acota por exceso el retardo en un sentido, así que un RTT bajo el umbral de IPTD garantiza el cumplimiento y uno por encima es «no concluyente». IPDV = cuantil 1−10⁻³ menos el mínimo, y exige n ≥ 1000. Los resultados se separan por tipo de destino: frente al servidor público, la ruta incluye redes externas. Pase el cursor sobre cada celda para ver el detalle.</p>`;
     },
   };
 
@@ -144,6 +145,9 @@ Power save: ${c.psm ? 'on' : 'off'}</pre></div>
     const fig = ANATOMIA.figuras[fid];
     $('#anatomia-figura').innerHTML = fig.html;
     $('#capa-equipo').textContent = Escena.equipos[id].userData.nombre;
+    const plano = (Red.INFO[id] || {}).plano;
+    $('#capa-nota').textContent = ['infra', 'proveedor', 'gestion'].includes(plano)
+      ? 'Ilustración didáctica: el trabajo no accede a este equipo ni lo diagnostica; su efecto solo se infiere desde el extremo.' : '';
     $('#capa-anatomia').hidden = false;
     figuraViva = Anatomia.montar($('#anatomia-figura .an-fig'), fig.datos, { dice: datosVivos(fid), despiezado: true, esperaInicial: 0.8 });
     $('#anatomia-figura .an-escenario').focus({ preventScroll: true });
@@ -168,6 +172,31 @@ Power save: ${c.psm ? 'on' : 'off'}</pre></div>
     else if (Escena.anatomiaActiva) alternarDespiece3D();
   });
 
+  /* ---------- campaña muestral y análisis ---------- */
+  function pintarAnalisis() {
+    $('#tab-base').innerHTML = Analisis.htmlLineaBase();
+    $('#tab-corr').innerHTML = Analisis.htmlCorrelacion();
+    $('#tab-hall').innerHTML = Analisis.htmlHallazgos();
+    $('#tab-prot').innerHTML = Analisis.htmlProtocolo();
+  }
+  function ejecutarCampana() {
+    salida.estado('Campaña muestral en curso…');
+    return new Promise((ok) => setTimeout(() => {
+      Analisis.campana({ repeticiones: parseInt($('#repeticiones').value, 10), icmpFiltrado: $('#icmpfiltrado').checked });
+      salida.estado(null);
+      pintarAnalisis();
+      if ($('#panel-resultados').classList.contains('plegado')) plegar();
+      pestana('base');
+      ok();
+    }, 40));
+  }
+  $('#campana').addEventListener('click', ejecutarCampana);
+  $('#tab-prot').addEventListener('click', (e) => {
+    if (e.target.id === 'bajar-datos') Analisis.descargar('campana_sesiones.csv', Analisis.csvDatos());
+    if (e.target.id === 'bajar-base') Analisis.descargar('linea_base.csv', Analisis.csvLineaBase());
+  });
+  pintarAnalisis();
+
   salida.wifi(Red.wifi(condiciones()), condiciones());
   Escena.seleccionar('portatil');
 
@@ -178,5 +207,7 @@ Power save: ${c.psm ? 'on' : 'off'}</pre></div>
   if (q.get('vel')) { $('#velocidad').value = q.get('vel'); Pruebas.velocidad = parseFloat(q.get('vel')); }
   if (q.get('cam')) Escena.camaraPreset(q.get('cam'));
   if (q.get('equipo')) { Escena.seleccionar(q.get('equipo')); if (q.get('anatomia') === '1') setTimeout(() => abrirAnatomia(q.get('equipo')), 300); if (q.get('anatomia') === '3d') setTimeout(alternarDespiece3D, 300); }
+  if (q.get('repeticiones')) $('#repeticiones').value = q.get('repeticiones');
+  if (q.get('campana') === '1') ejecutarCampana().then(() => { if (q.get('pestana')) pestana(q.get('pestana')); });
   if (q.get('prueba')) { $('#escenario').value = q.get('prueba'); desc(); if (q.get('pestana')) setTimeout(() => pestana(q.get('pestana')), 100); Pruebas.ejecutar(q.get('prueba'), condiciones(), salida).then(() => { if (q.get('pestana')) pestana(q.get('pestana')); }); }
 })();

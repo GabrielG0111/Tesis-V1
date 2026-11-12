@@ -35,7 +35,7 @@ const Red = (() => {
       rol: 'Cortafuegos con NAT entre el campus y el proveedor. Si descarta el ICMP «fragmentación necesaria», el PMTUD clásico falla en silencio.',
       ifaces: '8 × RJ45 LAN, 2 × SFP WAN' },
     pe: { ip: '198.51.100.1', capa: 'Capa 3 (proveedor)', plano: 'proveedor', salto: true,
-      rol: 'Enrutador de borde del proveedor. Su enlace de acceso (1 Gbit/s contratado) es el cuello de botella hacia Internet en la franja alta.',
+      rol: 'Enrutador de borde del proveedor. El enlace hacia el campus es el cuello de botella hacia Internet en la franja alta. El trabajo lo observa desde el extremo; no evalúa el servicio contratado.',
       ifaces: 'Fibra hacia el cliente y la red troncal' },
     ispcore: { ip: '198.51.100.9', capa: 'Capa 3 (proveedor)', plano: 'proveedor', salto: true,
       rol: 'Red troncal del proveedor. Limita la tasa de sus respuestas ICMP, lo que en mtr se ve como una «pérdida» que no es real.', ifaces: 'Fibra' },
@@ -113,7 +113,7 @@ const Red = (() => {
     const alta = c.franja === 'alta';
     const k = [de, a].sort().join('|');
     if (k === 'ap|portatil') return PERFIL[c.punto].perd * (alta ? 3 : 1);   // pérdida residual tras los reintentos MAC
-    if (k === 'borde|pe') return alta ? 0.0003 : 0.00001;                      // descartes por congestión del enlace contratado
+    if (k === 'borde|pe') return alta ? 0.0003 : 0.00001;                      // descartes por congestión del enlace de salida
     return 0.000005;
   }
 
@@ -143,7 +143,7 @@ const Red = (() => {
   function cuelloBotella(c, destino = c.destino) {
     const accesoMbps = c.medio === 'wifi' ? wifi(c).capacidad : 1000;
     const resto = destino === 'interno' ? 1000 : (c.franja === 'alta' ? 95 : 520);
-    return { bb: Math.min(accesoMbps, resto), limita: accesoMbps < resto ? (c.medio === 'wifi' ? 'acceso inalámbrico' : 'interfaz Ethernet') : (destino === 'interno' ? 'NIC del servidor interno' : 'enlace contratado al proveedor') };
+    return { bb: Math.min(accesoMbps, resto), limita: accesoMbps < resto ? (c.medio === 'wifi' ? 'acceso inalámbrico' : 'interfaz Ethernet') : (destino === 'interno' ? 'NIC del servidor interno' : 'enlace de salida a Internet') };
   }
 
   function mtuRuta(destino) {
