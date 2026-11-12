@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulador 3D — Caracterización extremo a extremo</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <script>
+    /* Muestra en pantalla cualquier error de JavaScript, para diagnosticar sin abrir la consola. */
+    window.addEventListener('error', (e) => {
+      const d = document.getElementById('estado');
+      if (d) { d.style.display = 'block'; d.style.background = '#b3261e';
+        d.textContent = 'Error: ' + e.message + ' (' + (e.filename || '').split('/').pop() + ':' + e.lineno + ')'; }
+    });
+  </script>
+</head>
+<body>
+  <header id="barra">
+    <div class="titulo">
+      <strong>Simulador 3D de la caracterización extremo a extremo</strong>
+      <span>Medición activa (iperf3, mtr, fping, tracepath, dig, curl) y disección pasiva (Wireshark, tcpdump) desde el equipo del estudiante</span>
+    </div>
+    <nav id="camaras">
+      <button data-cam="general" class="activo">Vista general</button>
+      <button data-cam="aula">Aula</button>
+      <button data-cam="idf">Cuarto de telecom.</button>
+      <button data-cam="mdf">Centro de datos</button>
+      <button data-cam="borde">Borde e Internet</button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="vista"></div>
+    <div id="etiquetas"></div>
+
+    <aside id="panel-control" class="panel">
+      <h2>Prueba</h2>
+      <label>Escenario
+        <select id="escenario">
+          <option value="mtr">mtr: retardo y pérdida por salto (ICMP)</option>
+          <option value="tcp">iperf3 TCP: goodput según RFC 6349</option>
+          <option value="udp">iperf3 UDP + fping: IPDV y pérdida (Y.1541)</option>
+          <option value="mtu">tracepath: MTU de la ruta y PMTUD</option>
+          <option value="fases">dig + curl: fases del servicio</option>
+          <option value="captura">Wireshark/tcpdump: captura propia</option>
+        </select>
+      </label>
+      <p id="desc-escenario" class="nota"></p>
+
+      <h2>Condiciones de la sesión</h2>
+      <label>Franja horaria
+        <select id="franja">
+          <option value="baja">Baja ocupación (07:00)</option>
+          <option value="alta">Alta ocupación (10:00–14:00)</option>
+        </select>
+      </label>
+      <label>Punto de asociación
+        <select id="punto">
+          <option value="cerca">P1: cerca del punto de acceso</option>
+          <option value="medio" selected>P2: distancia media</option>
+          <option value="lejos">P3: lejos, tras una pared</option>
+        </select>
+      </label>
+      <label>Medio de acceso
+        <select id="medio">
+          <option value="wifi">Wi-Fi (IEEE 802.11ac)</option>
+          <option value="cable">Cable de control (roseta RJ45)</option>
+        </select>
+      </label>
+      <label>Destino de referencia
+        <select id="destino">
+          <option value="publico">Servidor público (fuera de la red)</option>
+          <option value="interno">Servidor iperf3 interno (laboratorio)</option>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" id="psm"> Ahorro de energía de la interfaz activado</label>
+      <label class="check"><input type="checkbox" id="icmpfiltrado"> El cortafuegos de borde descarta ICMP</label>
+      <label class="check"><input type="checkbox" id="quic"> El servicio web usa HTTP/3 (QUIC)</label>
+
+      <div class="fila-botones">
+        <button id="ejecutar" class="primario">▶ Ejecutar prueba</button>
+        <button id="detener">■</button>
+      </div>
+      <label>Velocidad de animación
+        <input type="range" id="velocidad" min="0.25" max="3" step="0.25" value="1">
+      </label>
+      <label class="check"><input type="checkbox" id="ver-etiquetas" checked> Mostrar nombres de equipos</label>
+      <label class="check"><input type="checkbox" id="ver-gestion" checked> Mostrar plano de gestión (fuera del alcance)</label>
+
+      <h2>Leyenda</h2>
+      <ul class="leyenda">
+        <li><i style="background:#3fa9f5"></i> Cable UTP Cat 6</li>
+        <li><i style="background:#ff9f1c"></i> Fibra óptica</li>
+        <li><i style="background:#7ae582"></i> Enlace inalámbrico</li>
+        <li><i style="background:#c77dff"></i> Enlace del proveedor (WAN)</li>
+        <li><i style="background:#ff4d6d"></i> Plano de gestión: sin acceso</li>
+        <li><i class="paquete" style="background:#ffe066"></i> Paquete de prueba</li>
+        <li><i class="paquete" style="background:#4dd4ff"></i> Respuesta o acuse</li>
+        <li><i class="paquete" style="background:#ff5c5c"></i> Paquete perdido</li>
+      </ul>
+    </aside>
+
+    <aside id="panel-info" class="panel">
+      <h2 id="info-titulo">Seleccione un equipo</h2>
+      <p id="info-rol" class="nota">Haga clic sobre cualquier equipo de la escena para ver su función en el proyecto, sus interfaces y su anatomía.</p>
+      <div id="info-datos"></div>
+      <button id="anatomia" class="primario" disabled>Ver anatomía (vista explosionada)</button>
+      <ol id="info-partes"></ol>
+    </aside>
+
+    <section id="panel-resultados" class="panel">
+      <nav id="pestanas">
+        <button data-tab="res" class="activo">Resultados</button>
+        <button data-tab="wifi">Acceso inalámbrico</button>
+        <button data-tab="y1541">Contraste ITU-T Y.1541</button>
+        <button data-tab="cap">Captura</button>
+        <button id="plegar" title="Plegar o desplegar el panel de resultados">▾ Plegar</button>
+      </nav>
+      <div id="tab-res" class="tab activo"><p class="nota">Elija un escenario y pulse «Ejecutar prueba».</p></div>
+      <div id="tab-wifi" class="tab"></div>
+      <div id="tab-y1541" class="tab"><p class="nota">Ejecute el escenario «iperf3 UDP + fping» o «mtr» para contrastar con los objetivos de la Recomendación ITU-T Y.1541.</p></div>
+      <div id="tab-cap" class="tab"><p class="nota">Ejecute una prueba para ver las tramas capturadas en la interfaz del propio equipo.</p></div>
+    </section>
+
+    <div id="estado"></div>
+  </main>
+
+  <script src="lib/three.min.js"></script>
+  <script src="lib/OrbitControls.js"></script>
+  <script src="js/modelos.js"></script>
+  <script src="js/escena.js"></script>
+  <script src="js/red.js"></script>
+  <script src="js/pruebas.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
