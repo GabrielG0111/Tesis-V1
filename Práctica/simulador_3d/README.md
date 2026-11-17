@@ -4,9 +4,21 @@ Simulador interactivo que muestra cómo se conectan los equipos que intervienen 
 
 ## Cómo abrirlo
 
-Abra `index.html` con doble clic en Firefox, Chrome o Edge. No necesita servidor ni conexión a internet, porque Three.js r147 viene incluido en `lib/` (licencia MIT, `lib/LICENSE-three.txt`).
+### Para enviarlo (tutor, lectores)
 
-Si el navegador bloquea los archivos locales, sírvalo desde esta carpeta:
+Envíe solo el archivo **`simulador.html`** (unos 3,6 MB) por correo, Drive o memoria USB. Quien lo reciba lo abre con doble clic en Chrome, Firefox, Safari o Edge, en Windows, macOS o Linux. No necesita servidor, ni internet, ni el resto de esta carpeta, porque lleva dentro los estilos, los scripts y Three.js r147 (licencia MIT, `lib/LICENSE-three.txt`).
+
+Requisito: un navegador con WebGL activado (cualquier versión de los últimos años).
+
+`simulador.html` se genera a partir de `index.html`, `css/`, `js/` y `lib/`. Después de cambiar cualquiera de ellos, regénerelo con:
+
+```
+python3 construir_un_archivo.py
+```
+
+### Para trabajar en él
+
+Abra `index.html` con doble clic. Si el navegador bloquea los archivos locales, sírvalo desde esta carpeta:
 
 ```
 python3 -m http.server 8000
@@ -164,7 +176,7 @@ Los datos de la tesis provienen de la campaña real.
 Los parámetros de la URL permiten abrir directamente una situación. Por ejemplo:
 
 ```
-index.html?prueba=udp&franja=alta&punto=lejos&pestana=y1541
+simulador.html?prueba=udp&franja=alta&punto=lejos&pestana=y1541
 index.html?equipo=swacc&anatomia=1
 index.html?prueba=mtu&icmp=1&vel=2
 index.html?campana=1&repeticiones=10&pestana=hall
@@ -175,6 +187,8 @@ Parámetros disponibles: `prueba`, `franja`, `punto`, `medio`, `destino`, `psm`,
 ## Archivos
 
 ```
+simulador.html    todo el simulador en un solo archivo, para enviar (generado)
+construir_un_archivo.py  genera simulador.html
 index.html        estructura de la página
 css/estilos.css   estilos
 js/modelos.js     modelos 3D de los equipos en la escena, construidos por partes
