@@ -1,0 +1,30 @@
+% Estimación del aporte de cada segmento por diferencia entre estratos del diseño muestral
+\begin{tikzpicture}[x=1cm, y=1cm,
+  seg/.style={caja, minimum height=0.7cm},
+  tramo/.style={draw=FigAcento, thick},
+  et/.style={font=\scriptsize, align=left, anchor=west}]
+  % Ruta: cliente - AP - campus - laboratorio / borde - Internet - servidor público
+  \node[seg, fill=white, very thick, minimum width=1.6cm] (cli) at (0,0) {Portátil};
+  \node[seg, minimum width=1.6cm] (ap) at (2.3,0) {Punto de\\acceso};
+  \node[seg, minimum width=1.6cm] (campus) at (4.6,0) {Red de\\campus};
+  \node[seg, minimum width=1.8cm, fill=white] (lab) at (4.6,-1.6) {Servidor\\interno (lab.)};
+  \node[seg, minimum width=1.6cm] (borde) at (6.9,0) {Borde y\\proveedor};
+  \node[seg, minimum width=1.8cm, fill=white] (pub) at (9.4,0) {Servidor\\público};
+  \node[seg, minimum width=1.4cm, fill=white] (ros) at (2.3,1.4) {Roseta};
+  \draw[FigAcento, thick, densely dotted] (cli) -- (ap);
+  \draw[tramo] (ap) -- (campus) -- (borde) -- (pub);
+  \draw[tramo] (campus) -- (lab);
+  \draw[tramo] (cli.north) |- (ros.west);
+  \draw[tramo] (ros.east) -| (campus.north);
+  % Cotas de cada aporte
+  \draw[cota] (0,-2.7) -- (2.3,-2.7);
+  \node[font=\scriptsize, align=center] at (1.15,-3.15) {Acceso\\inalámbrico};
+  \draw[cota] (2.3,-2.7) -- (4.6,-2.7);
+  \node[font=\scriptsize, align=center] at (3.45,-3.15) {Campus};
+  \draw[cota] (4.6,-2.7) -- (9.4,-2.7);
+  \node[font=\scriptsize, align=center] at (7.0,-3.15) {Salida a Internet\\y red externa};
+  % Reglas
+  \node[et, text width=5.6cm] at (10.6,0.6) {\textbf{Acceso inalámbrico}\\$\approx$ Wi-Fi $-$ cable, destino interno};
+  \node[et, text width=5.6cm] at (10.6,-0.55) {\textbf{Campus}\\$\approx$ cable, destino interno};
+  \node[et, text width=5.6cm] at (10.6,-1.7) {\textbf{Salida y red externa}\\$\approx$ cable: público $-$ interno};
+\end{tikzpicture}
