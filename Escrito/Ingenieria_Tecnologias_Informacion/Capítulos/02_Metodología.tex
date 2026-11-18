@@ -1,10 +1,23 @@
 \chapter{Metodología}
 \label{chap:metodologia}
 
+% Marca visible de los apartados que dependen de la campaña piloto o del acuerdo con el Tema 2.
+% Se eliminan cuando el dato se confirma; ninguna debe quedar en la versión final.
+\providecommand{\pendiente}[1]{\textcolor{red!70!black}{\textbf{[Pendiente: #1]}}}
+
+Este capítulo define cómo se obtendrá la evidencia que exige el objetivo general. Parte de la situación de la que arranca el trabajo, delimita el área de estudio, describe la metodología de desarrollo y las técnicas e instrumentos empleados, establece los requerimientos que debe cumplir el protocolo de medición, presenta su diseño y justifica cada decisión técnica. El protocolo completo, con los comandos y el diccionario de datos, se mantiene como documento versionado en la carpeta \texttt{Práctica/protocolo.md} del repositorio del proyecto; este capítulo recoge su versión~0.1.
+
 \section{Diagnóstico de la Situación Actual}
-\textit{[Analizar el estado inicial del sistema, proceso o infraestructura antes de la implementación del proyecto. Describir cómo funciona actualmente y las principales limitaciones técnicas.]}
+
+La red de datos de la institución soporta los sistemas académicos, la plataforma de gestión del aprendizaje, la biblioteca digital y el correo institucional, y la mayor parte del acceso se produce desde dispositivos personales asociados a puntos de acceso inalámbrico. En esta situación, la percepción de que «la red está lenta» circula como síntoma sin una evidencia medida que la respalde o la desmienta, y sin que pueda distinguirse si la degradación procede de la capacidad de la ruta, de la resolución de nombres, de la negociación TLS, de la pérdida en el tramo inalámbrico o del propio servicio. A falta de esa distinción, la respuesta habitual es atribuir la degradación a la capacidad contratada, aunque, como se expuso en el Capítulo~\ref{chap:introduccion}, ampliar el ancho de banda no corrige una resolución lenta, una ventana de recepción insuficiente o una MTU mal descubierta.
+
+Tres limitaciones caracterizan el punto de partida. La primera es la ausencia de una línea base: no se dispone de un registro del desempeño entregado en el extremo, por punto de asociación y franja horaria, contra el que comparar mediciones posteriores. La segunda es el plano de observación disponible: el trabajo no cuenta con acceso a los equipos de la infraestructura ni a sus contadores, de modo que la topología interna de la red es desconocida y toda la evidencia ha de obtenerse desde el equipo de un usuario autorizado. La tercera es la variabilidad del acceso inalámbrico, cuyo desempeño depende del lugar, del momento y del propio dispositivo, lo que obliga a un diseño muestral y a registrar las condiciones de cada medición.
+
+El inventario de los espacios de uso común accesibles al estudiante, con sus puntos de acceso, bandas y canales, se levanta en la fase de preparación. \pendiente{completar con el inventario de la semana 1 y 2: edificios, espacios, BSSID, bandas y canales observados desde el cliente.}
 
 \section{Área de Estudio}
+
+La Tabla~\ref{tab:area_estudio} resume el área de estudio. El diseño de la investigación es no experimental, porque no se manipula la red ni sus condiciones de operación; descriptivo, porque caracteriza el desempeño entregado en el extremo; y correlacional, porque relaciona ese desempeño con los indicadores de la capa física y de enlace del acceso inalámbrico.
 
 \begin{table}[htbp]
   \centering
@@ -13,7 +26,7 @@
   \renewcommand{\arraystretch}{1.35}
   \begin{tabular}{|p{0.39\textwidth}|p{0.53\textwidth}|}
     \hline
-    \textbf{Dominio:} & \textit{[Indique el dominio académico o científico del proyecto.]} \\
+    \textbf{Dominio:} & Tecnologías de la información y la comunicación \\
     \hline
     \textbf{Línea de investigación:} & \UTILineaInvestigacion \\
     \hline
@@ -21,55 +34,411 @@
     \hline
     \textbf{Campo:} & Tecnologías de la información y la comunicación (TIC) \\
     \hline
-    \textbf{Área:} & \textit{[Defina el área técnica específica del proyecto.]} \\
+    \textbf{Área:} & Redes de computadores: medición y evaluación del desempeño de redes IP \\
     \hline
-    \textbf{Aspectos:} & \textit{[Describa los procesos, tecnologías o problemas que serán analizados.]} \\
+    \textbf{Aspectos:} & \textit{Goodput} TCP, retardo de ida y vuelta, variación del retardo, pérdida, MTU de la ruta, fases del establecimiento del servicio (DNS, TCP, TLS y transferencia), anomalías de transporte e indicadores de capa física y de enlace del acceso IEEE 802.11 \\
     \hline
-    \textbf{Objeto de estudio:} & \textit{[Indique la organización, sistema, proceso o infraestructura objeto del estudio.]} \\
+    \textbf{Objeto de estudio:} & Desempeño extremo a extremo de la red de datos de una Institución de Educación Superior, observado desde el segmento de acceso del cliente \\
     \hline
-    \textbf{Periodo de estudio:} & \textit{[Indique las fechas o el intervalo de tiempo que comprende el estudio.]} \\
+    \textbf{Tipo y diseño de investigación:} & Cuantitativa; no experimental, descriptiva y correlacional, con diseño muestral por punto de asociación, franja horaria y destino \\
+    \hline
+    \textbf{Periodo de estudio:} & Período académico B26; campaña de medición en las semanas 5 a 7 del cronograma \pendiente{fechas exactas} \\
     \hline
   \end{tabular}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia}
 \end{table}
 
 \section{Metodología de Desarrollo o Implementación}
-\textit{[Describir y justificar la metodología empleada según la naturaleza del proyecto, indicando las fases y actividades a ejecutar. Por ejemplo, metodologías ágiles o tradicionales para software, o modelos de diseño, implementación o despliegue para hardware o infraestructura.]}
+
+El trabajo se desarrolla bajo el ciclo de vida de red PPDIOO en sus dos primeras fases, preparación y planificación (Figura~\ref{fig:ppdioo}), que corresponden a la caracterización de una red existente antes de cualquier decisión de diseño \cite{oppenheimer2011topdown}. Dentro de ellas, las actividades se organizan en diez semanas, conforme a la duración prevista en la propuesta (Tabla~\ref{tab:cronograma}). Cada etapa produce un entregable verificable y alimenta a la siguiente: el protocolo no se ejecuta en campaña sin haber pasado por el piloto, y el contraste con la Recomendación ITU-T Y.1541 no se realiza sin una línea base depurada.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Fases, actividades y entregables del trabajo.}
+  \label{tab:cronograma}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{|p{1.6cm}|p{2.3cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.4cm}|c|}
+    \hline
+    \textbf{Semanas} & \textbf{Fase PPDIOO} & \textbf{Actividades} & \textbf{Entregable} & \textbf{OE} \\
+    \hline
+    1--2 & Preparación & Delimitación de los puntos de asociación accesibles; revisión de la metodología de medición desde el extremo; definición de los parámetros de desempeño. & Inventario de puntos y lista de parámetros & 1 \\
+    \hline
+    3--4 & Planificación & Elaboración del protocolo; instalación y verificación de la instrumentación; verificación de los indicadores inalámbricos disponibles; selección de destinos; campaña piloto. & Protocolo v1.0 e informe del piloto & 1 \\
+    \hline
+    5--7 & Planificación & Campaña de medición activa y captura en las interfaces propias según el diseño muestral. & Conjunto de datos y capturas & 2, 3, 4 \\
+    \hline
+    8 & Planificación & Consolidación del conjunto de datos; línea base; disección de las trazas y descomposición del retardo por fase; correlación con la capa física y de enlace. & Línea base y análisis & 2, 3, 4 \\
+    \hline
+    9--10 & Planificación & Contraste con la Recomendación ITU-T Y.1541 y con las tasas nominales IEEE 802.11; matriz de hallazgos; recomendaciones; informe y presentación. & Matriz de hallazgos e informe final & 5 \\
+    \hline
+  \end{tabularx}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia con base en la propuesta del Tema 1}
+\end{table}
 
 \section{Técnicas e Instrumentos de Recolección de Información}
-\textit{[Describir las técnicas utilizadas para obtener información durante el diagnóstico y la validación del proyecto, tales como entrevistas, encuestas u observación directa.]}
+
+La información se obtiene mediante cuatro técnicas, todas ejecutadas desde el portátil del estudiante y sin privilegios sobre la infraestructura (Tabla~\ref{tab:tecnicas}).
+
+La \textbf{medición activa} inyecta tráfico de prueba controlado hacia destinos conocidos y deriva de su comportamiento los parámetros de transferencia de paquetes IP definidos en la Recomendación ITU-T Y.1540 \cite{ituy1540} y el \textit{goodput} TCP según la RFC 6349 \cite{rfc6349}. La \textbf{disección pasiva} captura las tramas de la interfaz propia durante cada sesión y las analiza por capas, para descomponer el retardo del servicio en fases e identificar retransmisiones, reordenamiento y limitación por ventana. El \textbf{registro de indicadores inalámbricos} toma, cada segundo, los valores que expone el controlador de la interfaz: potencia recibida, ruido, esquema de modulación y codificación, reintentos y ocupación del canal. La \textbf{observación estructurada}, por último, consigna en una hoja de registro las condiciones de cada sesión que ninguna herramienta mide: el lugar exacto, la ocupación aparente del espacio y las incidencias. Una revisión documental de las recomendaciones y especificaciones aplicables completa el conjunto y fija los criterios de evaluación.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Técnicas, instrumentos y variables de la recolección de información.}
+  \label{tab:tecnicas}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{2.3cm}|}
+    \hline
+    \textbf{Técnica} & \textbf{Instrumento} & \textbf{Variables} & \textbf{Referente} \\
+    \hline
+    Medición activa & iperf3 (TCP y UDP), fping, ping, tracepath, mtr & \textit{Goodput} de bajada y subida, retransmisiones, eficiencia TCP, retardo por búfer, RTT por paquete, variación del retardo, pérdida, MTU de la ruta, ruta por salto & ITU-T Y.1540, RFC 6349, RFC 2681 \\
+    \hline
+    Medición de fases & dig, curl & Tiempo de resolución DNS con y sin caché, conexión TCP, negociación TLS, primer byte y transferencia & RFC 1034, 9293, 8446 \\
+    \hline
+    Disección pasiva & tcpdump, tshark, Wireshark & DHCP, DNS, TCP y TLS de la propia sesión; retransmisiones, reordenamiento, ventana de recepción, bytes en vuelo & RFC 9293, 5681 \\
+    \hline
+    Registro inalámbrico & iw (GNU/Linux) o netsh wlan (Windows) & RSSI, ruido, SNR, MCS, ancho de canal, tasa nominal, reintentos, ocupación del canal, ahorro de energía & IEEE 802.11 \\
+    \hline
+    Observación estructurada & Hoja de registro de sesión & Punto, BSSID, banda, canal, ocupación aparente, incidencias, volumen inyectado & Protocolo propio \\
+    \hline
+    Revisión documental & Recomendaciones y RFC & Objetivos de desempeño, definiciones de los parámetros & ITU-T Y.1541, IEEE 802.11 \\
+    \hline
+  \end{tabularx}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia}
+\end{table}
+
+La disponibilidad real de los indicadores inalámbricos depende del sistema operativo y del controlador del adaptador. Antes de la campaña se verifica, con el equipo concreto del estudiante, qué indicadores se obtienen y con qué resolución temporal; si alguno de los que exige el cuarto objetivo específico no está disponible, se recurre a otro sistema operativo o a un adaptador del laboratorio, o se ajusta la redacción del objetivo con la aprobación del tutor. \pendiente{resultado de la verificación de indicadores en la semana 3: adaptador, controlador, sistema operativo e indicadores disponibles.}
 
 \section{Requerimientos del Proyecto}
+
+El producto que se diseña es un protocolo de medición. Sus requerimientos funcionales (Tabla~\ref{tab:req_funcionales}) describen lo que el protocolo debe obtener; los no funcionales (Tabla~\ref{tab:req_no_funcionales}), las condiciones bajo las cuales debe obtenerlo.
+
 \subsection{Requerimientos Funcionales}
-\textit{[Enumerar y describir los requerimientos funcionales que la solución debe cumplir.]}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Requerimientos funcionales del protocolo de medición.}
+  \label{tab:req_funcionales}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}X|c|}
+    \hline
+    \textbf{Código} & \textbf{Requerimiento} & \textbf{OE} \\
+    \hline
+    RF-01 & Determinar el \textit{goodput} TCP sostenido de bajada y de subida tras descartar la fase de arranque, con registro de la ventana de recepción y de las retransmisiones. & 2 \\
+    \hline
+    RF-02 & Medir el RTT de cada paquete en muestras de al menos 1000 paquetes, para calcular la variación del retardo como la define la Recomendación ITU-T Y.1541 y la tasa de pérdida. & 2 \\
+    \hline
+    RF-03 & Determinar la MTU efectiva de la ruta y verificar el funcionamiento del mecanismo de descubrimiento. & 2 \\
+    \hline
+    RF-04 & Medir el tiempo de cada fase del establecimiento de servicios institucionales y externos: resolución DNS, conexión TCP, negociación TLS, primer byte y transferencia. & 3 \\
+    \hline
+    RF-05 & Capturar el tráfico de la interfaz propia durante cada sesión para identificar retransmisiones, reordenamiento y el tipo de limitación de la sesión TCP. & 3 \\
+    \hline
+    RF-06 & Registrar, durante cada sesión, la potencia recibida, el ruido, el MCS, los reintentos y la ocupación del canal del acceso inalámbrico. & 4 \\
+    \hline
+    RF-07 & Separar los resultados por punto de asociación, franja horaria, destino y medio, y acotar por diferencia la contribución de cada segmento de la ruta. & 1, 5 \\
+    \hline
+    RF-08 & Producir un conjunto de datos tabular, con una fila por sesión y los descriptores de su validez, apto para el contraste con la Recomendación ITU-T Y.1541 y para su entrega al trabajo complementario de modelado. & 5 \\
+    \hline
+  \end{tabularx}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia}
+\end{table}
+
 \subsection{Requerimientos No Funcionales}
-\textit{[Describir requerimientos relacionados con seguridad, rendimiento, disponibilidad, escalabilidad u otros aplicables.]}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Requerimientos no funcionales del protocolo de medición.}
+  \label{tab:req_no_funcionales}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{|c|p{3.1cm}|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Código} & \textbf{Atributo} & \textbf{Requerimiento} \\
+    \hline
+    RNF-01 & Privilegios & Ejecutable con los privilegios de un usuario autorizado de la red, sin acceso al plano de gestión ni intervención sobre los equipos. \\
+    \hline
+    RNF-02 & Ética y privacidad & La captura se limita a la interfaz propia, sin modo promiscuo, con filtro por la dirección propia y truncada a las cabeceras; no se escanean hosts ni puertos ni se descifra tráfico. \\
+    \hline
+    RNF-03 & Carga sobre el medio & Sesiones acotadas en duración y espaciadas al menos 10 minutos, con registro del volumen inyectado en cada una. \\
+    \hline
+    RNF-04 & Reproducibilidad & Comandos, parámetros, versiones de las herramientas y destinos documentados y versionados, de modo que un tercero pueda repetir la campaña. \\
+    \hline
+    RNF-05 & Validez & Criterios de descarte definidos antes de la campaña y aplicados de forma uniforme; registro del motivo de cada descarte. \\
+    \hline
+    RNF-06 & Trazabilidad temporal & Reloj del equipo sincronizado por NTP antes de cada jornada; marcas de tiempo en todos los registros. \\
+    \hline
+    RNF-07 & Costo & Herramientas gratuitas, de código abierto o incluidas en el sistema operativo; sin adquisición de equipamiento ni licencias. \\
+    \hline
+  \end{tabularx}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia}
+\end{table}
 
 \section{Diseño de la Solución}
 \label{sec:diseno_solucion}
-\textit{[Describir el diseño técnico de la solución propuesta. Puede incluir arquitectura del sistema o infraestructura, diagramas lógicos y físicos, modelos de datos, componentes o configuraciones técnicas.]}
 
-\section{Justificación Técnica}
-\textit{[Argumentar técnicamente la selección de tecnologías, herramientas, plataformas, equipos o servicios utilizados en el proyecto.]}
+\subsection{Plano de observación y equipo de medición}
 
-Ejemplo de cita metodológica: la justificación de decisiones técnicas puede apoyarse en literatura de diseño e implementación de sistemas como \cite{hevner2004design,humble2011devops}.
+Todas las mediciones se realizan en el plano del extremo (Figura~\ref{fig:planos_observacion}): desde el portátil del estudiante, conectado como cualquier miembro de la comunidad universitaria. Lo que se caracteriza es el servicio entregado en el punto de consumo, no el estado interno de la infraestructura. El equipo dispone de una interfaz inalámbrica y de una cableada, sincroniza su reloj por NTP antes de cada jornada y registra las versiones de cada herramienta. \pendiente{modelo del portátil, adaptadores, controladores, sistema operativo y versiones de las herramientas, tras la semana 3.}
 
-\subsection{Ejemplo de Imagen 1}
-Ejemplo de referencia en el cuerpo del texto: la Imagen~\ref{img:ejemplo_1} puede usarse para documentar evidencia técnica del entorno, componentes o interfaz.
+\subsection{Diseño muestral}
 
-\begin{imagen}[htbp]
+La unidad de análisis es la \textbf{sesión de medición}: una ejecución completa de la secuencia de pruebas desde un punto, en una franja y hacia un destino. El diseño cruza cuatro factores (Tabla~\ref{tab:diseno_muestral}). Los tres puntos de asociación inalámbricos representan condiciones de señal distintas en espacios de uso común; el punto cableado de control permite aislar, por diferencia, la contribución del tramo inalámbrico; las dos franjas contrastan la ocupación baja del inicio de la jornada con la ocupación alta del mediodía; y los dos destinos separan la ruta interna del campus de la ruta completa hacia Internet.
+
+\begin{table}[htbp]
   \centering
-  \includegraphics[width=0.80\textwidth]{Capítulos/img/img_ejemplo_1.png}
-  \caption{Ejemplo de imagen para documentación visual de infraestructura o evidencias.}
-  \label{img:ejemplo_1}
-\end{imagen}
-\elaboradopor{Estudiante}
-\fuente{Captura referencial del proyecto}
+  \caption{Factores y niveles del diseño muestral.}
+  \label{tab:diseno_muestral}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{|p{2.6cm}|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Factor} & \textbf{Niveles} \\
+    \hline
+    Punto de asociación & P1, cerca del punto de acceso; P2, a distancia media; P3, tras un muro o en el borde de la cobertura. \pendiente{ubicación de cada punto.} \\
+    \hline
+    Medio & Wi-Fi en P1, P2 y P3; cable de control en un punto de red de un espacio común. \pendiente{ubicación del punto cableado.} \\
+    \hline
+    Franja horaria & Baja, de 07:00 a 08:30; alta, de 11:00 a 13:00. \pendiente{confirmar con el horario de clases.} \\
+    \hline
+    Destino & Interno: servidor iperf3 en el laboratorio de la carrera. Público: servidor iperf3 de referencia en Internet. \\
+    \hline
+    Repeticiones & Al menos cinco por estrato, cada una en un día lectivo distinto. \\
+    \hline
+  \end{tabularx}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia}
+\end{table}
 
-\subsection{Ejemplo de Ecuación 1}
-Otro ejemplo de referencia: la Ecuación~\ref{eq:disponibilidad} muestra un cálculo típico para validación de disponibilidad del servicio.
+El cruce produce 16 estratos: 12 inalámbricos (tres puntos, dos franjas y dos destinos) y 4 de control cableado (dos franjas y dos destinos). Cada jornada completa ejecuta una sesión por estrato, ocho por franja. Con cinco repeticiones, la campaña reúne 80 sesiones, de las cuales 60 son inalámbricas y sustentan el análisis de correlación del cuarto objetivo; con $n = 60$, un coeficiente de Spearman de magnitud superior a 0,26 resulta significativo al 5~\% en una prueba bilateral \cite{hollander2014nonparametric}. Distribuir las repeticiones en días distintos evita que una condición transitoria de un día concreto domine el estrato.
+
+\subsection{Destinos de medición}
+
+Los destinos determinan qué porción de la ruta se mide (Tabla~\ref{tab:destinos}). El destino interno es un equipo del laboratorio de la carrera que ejecuta un servidor iperf3, con el permiso de su responsable; como Moreno-Arteaga \textit{et al.} \cite{moreno2023sitesurvey}, el trabajo recurre a un servidor propio para eliminar la incertidumbre de un servidor compartido y ajeno, sin requerir acceso administrativo a la infraestructura. El destino público representa la ruta completa e incorpora la red del proveedor y redes externas; por ello, sus resultados describen esa ruta y no solo la red institucional, y se presentan siempre separados de los del destino interno.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Destinos de medición.}
+  \label{tab:destinos}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{|p{2.8cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{4.2cm}|}
+    \hline
+    \textbf{Destino} & \textbf{Uso} & \textbf{Datos que se documentan} \\
+    \hline
+    Servidor iperf3 interno & Ruta al interior del campus: iperf3, fping y mtr & Ubicación, dirección IP, capacidad de la interfaz, permiso del laboratorio \pendiente{gestionar} \\
+    \hline
+    Servidor iperf3 público & Ruta completa hasta Internet & Operador, ubicación, capacidad declarada, disponibilidad; un principal y uno de respaldo \pendiente{seleccionar} \\
+    \hline
+    Resolutor DNS institucional & Tiempo de resolución & Dirección entregada por DHCP \\
+    \hline
+    Servicios web & Fases del establecimiento del servicio & Dos institucionales (plataforma de aprendizaje y sistema académico) y dos externos de uso frecuente \pendiente{fijar URL} \\
+    \hline
+  \end{tabularx}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia}
+\end{table}
+
+\subsection{Secuencia de una sesión}
+
+Cada sesión sigue una secuencia fija de ocho pasos, de unos tres minutos de duración, mientras en segundo plano se registran los indicadores inalámbricos y se captura el tráfico de la interfaz propia (Figura~\ref{fig:secuencia_sesion}). La Tabla~\ref{tab:secuencia} detalla los comandos y sus parámetros. Antes de cada sesión se verifica que el ahorro de energía de la interfaz esté desactivado, porque la retención de tramas hasta la siguiente baliza añadiría decenas de milisegundos al RTT sin que la ruta cambie \cite{ieee80211,sui2016wifiseer}.
+
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\textwidth}{!}{\input{Capítulos/fig/08_secuencia_sesion}}
+  \caption{Secuencia de una sesión de medición y registros en segundo plano.}
+  \label{fig:secuencia_sesion}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia}
+\end{figure}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Pasos, comandos y parámetros de una sesión de medición.}
+  \label{tab:secuencia}
+  \scriptsize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{|c|p{2.5cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{3.3cm}|}
+    \hline
+    \textbf{Paso} & \textbf{Medición} & \textbf{Comando} & \textbf{Parámetros clave} \\
+    \hline
+    1 & MTU de la ruta & \texttt{tracepath -n DST}; \texttt{ping -M do -s 1472 -c 3 DST} & Tamaño reducido hasta que el paquete pasa sin fragmentar \\
+    \hline
+    2 & RTT, variación del retardo y pérdida & \texttt{fping -C 1000 -p 60 -q DST} & 1000 sondas en 60 s; RTT de cada sonda \\
+    \hline
+    3 & \textit{Goodput} TCP de bajada y retardo por búfer & \texttt{iperf3 -c DST -R -t 10 -O 2 -J}, con \texttt{ping -i 0.2 DST} concurrente & 10 s medidos tras omitir 2 s de arranque; salida JSON \\
+    \hline
+    4 & \textit{Goodput} TCP de subida & \texttt{iperf3 -c DST -t 10 -O 2 -J} & Igual que el paso 3 \\
+    \hline
+    5 & Variación del retardo (RFC 3550), pérdida y reordenamiento UDP & \texttt{iperf3 -c DST -u -b 1M -l 1200 -t 30 -J} & 1 Mbit/s, datagramas de 1200 bytes, 30 s \\
+    \hline
+    6 & Resolución DNS & \texttt{dig HOST @RESOLUTOR +stats} (dos veces) & Primera consulta y consulta en caché \\
+    \hline
+    7 & Fases del servicio & \texttt{curl -{}-http2 -so /dev/null -w @formato URL} (tres veces por servicio) & TCP forzado; tiempos de resolución, conexión, TLS, primer byte y total \\
+    \hline
+    8 & Ruta y pérdida por salto & \texttt{mtr -n -r -c 30 DST} & 30 ciclos \\
+    \hline
+    Fondo & Indicadores inalámbricos & \texttt{iw dev IF link}; \texttt{iw dev IF station dump}; \texttt{iw dev IF survey dump} & Cada 1 s \\
+    \hline
+    Fondo & Captura propia & \texttt{tcpdump -i IF -p -s 128 -w sesion.pcapng host MI\_IP} & Sin modo promiscuo; solo cabeceras \\
+    \hline
+  \end{tabularx}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia con base en las RFC 6349 y 2681 y en la Recomendación ITU-T Y.1540 \cite{rfc6349,rfc2681,ituy1540}}
+\end{table}
+
+La tasa UDP de 1~Mbit/s se aproxima a la de una videoconferencia de calidad media y mantiene acotada la carga sobre el medio; la duración de las pruebas TCP, la tasa UDP y el número de sondas se calibran en la campaña piloto, que verifica también que el servidor interno no constituya el cuello de botella. \pendiente{parámetros calibrados en el piloto.}
+
+\subsection{Variables y conjunto de datos}
+
+Cada sesión produce una fila del conjunto de datos, con cuatro grupos de columnas: la identificación y el estrato (fecha, hora, punto, franja, destino y medio); el contexto del enlace (BSSID, banda, canal, ancho de canal, estado del ahorro de energía, RSSI, ruido, SNR, MCS, tasa nominal, reintentos y ocupación del canal, como medianas de la sesión); los parámetros de desempeño (MTU, RTT mínimo, medio, mediano y percentil 95, variación del retardo, pérdida, \textit{goodput} de bajada y de subida, retransmisiones, eficiencia TCP, retardo por búfer, ventana de recepción, tipo de limitación, variación del retardo y pérdida UDP, tiempos de resolución DNS y de cada fase del servicio); y la validez de la sesión, con el motivo del descarte cuando lo hay. El diccionario completo, con la unidad, la herramienta de origen y la definición de cada columna, figura en el protocolo versionado. Las capturas y las salidas JSON se conservan fuera del repositorio, cifradas, y solo se publican los datos tabulares derivados.
+
+\subsection{Criterios de validez y descarte}
+
+Una sesión se descarta, con registro del motivo, cuando el ahorro de energía estuvo activo al inicio o al final; cuando la mediana de su RSSI se aparta más de 6~dB de la habitual del punto, lo que indica que el equipo no estaba en el punto previsto o se asoció a otro punto de acceso; cuando iperf3 no completa la prueba o fping envía menos de 1000 sondas; cuando la ruta que reporta mtr difiere de la ruta de referencia del destino; o cuando curl negocia HTTP/3, caso que se analiza por separado porque QUIC no presenta las fases TCP y TLS diferenciadas \cite{rfc9114}. Concluida la campaña, se marcan como atípicos los valores de \textit{goodput} y RTT que se alejan más de tres veces el rango intercuartílico de los cuartiles de su estrato. \pendiente{revisar el umbral de 6~dB con la dispersión de la señal observada en el piloto.}
+
+\subsection{Procesamiento y contraste con la Recomendación ITU-T Y.1541}
+
+La \textbf{línea base} se describe, por estrato, con la mediana, el rango intercuartílico, el percentil 95 y el coeficiente de variación, medidas robustas ante las distribuciones asimétricas del acceso inalámbrico. La \textbf{correlación} entre los indicadores de capa física y de enlace y los parámetros de desempeño se estima con el coeficiente de Spearman, separando los resultados por destino \cite{hollander2014nonparametric}.
+
+La variación del retardo comparable con la Recomendación ITU-T Y.1541 se calcula a partir del RTT de cada una de las $N \geq 1000$ sondas de una sesión (Ecuación~\ref{eq:ipdv}), y no a partir del valor suavizado que reporta iperf3, que corresponde a la definición de la RFC 3550 \cite{ituy1541,rfc3550}. La tasa de pérdida se obtiene como la proporción de sondas sin respuesta (Ecuación~\ref{eq:iplr}).
 
 \begin{equation}
-\label{eq:disponibilidad}
-Disponibilidad\,(\%) = \frac{T_{operativo}}{T_{total}} \times 100
+\label{eq:ipdv}
+\mathrm{IPDV} \approx Q_{1-10^{-3}}\left(\mathrm{RTT}_1, \dots, \mathrm{RTT}_N\right) - \min_{i}\, \mathrm{RTT}_i
 \end{equation}
-\addeqtolist{Cálculo de disponibilidad del servicio}
+\addeqtolist{Variación del retardo según la Recomendación ITU-T Y.1541, estimada sobre el RTT}
+
+\begin{equation}
+\label{eq:iplr}
+\mathrm{IPLR} = \frac{N_{\text{enviadas}} - N_{\text{recibidas}}}{N_{\text{enviadas}}}
+\end{equation}
+\addeqtolist{Tasa de pérdida de paquetes IP}
+
+El contraste con los objetivos de la Recomendación ITU-T Y.1541 sigue una regla conservadora, derivada de que se mide el RTT y no el retardo en un sentido (Tabla~\ref{tab:regla_y1541}). Como el RTT suma los retardos de ida y de vuelta, un RTT medio que no supera el objetivo de IPTD garantiza su cumplimiento, mientras que uno que lo supera no prueba el incumplimiento. Del mismo modo, una sonda se pierde si se pierde en cualquiera de los dos sentidos, por lo que la pérdida de ida y vuelta acota por exceso la de cada sentido. La variación del retardo calculada sobre el RTT se declara como aproximación. Cada servicio se contrasta con la clase que le corresponde: las clases 0 y 1 para la voz y la videoconferencia, las clases 2 y 3 para la plataforma de aprendizaje y la navegación interactiva, y la clase 4 para las descargas y el video en flujo continuo \cite{ituy1541}.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Regla de contraste conservador con los objetivos de la Recomendación ITU-T Y.1541.}
+  \label{tab:regla_y1541}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{|p{1.8cm}|p{3.4cm}|>{\raggedright\arraybackslash}X|}
+    \hline
+    \textbf{Parámetro} & \textbf{Estimador desde el extremo} & \textbf{Resultado} \\
+    \hline
+    IPTD & RTT medio de la sesión & \textit{Cumple} si el RTT medio no supera el objetivo de la clase; \textit{no concluyente} en caso contrario. \\
+    \hline
+    IPDV & Ecuación~\ref{eq:ipdv}, con $N \geq 1000$ & \textit{Cumple} o \textit{no cumple} frente a 50~ms (clases 0 y 1); se declara como aproximación; no se evalúa con menos de 1000 sondas. \\
+    \hline
+    IPLR & Ecuación~\ref{eq:iplr} & \textit{Cumple} si no supera $1\times10^{-3}$; \textit{no concluyente} en caso contrario. \\
+    \hline
+  \end{tabularx}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia con base en la Recomendación ITU-T Y.1541 \cite{ituy1541}}
+\end{table}
+
+La RFC 6349 se aplica en la medida en que es medible desde el extremo \cite{rfc6349}. Se reportan la MTU de la ruta, el RTT de referencia ---el mínimo de las sondas de la sesión---, la eficiencia TCP (Ecuación~\ref{eq:eficiencia}), a partir de los bytes transmitidos y retransmitidos que registran iperf3 y la captura, y el porcentaje de retardo por búfer (Ecuación~\ref{eq:bufer}), a partir del RTT medido durante la transferencia. El ancho de banda del cuello de botella solo puede estimarse, como el máximo \textit{goodput} observado por cable hacia el destino interno; la relación de tiempos de transferencia que de él depende se reporta como estimación.
+
+\begin{equation}
+\label{eq:eficiencia}
+\text{Eficiencia TCP}\,(\%) = \frac{B_{\text{transmitidos}} - B_{\text{retransmitidos}}}{B_{\text{transmitidos}}} \times 100
+\end{equation}
+\addeqtolist{Eficiencia TCP según la RFC 6349}
+
+\begin{equation}
+\label{eq:bufer}
+\text{Retardo por búfer}\,(\%) = \frac{\overline{\mathrm{RTT}}_{\text{con carga}} - \mathrm{RTT}_{\text{base}}}{\mathrm{RTT}_{\text{base}}} \times 100
+\end{equation}
+\addeqtolist{Porcentaje de retardo por búfer según la RFC 6349}
+
+La contribución de cada segmento de la ruta se acota por diferencia entre medianas de estratos, sin acceder a la infraestructura (Figura~\ref{fig:aporte_segmentos}): la diferencia entre Wi-Fi y cable hacia el destino interno aproxima la contribución del acceso inalámbrico, y la diferencia entre el destino público y el interno, medida por cable, aproxima la de la salida a Internet y las redes externas. Los hallazgos se clasifican, finalmente, en una matriz de riesgo conforme a la publicación NIST SP 800-30 (Figura~\ref{fig:matriz_riesgo}), con la frecuencia observada en el diseño muestral como probabilidad y el efecto sobre el usuario como impacto \cite{nist80030}.
+
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\textwidth}{!}{\input{Capítulos/fig/09_aporte_segmentos}}
+  \caption{Estimación del aporte de cada segmento de la ruta por diferencia entre estratos.}
+  \label{fig:aporte_segmentos}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia}
+\end{figure}
+
+\subsection{Ética de la medición y carga sobre el medio compartido}
+
+La captura se restringe a la interfaz del propio equipo, con la opción \texttt{-p} de tcpdump, que impide el modo promiscuo, con un filtro por la dirección propia y truncada a 128 bytes por trama, suficientes para las cabeceras que exige el análisis. No se escanean hosts ni puertos, no se descifra tráfico y no se accede al plano de gestión. Los flujos TCP ocupan el cuello de botella durante unos 24 segundos por sesión, y las sesiones de una misma franja se espacian al menos diez minutos; el volumen inyectado se registra en cada sesión. Antes de la campaña se revisa la política institucional de uso aceptable de la red y, si el tutor lo considera oportuno, se informa del calendario de mediciones al área de tecnología, aunque no se solicite acceso alguno.
+
+\subsection{Entrega de datos al trabajo complementario de modelado}
+
+Este trabajo provee los parámetros de entrada del tema de modelado y evaluación comparada de arquitecturas de red de campus. La entrega prevista comprende el \textit{goodput} de bajada y de subida (mediana y rango intercuartílico), el RTT en sus percentiles 50 y 95, la variación del retardo, la tasa de pérdida, la MTU de la ruta y la contribución estimada de cada segmento, con las condiciones de medición de cada valor, en un archivo CSV acompañado de su diccionario de datos. Si la campaña completa no concluye a tiempo, se entregarán los resultados del piloto, declarados como provisionales. \pendiente{acordar con el tutor y con el estudiante del Tema 2 las variables, el formato y la fecha de entrega.}
+
+\subsection{Campaña piloto}
+
+La campaña piloto, prevista en las semanas 3 y 4, ejecuta una jornada completa ---ambas franjas, los cuatro puntos y los dos destinos, 16 sesiones--- con cinco propósitos: verificar los indicadores inalámbricos disponibles, medir la duración real de una sesión, calibrar los parámetros de la Tabla~\ref{tab:secuencia}, comprobar la aplicabilidad de los criterios de descarte y obtener la ruta de referencia de cada destino. Sus resultados se incorporan al protocolo como versión 1.0 antes de iniciar la campaña principal. \pendiente{resultados de la campaña piloto.}
+
+\section{Justificación Técnica}
+
+La selección de cada herramienta responde a un criterio común: medir con un procedimiento documentado, reproducible y sin privilegios, con instrumentos gratuitos cuyo comportamiento esté especificado (Tabla~\ref{tab:justificacion}).
+
+\begin{table}[htbp]
+  \centering
+  \caption{Justificación de las herramientas seleccionadas.}
+  \label{tab:justificacion}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabularx}{\textwidth}{|p{2.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{4.0cm}|}
+    \hline
+    \textbf{Herramienta} & \textbf{Motivo de la selección} & \textbf{Alternativa descartada} \\
+    \hline
+    iperf3 & Controla protocolo, sentido, duración y omisión del arranque; reporta retransmisiones y salida JSON; admite un servidor propio en el laboratorio. & Pruebas de velocidad web: servidor y método opacos, sin control del arranque. \\
+    \hline
+    fping & Conserva el RTT de cada sonda (\texttt{-C}) y fija el intervalo entre sondas, condición para calcular la variación del retardo de la Recomendación ITU-T Y.1541. & \texttt{ping}: salida orientada a resumen, menos práctica en muestras de 1000 sondas. \\
+    \hline
+    mtr & Combina el trazado de ruta con estadística de retardo y pérdida por salto, y detecta cambios de ruta durante la campaña. & \texttt{traceroute}: una sola medición por salto. \\
+    \hline
+    tracepath y \texttt{ping -M do} & Descubren la MTU de la ruta sin privilegios y verifican si los paquetes grandes atraviesan la ruta sin fragmentarse. & Inferir la MTU de la captura: no prueba el mecanismo de descubrimiento. \\
+    \hline
+    dig y curl & Separan la resolución de nombres y los tiempos de conexión, negociación TLS, primer byte y transferencia de cada solicitud, y permiten forzar TCP. & Herramientas de desarrollo del navegador: dependen de la caché y de extensiones, y no fijan el transporte. \\
+    \hline
+    tcpdump, tshark y Wireshark & Captura en la interfaz propia sin modo promiscuo; información experta de retransmisiones, reordenamiento y ventana; análisis reproducible por línea de comandos. & Captura en puerto espejo: requiere acceso a la infraestructura y expone tráfico de terceros. \\
+    \hline
+    iw (o netsh wlan) & Expone los indicadores del controlador del cliente sin hardware adicional. & Analizador de espectro: excluido por el alcance y por su costo. \\
+    \hline
+    Python (pandas, SciPy, matplotlib) & Procesamiento reproducible del conjunto de datos, estadística robusta y gráficos. & Hoja de cálculo como herramienta principal: menos trazable. \\
+    \hline
+  \end{tabularx}
+  \vspace{2pt}
+  \raggedright
+  \elaboradopor{Josué Gabriel Godoy Apolo}
+  \fuente{Elaboración propia}
+\end{table}
+
+La RFC 2544 no se aplica como procedimiento, porque sobrecarga deliberadamente los dispositivos y la RFC 6815 restringe su uso a entornos aislados \cite{rfc2544,rfc6815}; sus términos se emplean solo como referencia. Las mediciones TCP se fijan sobre HTTP/2 y no sobre HTTP/3, porque solo sobre TCP pueden separarse las fases de conexión y negociación que exige el tercer objetivo específico \cite{rfc9114}.
+
+Como apoyo al diseño, el proyecto desarrolló un simulador interactivo, incluido en la carpeta \texttt{Práctica/simulador\_3d} del repositorio, que representa una topología ilustrativa del campus y reproduce cada prueba, la campaña muestral y su análisis con valores sintéticos. El simulador sirvió para ensayar el protocolo y la lectura de los resultados; ninguno de sus valores se emplea como resultado del trabajo, y la topología que dibuja no corresponde a la infraestructura real, que el trabajo no observa. \pendiente{confirmar con el tutor si el simulador se incorpora como anexo.}

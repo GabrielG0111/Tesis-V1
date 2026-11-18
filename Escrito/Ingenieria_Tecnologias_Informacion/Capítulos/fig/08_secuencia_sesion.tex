@@ -1,0 +1,31 @@
+% Secuencia de una sesión de medición: pasos en primer plano y registros en segundo plano
+\begin{tikzpicture}[x=1cm, y=1cm,
+  paso/.style={caja, minimum height=0.8cm, inner sep=2pt},
+  fondo/.style={draw=FigAcento, fill=white, rounded corners=2pt, minimum height=0.45cm, font=\scriptsize, inner sep=2pt}]
+  % Escala: 1 cm = 15 s aprox. (pasos breves ensanchados para su lectura)
+  \node[paso, minimum width=0.9cm] (mtu) at (0.45,0) {MTU};
+  \node[paso, minimum width=3.6cm] (icmp) at (2.75,0) {fping: 1000 sondas\\(60 s)};
+  \node[paso, minimum width=1.5cm] (tcpb) at (5.4,0) {TCP\\bajada};
+  \node[paso, minimum width=1.5cm] (tcps) at (6.95,0) {TCP\\subida};
+  \node[paso, minimum width=2.0cm] (udp) at (8.75,0) {UDP\\(30 s)};
+  \node[paso, minimum width=1.0cm] (dns) at (10.3,0) {DNS};
+  \node[paso, minimum width=1.2cm] (web) at (11.45,0) {Fases\\web};
+  \node[paso, minimum width=2.0cm] (mtr) at (13.1,0) {mtr\\(30 s)};
+  \node[font=\scriptsize, above] at (mtu.north) {1};
+  \node[font=\scriptsize, above] at (icmp.north) {2};
+  \node[font=\scriptsize, above] at (tcpb.north) {3};
+  \node[font=\scriptsize, above] at (tcps.north) {4};
+  \node[font=\scriptsize, above] at (udp.north) {5};
+  \node[font=\scriptsize, above] at (dns.north) {6};
+  \node[font=\scriptsize, above] at (web.north) {7};
+  \node[font=\scriptsize, above] at (mtr.north) {8};
+  % Sonda de RTT concurrente con la bajada TCP (retardo por búfer)
+  \node[fondo, minimum width=1.5cm, fill=FigSuave] at (5.4,-0.8) {ping 0,2 s};
+  % Registros en segundo plano durante toda la sesión
+  \node[fondo, minimum width=14.1cm, anchor=west] at (0,-1.45) {Registro de indicadores inalámbricos cada 1 s (\texttt{iw}): RSSI, ruido, MCS, reintentos, ocupación};
+  \node[fondo, minimum width=14.1cm, anchor=west] at (0,-2.05) {Captura de la interfaz propia (\texttt{tcpdump -p}, filtro por la dirección propia)};
+  % Comprobación previa
+  \node[caja, fill=white, font=\scriptsize, text width=14cm, align=left, anchor=west] at (0,1.5)
+    {\textbf{Antes de la sesión:} cargador conectado; ahorro de energía desactivado y verificado; sin VPN ni descargas en curso; BSSID, banda y canal anotados en la hoja de registro.};
+  \draw[flecha] (-0.1,-2.6) -- (14.3,-2.6) node[below left, font=\scriptsize] {tiempo (unos 3 min)};
+\end{tikzpicture}
